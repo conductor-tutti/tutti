@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block contents %}
+<div class="LLArticleCreate">
+    <form role="form" method="POST">
+        <div class="form-group">
+            <label for="article_create_title">제목</label>
+            <input type="text" name="title" class="form-control" id="article_create_title" placeholder="제목 머야?">
+        </div>
+        <div class="form-group">
+            <label for="article_create_author">작성자</label>
+            <input type="text" name="author" class="form-control" id="article_create_author" placeholder="작성자 누구야?">
+        </div>
+        <div class="form-group">
+            <label for="article_create_category">카테고리</label>
+            <input type="text" name="category" class="form-control" id="article_create_category" placeholder="카테고리 머야?">
+        </div>
+        <div class="form-group">
+            <label for="article_create_content">내용</label>
+            <input type="text" name="content" class="form-control" id="article_create_content" placeholder="내용 머야?">
+        </div>
+        <input type="submit" value="올려욤">       
+    </form>
+</div>
+{% endblock %}
