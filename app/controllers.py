@@ -57,7 +57,15 @@ def comment_create(article_id):
             return redirect(url_for("article_detail", id=article_id))
         return render_template("article/create.html", form=form)
 
-@app.route("/article/update/<int:id>", methods=["GET", "POST"])
-def article_update(id):
-    article = Article.query.get(id)
+@app.route("/article/update/<int:article_id>", methods=["GET", "POST"])
+def article_update(article_id):
+    article = Article.query.get(article_id)
     form = ArticleForm(request.form, obj=article)
+    if request.method == "GET":
+        return render_template("article/update.html", form=form)
+    elif request.method == "POST":
+        if form.validate_on_submit():
+            form.populate_obj(article)
+            db.session.commit()
+            return redirect(url_for("article_detail", id=article_id))
+        return render_template("article/update.html", form=form)
