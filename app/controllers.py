@@ -30,7 +30,27 @@ def article_create():
             flash(u"게시물이 작성되따능.", "success")
             return redirect(url_for("article_list"))
 
-@app.route("article/detail/<int:id>", methods=["GET"])
+@app.route("/article/detail/<int:id>", methods=["GET"])
 def article_detail(id):
     article = Article.query.get(id)
     return render_template("article/detail.html", article=article, comments="")
+
+
+@app.route("/comment/create/<int:article_id>", methods=["GET", "POST"])
+def comment_create(article_id):
+    form = CommentForm()
+    if request.method == "GET":
+        return render_template("article/create.html", form=form)
+    elif request.method == "POST":
+        if form.validate_on_submit():
+            comment = Comment(
+                author=form.author.data,
+                email=form.email.data,
+                content=form.content.data,
+                password=form.password.data,
+                article=Article.query.get(article_id)
+            )
+            db.session.add(comment)
+            db.session.commit()
+            flash(u"댓글 작성해따능.", "success")
+            return redirect(url_for("article_detail", article_id=article_id))
