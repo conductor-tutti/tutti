@@ -29,3 +29,8 @@ def article_create():
             db.session.commit()
             flash(u"게시물이 작성되따능.", "success")
             return redirect(url_for("article_list"))
+
+@app.route("article/detail/<int:id>", methods=["GET"])
+def article_detail(id):
+    article = Article.query.get(id)
+    return render_template("article/detail.html", article=article, comments="")
