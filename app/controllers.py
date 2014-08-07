@@ -33,7 +33,8 @@ def article_create():
 @app.route("/article/detail/<int:id>", methods=["GET"])
 def article_detail(id):
     article = Article.query.get(id)
-    return render_template("article/detail.html", article=article, comments="")
+    comments = article.comments.order_by(desc(Comment.date_created)).all()
+    return render_template("article/detail.html", article=article, comments=comments)
 
 
 @app.route("/comment/create/<int:article_id>", methods=["GET", "POST"])
@@ -53,4 +54,10 @@ def comment_create(article_id):
             db.session.add(comment)
             db.session.commit()
             flash(u"댓글 작성해따능.", "success")
-            return redirect(url_for("article_detail", article_id=article_id))
+            return redirect(url_for("article_detail", id=article_id))
+        return render_template("article/create.html", form=form)
+
+@app.route("/article/update/<int:id>", methods=["GET", "POST"])
+def article_update(id):
+    article = Article.query.get(id)
+    form = ArticleForm(request.form, obj=article)
