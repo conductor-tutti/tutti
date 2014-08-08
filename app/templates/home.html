@@ -4,7 +4,7 @@
     {% if context.article_list %}
     {% for article in context.article_list %}
     <div class="well" id="article_{{ article.id }}">
-        <h1>{{ article.title }}</h1>
+        <h1><a href="{{ url_for("article_detail", article_id=article.id) }}">{{ article.title }}</a></h1>
         <h3>{{ article.author }}</h3>
         <h6>{{ article.date_created.strftime("%Y-%m-%d %H:%M:%S")}}</h6>
         <p>

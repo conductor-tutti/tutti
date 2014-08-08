@@ -34,12 +34,10 @@
         </div>
 
         <div class="bottomButtons">
-            <a href="{{ url_for('article_list') }}" class="btn btn-primary">목록보기</a>
-            <a href="{{ url_for('comment_create', article_id=article.id) }}" class="btn btn-info">댓글쓰기</a>
-            <a href="{{ url_for('article_update', id=article.id) }}" class="btn btn-success">글 수정</a>
-            <a href="{{ url_for('article_delete', id=article.id) }}" class="btn btn-danger">글 삭제</a>
+            <a href="{{ url_for("article_list") }}" class="btn btn-primary">목록보기</a>
+            <a href="{{ url_for("comment_create", article_id=article.id) }}" class="btn btn-info">댓글쓰기</a>
+            <a href="{{ url_for("article_update", article_id=article.id) }}" class="btn btn-warning">글 수정</a>
+            <a href="{{ url_for("article_delete", article_id=article.id) }}" class="btn btn-danger">글 삭제</a>
         </div>
     </div>
 {% endblock %}
-
-

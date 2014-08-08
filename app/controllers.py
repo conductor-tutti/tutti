@@ -30,9 +30,9 @@ def article_create():
             flash(u"게시물이 작성되따능.", "success")
             return redirect(url_for("article_list"))
 
-@app.route("/article/detail/<int:id>", methods=["GET"])
-def article_detail(id):
-    article = Article.query.get(id)
+@app.route("/article/detail/<int:article_id>", methods=["GET"])
+def article_detail(article_id):
+    article = Article.query.get(article_id)
     comments = article.comments.order_by(desc(Comment.date_created)).all()
     return render_template("article/detail.html", article=article, comments=comments)
 
@@ -67,5 +67,18 @@ def article_update(article_id):
         if form.validate_on_submit():
             form.populate_obj(article)
             db.session.commit()
-            return redirect(url_for("article_detail", id=article_id))
+            return redirect(url_for("article_detail", article_id=article_id))
         return render_template("article/update.html", form=form)
+
+@app.route("/article/delete/<int:article_id>", methods=["GET", "POST"])
+def article_delete(article_id):
+    if request.method == "GET":
+        return render_template("article/delete.html", article_id=article_id)
+    elif request.method == "POST":
+        article_id = request.form["article_id"]
+        article = Article.query.get(article_id)
+        db.session.delete(article)
+        db.session.commit()
+
+        flash(u"게시글 지웠다능..ㅠㅠ", "success")
+        return redirect(url_for("article_list"))

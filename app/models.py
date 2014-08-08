@@ -11,12 +11,12 @@ class Article(db.Model):
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    article_id = db.Columm(db.Integer, db.ForeignKey("article.id"))
+    article_id = db.Column(db.Integer, db.ForeignKey("article.id"))
     article = db.relationship("Article",
         backref=db.backref("comments", cascade="all, delete-orphan", lazy="dynamic"))
     author = db.Column(db.String(255))
-    email = d.Column(db.String(255))
+    email = db.Column(db.String(255))
     password = db.Column(db.String(255))
     content = db.Column(db.Text())
-    date_created = db.Column(db.Datetime(), default=db.func.now())
+    date_created = db.Column(db.DateTime(), default=db.func.now())
     
