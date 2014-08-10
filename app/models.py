@@ -7,7 +7,7 @@ class Article(db.Model):
     content = db.Column(db.Text())
     author = db.Column(db.String(255))
     category = db.Column(db.String(255))
-    date_created = db.Column(db.DateTime(), default=db.func.now())
+    date_created = db.Colgitumn(db.DateTime(), default=db.func.now())
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -19,4 +19,9 @@ class Comment(db.Model):
     password = db.Column(db.String(255))
     content = db.Column(db.Text())
     date_created = db.Column(db.DateTime(), default=db.func.now())
-    
+
+class Musician(db.Model):
+    m_id = db.Column(db.Integer, primary_key=True)
+    m_category = db.Column(db.String(20))
+    m_major = db.Column(db.String(20))
+    m_phrase = db.Column(db.String(50))
