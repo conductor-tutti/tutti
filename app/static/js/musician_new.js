@@ -1,48 +1,51 @@
 $(document).ready(function(){
- 
- $('select#select_btn').change(function(){
- 
- var sel_value = $('option:selected').val();
- if(sel_value==0)
- {
- //Resetting Form
- $("#form_submit").empty();
- $("#form1").css({'display':'none'});
- }
- else{
- //Resetting Form
- $("#form_submit").empty();
- 
- //Below Function Creates Input Fields Dynamically
- create(sel_value);
- 
- //appending submit button to form
- $("#form_submit").append(
- $("<input/>",{type:'submit', value:'Register'})
- )
- }
- }); 
- 
-function create(sel_value){
- for(var i=1;i<=sel_value;i++)
- {
- $("div#form1").slideDown('slow');
- 
- $("div#form1").append(
- $("#form_submit").append(
- $("<div/>",{id:'head'}).append(
- $("<h3/>").text("Registration Form"+i)),
- $("<input/>", {type:'text', placeholder:'Name'+i, name:'name_'+i}),
- $("<br/>"),
- $("<input/>", {type:'text', placeholder:'Email'+i, name:'email_'+i}),
- $("<br/>"),
- $("<textarea/>", {placeholder:'Message'+i, type:'text', name:'msg_'+i}),
- $("<br/>"),
- $("<hr/>"),
- $("<br/>")
- ))
- }
- 
- }
- 
+    $("#major").hide();
+    $("#registration").hide();
+    $("select#select_category").change(function(){
+        var selected_category = $("select#select_category > option:selected").val();
+        console.log(selected_category)
+        if(selected_category == "none")
+        {
+            // $("#form_submit").empty();
+            $("#major").css({"display": "none"});
+            $("#registration").css({"display": "none"});
+        }
+
+        else if(selected_category == "Classic")
+        {
+            $("#major").fadeIn("fast");
+            $("select#select_major").change(function(){
+                var selected_major = $("select#select_major > option:selected").val();
+                console.log(selected_major)
+                if(selected_major != "none"){
+                    $("#registration").fadeIn("fast");
+                }
+                else{
+                    $("#registration").css({"display":"none"});
+                }
+            });
+        }
+
+    function create(selected_major) {
+        $("#detailed_profile").fadeIn('fast');
+        $("div#registration").append(
+            $("#form_submit").append(
+                $("<div/>", {id: 'head'}).append(
+                    $("<h3/>").text("프로필을 입력하세요")),
+                $("<input/>", {
+                    type: 'text',
+                    placeholder: 'Name',
+                    name: 'name_'
+                }), $("<br/>"), $("<input/>", {
+                    type: 'text',
+                    placeholder: 'Email',
+                    name: 'email_'
+                }), $("<br/>"), $("<textarea/>", {
+                    placeholder: 'Message',
+                    type: 'text',
+                    name: 'msg_'
+                }), $("<br/>"), $("<hr/>"), $("<br/>")))
+    }
+
+})
 });
