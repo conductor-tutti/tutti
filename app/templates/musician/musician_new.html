@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block contents %}
+<link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+ 
+<link rel="stylesheet" href="multipleform.css" />
+ 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="multipleform.js"></script>
+</head>
+<body>
+<div class ="container">
+<h2>Dynamically Created Form Fields Based On Selection</h2>
+<div id="selected_form_code">
+ <select id="select_btn">
+ <option value="0">--Select No Of Form to Display for Registration--</option>
+ <option value="1">One</option>
+ <option value="2">Two</option>
+ <option value="3">Three</option>
+ <option value="4">Four</option>
+ <option value="5">Five</option>
+ </select>
+ </div>
+ 
+ <div id="form1">
+ <form id="form_submit" action="#" method="post">
+ <!-- dynamic Registration Form Fields Creates here-->
+ </form>
+ </div>
+</div>
+</body>
+{% endblock %}
