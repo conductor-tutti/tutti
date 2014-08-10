@@ -1,32 +1,51 @@
 {% extends "layout.html" %}
-
-{% block contents %}
-<link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
- 
+{% block customhead %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/musician_new.css') }}">
 <link rel="stylesheet" href="multipleform.css" />
- 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script src="multipleform.js"></script>
-</head>
-<body>
-<div class ="container">
-<h2>Dynamically Created Form Fields Based On Selection</h2>
-<div id="selected_form_code">
- <select id="select_btn">
- <option value="0">--Select No Of Form to Display for Registration--</option>
- <option value="1">One</option>
- <option value="2">Two</option>
- <option value="3">Three</option>
- <option value="4">Four</option>
- <option value="5">Five</option>
- </select>
- </div>
- 
- <div id="form1">
- <form id="form_submit" action="#" method="post">
- <!-- dynamic Registration Form Fields Creates here-->
- </form>
- </div>
-</div>
-</body>
+{% endblock %}
+{% block contents %}
+ <h2>뮤지션 등록</h2>
+    <div id="category">
+       <select id="select_category">
+           <option value="none">전공분야를 선택하세요</option>
+               <option value="Classic">클래식</option><!-- 
+               <option value="Baroque">바로크</option>
+               <option value="Traditional">국악</option>
+               <option value="Applied">실용음악</option>
+               <option value="Religious">종교음악</option> -->
+           </select>
+       </div>
+
+       <div id="major">
+        <select id="select_major">
+            <!-- optione values were written in orchestral score order -->
+            <option value="none">세부전공을 선택하세요</option>
+            <option value="Piano">피아노</option>
+            <option value="Organ">오르간</option>
+            <option value="Flute">플루트</option>
+            <option value="Oboe">오보에</option>
+            <option value="Clarinet">클라리넷</option>
+            <option value="Basson">바순</option>
+            <option value="Horn">호른</option>
+            <option value="Trumpet">트럼펫</option>
+            <option value="Trombone">트럼본</option>
+            <option value="Tuba">튜바</option>
+            <option value="Violin">바이올린</option>
+            <option value="Viola">비올라</option>
+            <option value="Cello">첼로</option>
+            <option value="DoubleBass">더블베이스</option>
+        </select>
+    </div>
+
+    <div id="registration">
+       <form id="detailed_profile" action="#" method="post">
+        <input type="text" name="phrase" value="당신을 어필하는 멋진 문구를 적어보세요(50자 이내).">
+       </form>
+    </div>
+
+{% endblock %}
+{% block script %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
 {% endblock %}
