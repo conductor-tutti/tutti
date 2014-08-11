@@ -84,9 +84,14 @@ def article_delete(article_id):
 
 @app.route("/musician/musician_new", methods=["GET", "POST"])
 def musician_new():
-    return "babo"
-    # form = MusicianForm()
-    # if form.validate_on_submit():
-    #     return redirect(url_for("http://www.google.com"))
-    # return render_template("musician_new.html", form=form)
-
+    if request.method == "GET":
+        return render_template("home.html")
+    elif request.method == "POST":
+        m_category = request.form["select_category"]
+        m_major = request.form["select_major"]
+        m_phrase = request.form.get("phrase")
+        db.session.add(m_category)
+        db.session.add(m_major)
+        db.session.add(m_phrase)
+        db.session.commit()
+        return redirect(url_for("article_list"))
