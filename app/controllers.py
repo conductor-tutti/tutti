@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
 from app import app, db
 from sqlalchemy import desc
-from app.models import Article, Comment
+from app.models import Article, Comment, Musician
 from flask import render_template, request, redirect, url_for, flash
 from app.forms import ArticleForm, CommentForm
 
@@ -87,9 +87,11 @@ def musician_new():
     if request.method == "GET":
         return render_template("musician/musician_new.html")
     elif request.method == "POST":
-        m_category = request.form["select_category"]
-        m_major = request.form["select_major"]
-        m_phrase = request.form.get("phrase")
+        musician = Musician(
+            m_category = request.form["m_category"]
+            m_major = request.form["m_major"]
+            m_phrase = request.form["m_phrase"]
+            )
         db.session.add(m_category)
         db.session.add(m_major)
         db.session.add(m_phrase)
