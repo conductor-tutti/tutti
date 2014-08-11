@@ -85,7 +85,7 @@ def article_delete(article_id):
 @app.route("/musician/musician_new", methods=["GET", "POST"])
 def musician_new():
     if request.method == "GET":
-        return render_template("home.html")
+        return render_template("musician/musician_new.html")
     elif request.method == "POST":
         m_category = request.form["select_category"]
         m_major = request.form["select_major"]
