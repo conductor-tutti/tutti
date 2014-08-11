@@ -14,7 +14,7 @@
   <div class="form-group">
     <div class="input-group category-group">
       <span class="input-group-addon">Category</span>
-      <select class="form-control" id="select_category">
+      <select class="form-control" name="m_category" id="select_category">
         <option value="none">전공분야를 선택하세요</option>
         <option value="Classic">클래식</option>
       </select>
@@ -22,7 +22,7 @@
 
     <div class="input-group" id="major-group">
       <span class="input-group-addon">Major</span>
-      <select class="form-control" id="select_major">
+      <select class="form-control" name="m_major" id="select_major">
         <option value="none">세부전공을 선택하세요</option>
         <option value="Piano">피아노</option>
         <option value="Organ">오르간</option>
@@ -44,15 +44,15 @@
     <div class="input-group" id="detail-group">
       <div class="form-group">
         <label for="m_name">이름</label>
-        <input class="form-control" type="text" id="m_name">
+        <input class="form-control" type="text" name="m_name">
       </div>
       <div class="form-group">
         <label for="m_email">이메일</label>
-        <input class="form-control" type="text" id="m_email">
+        <input class="form-control" type="text" name="m_email">
       </div>
       <div class="form-group">
         <label for="m_phrase">캐치프레이즈</label>
-        <input class="form-control" type="text" id="m_phrase" maxlength="50" placeholder="당신을 어필하는 멋진 문구를 적어보세요(50자 이내).">
+        <input class="form-control" type="text" name="m_phrase" maxlength="50" placeholder="당신을 어필하는 멋진 문구를 적어보세요(50자 이내).">
       </div>
     </div>
   </div><!-- form group ends -->
