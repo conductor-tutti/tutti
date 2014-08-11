@@ -2,17 +2,11 @@
 <html lang="ko-kr">
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
     <title>TUTTI</title>
-
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
-
-    {% block favicon %}
-        <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
-    {% endblock %}
-    {% block customhead %}
-    {% endblock %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
+    {% block customhead %}{% endblock %}
 </head>
 <body>
 {% block layout %}{% endblock %}
