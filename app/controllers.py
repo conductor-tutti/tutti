@@ -88,12 +88,10 @@ def musician_new():
         return render_template("musician/musician_new.html")
     elif request.method == "POST":
         musician = Musician(
-            m_category = request.form["m_category"]
-            m_major = request.form["m_major"]
+            m_category = request.form["m_category"],
+            m_major = request.form["m_major"],
             m_phrase = request.form["m_phrase"]
             )
-        db.session.add(m_category)
-        db.session.add(m_major)
-        db.session.add(m_phrase)
+        db.session.add(musician)
         db.session.commit()
         return redirect(url_for("article_list"))
