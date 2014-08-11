@@ -1,6 +1,9 @@
 {% extends "layout.html" %}
 {% block customhead %}
+<title>qwerwqerqwer</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/musician_new.css') }}">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
 {% endblock %}
 {% block contents %}
  <h2>뮤지션 등록</h2>
@@ -42,6 +45,5 @@
 
 {% endblock %}
 {% block script %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
+
 {% endblock %}
