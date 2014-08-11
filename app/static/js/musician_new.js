@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $("#major").hide();
-    $("#registration").hide();
+    $("#detailed_profile").hide();
     $("select#select_category").change(function(){
         var selected_category = $("select#select_category > option:selected").val();
         console.log(selected_category)
@@ -8,7 +8,7 @@ $(document).ready(function(){
         {
             // $("#form_submit").empty();
             $("#major").css({"display": "none"});
-            $("#registration").css({"display": "none"});
+            $("#detailed_profile").css({"display": "none"});
         }
 
         else if(selected_category == "Classic")
@@ -18,10 +18,10 @@ $(document).ready(function(){
                 var selected_major = $("select#select_major > option:selected").val();
                 console.log(selected_major)
                 if(selected_major != "none"){
-                    $("#registration").fadeIn("fast");
+                    $("#detailed_profile").fadeIn("fast");
                 }
                 else{
-                    $("#registration").css({"display":"none"});
+                    $("#detailed_profile").css({"display":"none"});
                 }
             });
         }
