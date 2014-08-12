@@ -66,12 +66,12 @@ class MemberForm(Form):
         [validators.data_required(u'Type your username.')],
         description={'placeholder':u'Type your username please.'}
         )
-    name = PasswordField(
+    password = PasswordField(
         u'password',
         [validators.data_required(u'Type your password.')],
         description={'placeholder':u'Type your password please.'}
         )
-    name = EmailField(
+    email = EmailField(
         u'E-mail',
         [validators.data_required(u'Type your E-mail.')],
         description={'placeholder':u'Type your E-mail please.'}
