@@ -1,9 +1,9 @@
 #-*-coding:utf-8-*-
 from app import app, db
 from sqlalchemy import desc
-from app.models import Article, Comment, Musician
+from app.models import Article, Comment, Musician, Member
 from flask import render_template, request, redirect, url_for, flash
-from app.forms import ArticleForm, CommentForm
+from app.forms import ArticleForm, CommentForm, MemberForm
 
 @app.route('/', methods=["GET"])
 def article_list():
@@ -95,3 +95,36 @@ def musician_new():
         db.session.add(musician)
         db.session.commit()
         return redirect(url_for("article_list"))
+
+
+
+@app.route('/member/sign_up', methods = ['GET', 'POST'])
+def sign_up():
+    form = MemberForm()
+    if request.method == 'GET':
+        return render_template('member/sign_up.html', active_tab = 'sign_up', form = form)
+    elif request.method == 'POST':
+        if form.validate_on_submit():
+            article_data = request.form
+            member = Member(
+                name=form.name.data,
+                username=form.username.data,
+                email=form.email.data,
+                password=form.password.data
+            )
+            db.session.add(member)
+            db.session.commit()
+
+            return redirect(url_for('sign_up_success', id = member.id))
+    return render_template('member/sign_up.html', active_tab = 'sign_up', form = form)
+
+
+@app.route('/sign_up_success/<int:id>', methods = ['GET'])
+def sign_up_success(id):
+    member = Member.query.get(id)
+
+    return render_template('sign_up_success.html', member=member)
+
+
+
+

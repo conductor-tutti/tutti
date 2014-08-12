@@ -10,6 +10,9 @@
             <li {% if active_tab == "article_create" %} class="active" {% endif %}>
                 <a href="{{ url_for("article_create") }}">add</a>
             </li>
+            <li {% if active_tab == "sign_up" %} class="active" {% endif %}>
+                <a href="{{ url_for("sign_up") }}">Sign up!!!</a>
+            </li>
         </ul>
     </div>
 </nav>
