@@ -123,7 +123,7 @@ def sign_up():
 def sign_up_success(id):
     member = Member.query.get(id)
 
-    return render_template('sign_up_success.html', member=member)
+    return render_template('member/sign_up_success.html', member=member)
 
 
 
