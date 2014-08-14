@@ -23,9 +23,9 @@ class Comment(db.Model):
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(255))
-    username = db.Column(db.String(255))
+    userid = db.Column(db.String(15))
     password = db.Column(db.String(255))
+    username = db.Column(db.String(255))
     email = db.Column(db.String(255))
 
 class Musician(db.Model):
