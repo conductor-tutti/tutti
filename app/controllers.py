@@ -106,17 +106,21 @@ def sign_up():
         return render_template('user/sign_up.html', active_tab = 'sign_up', form = form)
     elif request.method == 'POST':
         if form.validate_on_submit():
-            article_data = request.form
-            user = User(
-                userid=form.userid.data,
-                password=form.password.data,
-                username=form.username.data,
-                email=form.email.data
-            )
-            db.session.add(user)
-            db.session.commit()
-
-            return redirect(url_for('sign_up_success', id = user.username))
+            if db.session.query(User).filter(User.email == form.email.data).count() > 0:
+                flash(u"이미 가입한 이메일입니다.", "danger")
+                return render_template("user/sign_up.html", form=form, active_tab="sign_up")
+            else:
+                article_data = request.form
+                user = User(
+                    userid=form.userid.data,
+                    password=generate_password_hash(form.password.data),
+                    username=form.username.data,
+                    email=form.email.data
+                )
+                db.session.add(user)
+                db.session.commit()
+                flash(u"가입 완료!", "success")
+                return redirect(url_for('sign_up_success', id = user.id))
     return render_template('user/sign_up.html', active_tab = 'sign_up', form = form)
 
 
