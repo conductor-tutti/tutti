@@ -58,28 +58,27 @@ class CommentForm(Form):
 
 class UserForm(Form):
     userid = StringField(
-        u'id',
-        [validators.data_required(u'Type your username.')],
-        description={'placeholder':u'Type your username please.'}
+        u'ID',
+        [validators.data_required(u'아이디를 입력하세요!')],
+        description={'placeholder':u'아이디를 입력하세요.'}
         )
-    name = StringField(
-        u'name',
-        [validators.data_required(u'Type your name.')],
-        description={'placeholder':u'Type your name please.'}
-        )
-
     password = PasswordField(
-        u'password',
-        [validators.data_required(u'Type your password.'),
-        validators.EqualTo('confirm_password', message=u'패스워드가 일치하지 않습니다.')],
-        description={'placeholder':u'Type your password please.'}
+        u'Password',
+        [validators.data_required(u'패스워드를 입력하세요!.'),
+        validators.EqualTo('confirm_password', message=u'패스워드가 일치하지 않네요.')],
+        description={'placeholder':u'패스워드를 입력하세요.'}
         )
     confirm_password = PasswordField(
-        u'confirm password'
-        [validators.data_required(u'패스워드를 한 번 더 입력하세요.')],
+        u'Confirm password'
+        [validators.data_required(u'패스워드를 한 번 더 입력하세요!')],
         description={'placeholder':u'패스워드를 한 번 더 입력하세요.'})
+    name = StringField(
+        u'Username',
+        [validators.data_required(u'성과 이름을 모두 입력하세요. 예: 오정민)],
+        description={'placeholder':u'성과 이름을 모두 입력하세요. 예: 오정민.'}
+        )
     email = EmailField(
-        u'email',
-        [validators.data_required(u'Type your E-mail.')],
-        description={'placeholder':u'Type your E-mail please.'}
+        u'E-mail',
+        [validators.data_required(u'이메일을 입력하세요!')],
+        description={'placeholder':u'이메일을 입력하세요.'}
         )
