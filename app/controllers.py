@@ -107,10 +107,11 @@ def sign_up():
         if form.validate_on_submit():
             article_data = request.form
             user = User(
-                name=form.name.data,
-                username=form.username.data,
-                email=form.email.data,
-                password=form.password.data
+                userid=form.userid.data,
+                password=form.password.data,
+                confirm_password=form.confirm_password.data,
+                username=form.username.data
+                email=form.email.data
             )
             db.session.add(user)
             db.session.commit()
@@ -122,10 +123,4 @@ def sign_up():
 @app.route('/sign_up_success/<int:id>', methods = ['GET'])
 def sign_up_success(id):
     user = User.query.get(id)
-
     return render_template('user/sign_up_success.html', user=user)
-
-
-
-
-
