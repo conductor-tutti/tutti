@@ -55,7 +55,7 @@ class CommentForm(Form):
     )
 
 
-class MemberForm(Form):
+class UserForm(Form):
     name = StringField(
         u'name',
         [validators.data_required(u'Type your name.')],

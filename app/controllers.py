@@ -1,9 +1,9 @@
 #-*-coding:utf-8-*-
 from app import app, db
 from sqlalchemy import desc
-from app.models import Article, Comment, Musician, Member
+from app.models import Article, Comment, Musician, User
 from flask import render_template, request, redirect, url_for, flash
-from app.forms import ArticleForm, CommentForm, MemberForm
+from app.forms import ArticleForm, CommentForm, UserForm
 
 @app.route('/', methods=["GET"])
 def article_list():
@@ -98,32 +98,32 @@ def musician_new():
 
 
 
-@app.route('/member/sign_up', methods = ['GET', 'POST'])
+@app.route('/user/sign_up', methods = ['GET', 'POST'])
 def sign_up():
-    form = MemberForm()
+    form = UserForm()
     if request.method == 'GET':
-        return render_template('member/sign_up.html', active_tab = 'sign_up', form = form)
+        return render_template('user/sign_up.html', active_tab = 'sign_up', form = form)
     elif request.method == 'POST':
         if form.validate_on_submit():
             article_data = request.form
-            member = Member(
+            user = User(
                 name=form.name.data,
                 username=form.username.data,
                 email=form.email.data,
                 password=form.password.data
             )
-            db.session.add(member)
+            db.session.add(user)
             db.session.commit()
 
-            return redirect(url_for('sign_up_success', id = member.id))
-    return render_template('member/sign_up.html', active_tab = 'sign_up', form = form)
+            return redirect(url_for('sign_up_success', id = user.id))
+    return render_template('user/sign_up.html', active_tab = 'sign_up', form = form)
 
 
 @app.route('/sign_up_success/<int:id>', methods = ['GET'])
 def sign_up_success(id):
-    member = Member.query.get(id)
+    user = User.query.get(id)
 
-    return render_template('sign_up_success.html', member=member)
+    return render_template('user/sign_up_success.html', user=user)
 
 
 

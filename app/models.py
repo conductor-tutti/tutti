@@ -20,15 +20,16 @@ class Comment(db.Model):
     content = db.Column(db.Text())
     date_created = db.Column(db.DateTime(), default=db.func.now())
 
-class Musician(db.Model):
-    m_id = db.Column(db.Integer, primary_key=True)
-    m_category = db.Column(db.String(20))
-    m_major = db.Column(db.String(20))
-    m_phrase = db.Column(db.String(50))
 
-class Member(db.Model):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(255))
     username = db.Column(db.String(255))
     password = db.Column(db.String(255))
     email = db.Column(db.String(255))
+
+class Musician(db.Model):
+    m_id = db.Column(db.Integer, primary_key=True)
+    m_category = db.Column(db.String(20))
+    m_major = db.Column(db.String(20))
+    m_phrase = db.Column(db.String(50))
