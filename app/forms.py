@@ -74,7 +74,7 @@ class UserForm(Form):
         description={'placeholder':u'패스워드를 한 번 더 입력하세요.'})
     name = StringField(
         u'Username',
-        [validators.data_required(u'성과 이름을 모두 입력하세요. 예: 오정민)],
+        [validators.data_required(u'성과 이름을 모두 입력하세요. 예: 오정민')],
         description={'placeholder':u'성과 이름을 모두 입력하세요. 예: 오정민.'}
         )
     email = EmailField(
