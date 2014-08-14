@@ -2,7 +2,7 @@
 from app import app, db
 from sqlalchemy import desc
 from app.models import Article, Comment, Musician, User
-from werkzueg.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm, UserForm
 from flask import render_template, request, redirect, url_for, flash
 
