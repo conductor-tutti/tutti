@@ -3,7 +3,8 @@ from flask.ext.wtf import Form
 from wtforms.fields import (
     StringField,
     PasswordField,
-    TextAreaField
+    TextAreaField,
+    SelectField
 )
 from wtforms import validators
 from wtforms.fields.html5 import EmailField
@@ -72,7 +73,7 @@ class UserForm(Form):
         description={'placeholder':u'Type your password please.'}
         )
     email = EmailField(
-        u'E-mail',
+        u'email',
         [validators.data_required(u'Type your E-mail.')],
         description={'placeholder':u'Type your E-mail please.'}
         )
