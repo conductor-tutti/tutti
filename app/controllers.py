@@ -110,7 +110,7 @@ def sign_up():
                 userid=form.userid.data,
                 password=form.password.data,
                 confirm_password=form.confirm_password.data,
-                username=form.username.data
+                username=form.username.data,
                 email=form.email.data
             )
             db.session.add(user)
