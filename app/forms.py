@@ -55,12 +55,12 @@ class CommentForm(Form):
         description={'placeholder': u'이메일을 입력하세요.'}
     )
 class LoginForm(Form):
-    userid = StringField(
+    login_id = StringField(
         u"ID",
         [validators.data_required(u"아이디를 입력하세요!")],
         description={'placeholder': u"아이디를 입력하세요."}
         )
-    password = PasswordField(
+    login_password = PasswordField(
         u"Password",
         [validators.data_required(u"패스워드를 입력하세요!")],
         description={"placeholder": u"패스워드를 입력하세요."}
