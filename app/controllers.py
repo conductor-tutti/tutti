@@ -2,8 +2,9 @@
 from app import app, db
 from sqlalchemy import desc
 from app.models import Article, Comment, Musician, User
-from flask import render_template, request, redirect, url_for, flash
+from werkzueg.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm, UserForm
+from flask import render_template, request, redirect, url_for, flash
 
 @app.route('/', methods=["GET"])
 def article_list():
@@ -109,14 +110,13 @@ def sign_up():
             user = User(
                 userid=form.userid.data,
                 password=form.password.data,
-                confirm_password=form.confirm_password.data,
                 username=form.username.data,
                 email=form.email.data
             )
             db.session.add(user)
             db.session.commit()
 
-            return redirect(url_for('sign_up_success', id = user.id))
+            return redirect(url_for('sign_up_success', id = user.username))
     return render_template('user/sign_up.html', active_tab = 'sign_up', form = form)
 
 
