@@ -54,7 +54,17 @@ class CommentForm(Form):
         [validators.data_required(u'이메일을 입력하시기 바랍니다.')],
         description={'placeholder': u'이메일을 입력하세요.'}
     )
-
+class LoginForm(Form):
+    userid = StringField(
+        u"ID",
+        [validators.data_required(u"아이디를 입력하세요!")],
+        description={'placeholder': u"아이디를 입력하세요."}
+        )
+    password = PasswordField(
+        u"Password",
+        [validators.data_required(u"패스워드를 입력하세요!")],
+        description={"placeholder": u"패스워드를 입력하세요."}
+        )
 
 class UserForm(Form):
     userid = StringField(
