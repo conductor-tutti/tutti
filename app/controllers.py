@@ -123,11 +123,8 @@ def sign_up():
 def sign_up_success(id):
     user = User.query.get(id)
 
-<<<<<<< HEAD
     return render_template('user/sign_up_success.html', user=user)
-=======
-    return render_template('member/sign_up_success.html', member=member)
->>>>>>> 004a3d5bc472e70bf754a35590a4d49bbff551e0
+
 
 
 
