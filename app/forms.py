@@ -64,12 +64,12 @@ class UserForm(Form):
         )
     password = PasswordField(
         u'Password',
-        [validators.data_required(u'패스워드를 입력하세요!.'),
+        [validators.data_required(u'패스워드를 입력하세요!'),
         validators.EqualTo('confirm_password', message=u'패스워드가 일치하지 않네요.')],
         description={'placeholder':u'패스워드를 입력하세요.'}
         )
     confirm_password = PasswordField(
-        u'Confirm password'
+        u'Confirm password',
         [validators.data_required(u'패스워드를 한 번 더 입력하세요!')],
         description={'placeholder':u'패스워드를 한 번 더 입력하세요.'})
     name = StringField(
