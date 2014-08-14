@@ -3,7 +3,7 @@ from app import app, db
 from sqlalchemy import desc
 from app.models import Article, Comment, Musician, User
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.forms import ArticleForm, CommentForm, UserForm
+from app.forms import ArticleForm, CommentForm, UserForm, LoginForm
 from flask import render_template, request, redirect, url_for, flash
 
 @app.route('/', methods=["GET"])
@@ -97,8 +97,6 @@ def musician_new():
         db.session.commit()
         return redirect(url_for("article_list"))
 
-
-
 @app.route('/user/sign_up', methods = ['GET', 'POST'])
 def sign_up():
     form = UserForm()
@@ -128,3 +126,28 @@ def sign_up():
 def sign_up_success(id):
     user = User.query.get(id)
     return render_template('user/sign_up_success.html', user=user)
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if request.method == "GET":
+        return render_template("index.html", form=form)
+    else:
+        if form.validate_on_submit():
+            userdata = User.query.filter_by(userid == form.login_id.data).first()
+            if userdata:
+                if check_password_hash(userdata.password, form.password.data):
+                    userid = form.login_id.data
+                    approval = make_response(redirect(url_for("index")))
+                    approval.set_cookie("username", userid)
+                    return approval
+                else:
+                    flash(u"비밀번호가 다릅니다.", "danger")
+                    return redirect(url_for("login", form=form))
+            else:
+                flash(u"존재하지 않는 아이디입니다.", "danger")
+                return redirect(url_for("login", form=form))
+        else:
+            return render_template("login.html", form=form)
+
+
