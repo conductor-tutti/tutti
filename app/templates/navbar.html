@@ -4,14 +4,14 @@
             <a class="navbar-brand" href="{{ url_for("article_list") }}">tutti</a>
         </div>
         <ul class="nav navbar-nav">
-            <li {% if active_tab == "article_list" %} class="active" {% endif %}>
-                <a href="{{ url_for("article_list") }}">timeline</a>
-            </li>
-            <li {% if active_tab == "article_create" %} class="active" {% endif %}>
-                <a href="{{ url_for("article_create") }}">add</a>
+<!--             <li {% if active_tab == "article_list" %} class="active" {% endif %}>
+                <a href="{{ url_for(" ? ") }}">뮤지션</a>
+            </li> -->
+            <li {% if active_tab == "sign_up" %} class="active" {% endif %}>
+                <a href="{{ url_for("login") }}">로그인</a>
             </li>
             <li {% if active_tab == "sign_up" %} class="active" {% endif %}>
-                <a href="{{ url_for("sign_up") }}">Sign up!!!</a>
+                <a href="{{ url_for("sign_up") }}">회원가입</a>
             </li>
         </ul>
     </div>
