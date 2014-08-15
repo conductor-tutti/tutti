@@ -4,7 +4,13 @@ from sqlalchemy import desc
 from app.models import Article, Comment, Musician, User
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm, UserForm, LoginForm
-from flask import render_template, request, redirect, url_for, flash
+from flask import render_template, session, request, redirect, url_for, flash, g
+
+@app.before_request
+def before_request():
+    g.username = None
+    if "username" in session:
+        g.username = session["username"]
 
 @app.route('/', methods=["GET"])
 def article_list():
@@ -131,16 +137,16 @@ def sign_up_success(id):
 def login():
     form = LoginForm()
     if request.method == "GET":
-        return render_template("index.html", form=form)
+        return render_template("login.html", form=form)
     else:
         if form.validate_on_submit():
-            userdata = User.query.filter_by(userid == form.login_id.data).first()
+            userdata = User.query.filter(User.userid == form.login_id.data).first()
             if userdata:
-                if check_password_hash(userdata.password, form.password.data):
+                if check_password_hash(userdata.password, form.login_password.data):
                     userid = form.login_id.data
-                    approval = make_response(redirect(url_for("index")))
-                    approval.set_cookie("username", userid)
-                    return approval
+                    flash(u"반갑습니다, %s 님!" % userid)
+                    session["username"] = userid
+                    return redirect(url_for("article_list"))
                 else:
                     flash(u"비밀번호가 다릅니다.", "danger")
                     return redirect(url_for("login", form=form))
@@ -149,5 +155,3 @@ def login():
                 return redirect(url_for("login", form=form))
         else:
             return render_template("login.html", form=form)
-
-
