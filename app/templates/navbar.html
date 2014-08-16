@@ -7,20 +7,23 @@
             <li {% if active_tab == "article_list" %} class="active" {% endif %}>
                 <a href="{{ url_for("article_list") }}">뮤지션</a>
             </li>
+            {% if g.username == None %}
             <li {% if active_tab == "login" %} class="active" {% endif %}>
                 <a href="{{ url_for("login") }}">로그인</a>
             </li>
-
-            {% if g.username %}
-            <li class="active">
+            {% endif %}
+            
+            {% if g.username != None %}
+            <li>
                 <a href="{{ url_for("logout") }}">로그아웃</a>
             </li>
             {% endif %}
-
+            
+            {% if g.username == None %}
             <li {% if active_tab == "sign_up" %} class="active" {% endif %}>
                 <a href="{{ url_for("sign_up") }}">회원가입</a>
             </li>
-
+            {% endif %}
         </ul>
     </div>
 </nav>
