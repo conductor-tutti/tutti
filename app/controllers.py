@@ -137,7 +137,7 @@ def sign_up_success(id):
 def login():
     form = LoginForm()
     if request.method == "GET":
-        return render_template("login.html", form=form)
+        return render_template("login.html", active_tab="login", form=form)
     else:
         if form.validate_on_submit():
             userdata = User.query.filter(User.userid == form.login_id.data).first()
@@ -154,4 +154,10 @@ def login():
                 flash(u"존재하지 않는 아이디입니다.", "danger")
                 return redirect(url_for("login", form=form))
         else:
-            return render_template("login.html", form=form)
+            return render_template("login.html", active_tab="login", form=form)
+
+@app.route("/logout", methods=["GET"])
+def logout():
+    session.clear()
+    flash(u"잘가요, %s 님!" % g.username)
+    return redirect(url_for("article_list"))
