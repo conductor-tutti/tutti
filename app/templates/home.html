@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block contents %}
 <div class="LLArticleList">
+    <div id="total_article_num">총 게시물 수</div>
     {% if context.article_list %}
     {% for article in context.article_list %}
     <div class="well" id="article_{{ article.id }}">
@@ -12,6 +13,12 @@
         </p>
     </div>
     {% endfor %}
+    <div class="row">
+        <div class="col-sm-12" id="called_articles_list"></div>
+        <div class="col-sm-12" style="align:center">
+            <button class="btn btn-default" id="more_articles">Load more</button>
+        </div>
+    </div>
     {% else %}
     <div class="no_list">
         글이 아직 없다능!

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block customhead %}
+<style>
+.titleming{
+    text-align: center;
+    font-size: 200%;
+}
+.spanming{
+    font-size: 50%;
+}
+
+#result{
+    font-size: 200%;
+}
+</style>
+{% endblock %}
+
+{% block layout %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="titleming">AJAX <span class="spanming">asynchronous JavaScript and XML</span></div>
+        </div>
+    </div>
+
+    <form class="navbar-form navbar-left" role="search">
+      <div class="form-group">
+        <input type="text" class="form-control" name="input_first" placeholder="input">
+        +
+        <input type="text" class="form-control" name="input_second" placeholder="input">
+        <button type="submit" class="btn btn-default" id="bt_calculate">Calculate!</button>
+    </div>
+    </form>
+    <div class="col-md-4 col-md-offset-4">
+        <div id="result"></div>
+    </div>
+
+</div>
+{% endblock %}
