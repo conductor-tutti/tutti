@@ -28,8 +28,16 @@ class User(db.Model):
     username = db.Column(db.String(255))
     email = db.Column(db.String(255))
 
+class MusicianCategory(db.Model):
+    id = db.Column(db.Interger, primary_key = True)
+    name = db.Column(db.String(40))
+
+class MusicianMajor(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(40))
+
 class Musician(db.Model):
-    m_id = db.Column(db.Integer, primary_key=True)
-    m_category = db.Column(db.String(20))
-    m_major = db.Column(db.String(20))
-    m_phrase = db.Column(db.String(50))
+    id = db.Column(db.Integer, primary_key=True)
+    category_id = db.Column(db.Integer, db.ForeignKey("MusicianCategory.id"))
+    major_id = db.Column(db.Integer, db.ForeignKey("MusicianMajor.id"))
+    phrase = db.Column(db.String(50))
