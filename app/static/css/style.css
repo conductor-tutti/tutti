@@ -66,3 +66,19 @@ body{
     padding: 10px;
     text-align: center;
 }
+
+/* login.html */
+
+.login_submit{
+    float: right;
+}
+
+/* buttons */
+
+.btn-default{
+
+    color: white;
+    background-color: #CC575A;
+    border-color: #D95D5F;
+
+}

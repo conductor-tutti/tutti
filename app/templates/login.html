@@ -1,9 +1,12 @@
 {% extends "layout.html" %}
 
 {% block contents %}
+<div class="notice col-md-2 col-md-offset-5">
+    로그인 해보아요!
+</div>
 <div class="row">
-    <div class="col-md-4 col-md-offset-4 llLoginCreate">
-        <form class="form-inline" role="form" method="post">
+    <div class="col-md-2 col-sm-offset-5 llLoginCreate">
+        <form role="form" method="post">
             {{ form.hidden_tag() }}
 
             {% if form.errors %}
@@ -24,6 +27,11 @@
             {{ render_field(field, class="form-control") }}
             {% endfor %}
         </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2 col-sm-offset-5">
+        <button type="submit" class="btn btn-default login_submit">로그인</button>
     </div>
 </div>
 {% endblock %}
