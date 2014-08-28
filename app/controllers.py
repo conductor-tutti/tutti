@@ -3,7 +3,7 @@ from app import app, db
 from sqlalchemy import desc
 from app.models import Article, Comment, User, Musician, Awards
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.forms import ArticleForm, CommentForm, UserForm, LoginForm, NewMusician
+from app.forms import ArticleForm, CommentForm, UserForm, LoginForm
 from flask import jsonify, render_template, session, request, redirect, url_for, flash, g
 
 @app.before_request
@@ -143,10 +143,9 @@ def sign_up():
             else:
                 article_data = request.form
                 user = User(
-                    userid=form.userid.data,
+                    email=form.email.data,
                     password=generate_password_hash(form.password.data),
-                    username=form.username.data,
-                    email=form.email.data
+                    username=form.username.data
                 )
                 db.session.add(user)
                 db.session.commit()
@@ -167,18 +166,18 @@ def login():
         return render_template("login.html", active_tab="login", form=form)
     else:
         if form.validate_on_submit():
-            userdata = User.query.filter(User.userid == form.login_id.data).first()
+            userdata = User.query.filter(User.email == form.login_email.data).first()
             if userdata:
                 if check_password_hash(userdata.password, form.login_password.data):
-                    userid = form.login_id.data
-                    flash(u"반갑습니다, %s 님!" % userid)
-                    session["username"] = userid
+                    user_email = form.login_email.data
+                    flash(u"반갑습니다, %s 님!" % userdata.name)
+                    session["user_email"] = user_email
                     return redirect(url_for("article_list"))
                 else:
                     flash(u"비밀번호가 다릅니다.", "danger")
                     return redirect(url_for("login", form=form))
             else:
-                flash(u"존재하지 않는 아이디입니다.", "danger")
+                flash(u"존재하지 않는 이메일입니다.", "danger")
                 return redirect(url_for("login", form=form))
         else:
             return render_template("login.html", active_tab="login", form=form)

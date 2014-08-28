@@ -54,23 +54,13 @@ class CommentForm(Form):
         [validators.data_required(u'이메일을 입력하시기 바랍니다.')],
         description={'placeholder': u'이메일을 입력하세요.'}
     )
-class LoginForm(Form):
-    login_id = StringField(
-        u"ID",
-        [validators.data_required(u"아이디를 입력하세요!")],
-        description={'placeholder': u"아이디를 입력하세요."}
-        )
-    login_password = PasswordField(
-        u"Password",
-        [validators.data_required(u"패스워드를 입력하세요!")],
-        description={"placeholder": u"패스워드를 입력하세요."}
-        )
+
 
 class UserForm(Form):
-    userid = StringField(
-        u'ID',
-        [validators.data_required(u'아이디를 입력하세요!')],
-        description={'placeholder':u'아이디를 입력하세요.'}
+    email = EmailField(
+        u'E-mail *정확히 입력하세요!',
+        [validators.data_required(u'이메일을 입력하세요!')],
+        description={'placeholder':u'이메일을 입력하세요.'}
         )
     password = PasswordField(
         u'Password',
@@ -87,15 +77,15 @@ class UserForm(Form):
         [validators.data_required(u'성과 이름을 모두 입력하세요. 예: 오정민')],
         description={'placeholder':u'성과 이름을 모두 입력하세요. 예: 오정민.'}
         )
-    email = EmailField(
-        u'E-mail *정확히 입력하세요!',
+    
+class LoginForm(Form):
+    login_email = EmailField(
+        u"Email",
         [validators.data_required(u'이메일을 입력하세요!')],
-        description={'placeholder':u'이메일을 입력하세요.'}
+        description={'placeholder':u'이메일 입력하세요.'}
         )
-
-class NewMusician(Form):
-    # SelectField keeps a choices proerty which is a sequence of (value, label) pairs
-    category = SelectField(u"클래식", choices=[("piano", "피아노"), ("organ", "오르간"),
-        ("flute", "플루트 "), ("oboe", "오보에"), ("clarinet", "클라리넷"), ("basson", "바순"),
-        ("horn", "호른"), ("trumpet", "트럼펫"), ("tronbome", "트럼본"), ("tuba", "튜바"),
-        ("violin", "바이올린"), ("viola", "비올라"), ("cello", "첼로"), ("doublebass", "더블베이스")])
+    login_password = PasswordField(
+        u'Password',
+        [validators.data_required(u'패스워드를 입력하세요!')],
+        description={'placeholder':u'패스워드를 입력하세요.'}
+        )
