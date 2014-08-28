@@ -170,7 +170,7 @@ def login():
             if userdata:
                 if check_password_hash(userdata.password, form.login_password.data):
                     user_email = form.login_email.data
-                    flash(u"반갑습니다, %s 님!" % userdata.name)
+                    flash(u"반갑습니다, %s 님!" % userdata.username)
                     session["user_email"] = user_email
                     return redirect(url_for("article_list"))
                 else:
