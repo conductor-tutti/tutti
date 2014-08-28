@@ -26,12 +26,10 @@
             {% for field in form if field.widget.input_type != 'hidden' %}
             {{ render_field(field, class="form-control") }}
             {% endfor %}
+            <div>
+                <button type="submit" class="btn btn-default login_submit">로그인</button>
+            </div>
         </form>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm-2 col-sm-offset-5">
-        <button type="submit" class="btn btn-default login_submit">로그인</button>
     </div>
 </div>
 {% endblock %}
