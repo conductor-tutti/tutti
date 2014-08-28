@@ -23,23 +23,29 @@ class Comment(db.Model):
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
-    userid = db.Column(db.String(15))
+    email = db.Column(db.String(255))
     password = db.Column(db.String(255))
     username = db.Column(db.String(255))
-    email = db.Column(db.String(255))
+    
 
-class MusicianCategory(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(40))
-    musicians = db.relationship("Musician", backref="category", lazy="dynamic")
+class Musician(User):
+    category = db.Column(db.Integer)
+    major = db.Column(db.Integer)
+    phrase = db.Column(db.String(255))
 
-class MusicianMajor(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(40))
-    musicians = db.relationship("Musician", backref="major", lazy="dynamic")
 
-class Musician(db.Model):
+class Awards(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, db.ForeignKey("musician_category.id"))
-    major_id = db.Column(db.Integer, db.ForeignKey("musician_major.id"))
-    phrase = db.Column(db.String(50))
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    musician = db.relationship("Musician", backref=db.backref("awards", lazy="dynamic"))
+
+
+# class MusicianCategory(db.Model):
+#     id = db.Column(db.Integer, primary_key = True)
+#     name = db.Column(db.String(40), default="(classic), (jazz)")
+#     musicians = db.relationship("Musician", backref="category", lazy="dynamic")
+
+# class MusicianMajor(db.Model):
+#     id = db.Column(db.Integer, primary_key = True)
+#     name = db.Column(db.String(40))
+#     musicians = db.relationship("Musician", backref="major", lazy="dynamic")
