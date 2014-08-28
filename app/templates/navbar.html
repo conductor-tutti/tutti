@@ -22,7 +22,7 @@
             </ul>
 
             <ul class="nav navbar-nav navbar-right nav-menu">
-                
+
                 {% if g.username == None %}
                 <li {% if active_tab == "login" %} class="active" {% endif %}>
                     <a href="{{ url_for("login") }}">로그인</a>
@@ -41,6 +41,13 @@
                 </li>
                 {% endif %}
 
+                {% if g.username == None %}
+                <li {% if active_tab == "musician_new" %} class="active" {% endif %}>
+                    <a href="{{ url_for("musician_new", musician_id = ) }}">뮤지션 등록</a>
+                </li>
+                {% endif %}
+
+                
             </ul>
         </div>
     </div>

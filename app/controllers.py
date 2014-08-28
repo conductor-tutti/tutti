@@ -114,11 +114,12 @@ def article_delete(article_id):
         flash(u"게시글 지웠다능..ㅠㅠ", "success")
         return redirect(url_for("article_list"))
 
-@app.route("/musician/musician_new/<int:musician_id>", methods=["GET", "POST"])
-def musician_new(musician_id):
+@app.route("/musician/musician_new/", methods=["GET", "POST"])
+def musician_new():
     if request.method == "GET":
         return render_template("musician/musician_new.html")
     elif request.method == "POST":
+        musician_id = session["user_id"]
         musician = Musician()
         awards = Awards(
             name = request.form.get("award_info"),
@@ -171,6 +172,7 @@ def login():
                 if check_password_hash(userdata.password, form.login_password.data):
                     user_email = form.login_email.data
                     flash(u"반갑습니다, %s 님!" % userdata.username)
+                    session["user_id"] = userdata.id
                     session["user_email"] = user_email
                     return redirect(url_for("article_list"))
                 else:
