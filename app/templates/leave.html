@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block customhead %}
+{% endblock %}
+{% block contents %}
+<div class="row">
+    <div class="col-sm-6">
+        진 짜 로 회 원 탈 퇴 할 꺼 야?
+        <form action="{{ url_for('delete_account') }}">
+        <input type="submit" value="헤어지자">
+        </form>
+    </div>
+</div>
+
+{% endblock %}

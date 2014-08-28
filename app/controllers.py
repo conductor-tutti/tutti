@@ -189,3 +189,17 @@ def logout():
     session.clear()
     flash(u"잘가요, %s 님!" % g.username)
     return redirect(url_for("article_list"))
+
+
+@app.route("/delete_account", methods=["GET", "POST"])
+def delete_account():
+    if request.method == "GET":
+        return render_template("leave.html")
+    elif request.method == "POST":
+        user_id = session['user_id']
+        user = User.query.get(user_id)
+        db.session.delete(user)
+        db.session.commit()
+
+        flash(u"게시글 지웠다능..ㅠㅠ", "success")
+        return redirect(url_for("article_list"))
