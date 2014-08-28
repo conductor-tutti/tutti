@@ -1,10 +1,10 @@
 #-*-coding:utf-8-*-
 from app import app, db
 from sqlalchemy import desc
-from app.models import Article, Comment, Musician, User
+from app.models import Article, Comment, Musician, User, MusicianCategory, MusicianMajor
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.forms import ArticleForm, CommentForm, UserForm, LoginForm
-from flask import render_template, session, request, redirect, url_for, flash, g
+from app.forms import ArticleForm, CommentForm, UserForm, LoginForm, NewMusician
+from flask import jsonify, render_template, session, request, redirect, url_for, flash, g
 
 @app.before_request
 def before_request():
@@ -17,6 +17,31 @@ def article_list():
     context = {}
     context["article_list"] = Article.query.order_by(desc(Article.date_created)).limit(1)
     return render_template("home.html", context=context, active_tab="article_list")
+
+@app.route("/total_article_num")
+def total_article_num():
+    article_num = db.session.query(Article).count()
+    return jsonify(article_num=article_num)
+
+@app.route("/more_article")
+def more_article():
+    current_row = int(request.args.get("current_row"))
+    article_num = int(request.args.get("article_num"))
+    more_article = db.session.query(Article).order_by(desc(Article.date_created))[current_row:current_row+1]
+    data = {}
+    data["article"] = []
+    temp = {}
+    for article in temp["title"]:
+        temp["id"] = article.id
+        temp["title"] = article.title
+        temp["content"] = article.content
+        temp["author"] = article.author
+        temp["category"] = article.category
+        temp["date_created"] = article.date_created
+
+        data["article"].append(temp)
+        temp = {}
+    return jsonify(data)
 
 @app.route("/article/create/", methods=["GET", "POST"])
 def article_create():
@@ -91,17 +116,20 @@ def article_delete(article_id):
 
 @app.route("/musician/musician_new", methods=["GET", "POST"])
 def musician_new():
+    form = NewMusician()
     if request.method == "GET":
-        return render_template("musician/musician_new.html")
+        return render_template("musician/musician_new.html", form=form)
     elif request.method == "POST":
-        musician = Musician(
-            m_category = request.form["m_category"],
-            m_major = request.form["m_major"],
-            m_phrase = request.form["m_phrase"]
-            )
-        db.session.add(musician)
-        db.session.commit()
-        return redirect(url_for("article_list"))
+        if form.validate_on_submit():
+            musician = Musician(
+                m_category = request.form["m_category"],
+                m_major = request.form["m_major"],
+                m_phrase = request.form["m_phrase"]
+                )
+            db.session.add(musician)
+            db.session.commit()
+            flash(u"프로필이 성공적으로 올라갔어요! 와우~", "success")
+            return redirect(url_for("article_list"))
 
 @app.route('/user/sign_up', methods = ['GET', 'POST'])
 def sign_up():

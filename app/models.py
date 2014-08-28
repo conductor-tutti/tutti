@@ -29,15 +29,17 @@ class User(db.Model):
     email = db.Column(db.String(255))
 
 class MusicianCategory(db.Model):
-    id = db.Column(db.Interger, primary_key = True)
+    id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
+    musicians = db.relationship("Musician", backref="category", lazy="dynamic")
 
 class MusicianMajor(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
+    musicians = db.relationship("Musician", backref="major", lazy="dynamic")
 
 class Musician(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer, db.ForeignKey("MusicianCategory.id"))
-    major_id = db.Column(db.Integer, db.ForeignKey("MusicianMajor.id"))
+    category_id = db.Column(db.Integer, db.ForeignKey("musician_category.id"))
+    major_id = db.Column(db.Integer, db.ForeignKey("musician_major.id"))
     phrase = db.Column(db.String(50))

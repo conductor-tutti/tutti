@@ -92,3 +92,10 @@ class UserForm(Form):
         [validators.data_required(u'이메일을 입력하세요!')],
         description={'placeholder':u'이메일을 입력하세요.'}
         )
+
+class NewMusician(Form):
+    # SelectField keeps a choices proerty which is a sequence of (value, label) pairs
+    category = SelectField(u"클래식", choices=[("piano", "피아노"), ("organ", "오르간"),
+        ("flute", "플루트 "), ("oboe", "오보에"), ("clarinet", "클라리넷"), ("basson", "바순"),
+        ("horn", "호른"), ("trumpet", "트럼펫"), ("tronbome", "트럼본"), ("tuba", "튜바"),
+        ("violin", "바이올린"), ("viola", "비올라"), ("cello", "첼로"), ("doublebass", "더블베이스")])
