@@ -36,8 +36,9 @@ class Musician(User):
 
 class Awards(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
-    musician = db.relationship("Musician", backref=db.backref("awards", lazy="dynamic"))
+    name = db.Column(db.String(255))
+    musician_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    musician = db.relationship("Musician", backref=db.backref("awards", cascade="all, delete-orphan", lazy="dynamic"))
 
 
 # class MusicianCategory(db.Model):

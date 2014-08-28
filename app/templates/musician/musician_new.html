@@ -1,75 +1,13 @@
 {% extends "layout.html" %}
 {% block customhead %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/musician_new.css') }}">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<!-- <script src="{{ url_for('static', filename='js/musician_new.js') }}"></script> -->
-
-<script type="text/javascript">
-function stopRKey(evt) {
-	var evt = (evt) ? evt : ((event) ? event : null);
-	var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
-	if ((evt.keyCode == 13) && (node.type=="text"))  {return false;}
-}
-
-document.onkeypress = stopRKey;
-</script>
-
 {% endblock %}
-
 {% block contents %}
 <div class="row">
-	<div class="col-md-6 col-md-offset-3 title"><h1>뮤지션 등록</h1><p>(username)님, 당신의 프로필을 등록하고 더 많은 뮤지션들과 만나보세요.<br>개인정보 보호 관련 체크박스 첨부</p></div>
-</div>
-
-<form class="form-inline" role="registration" action="{{url_for("musician_new")}}" method="POST">
-	<div class="form-group">
-		<div class="input-group category-group">
-			<span class="input-group-addon">Category</span>
-			<select class="form-control" name="m_category" id="select_category">
-				<option value="none">전공분야를 선택하세요</option>
-				<option value="Classic">클래식</option>
-			</select>
-		</div>
-
-		<div class="input-group" id="major-group">
-			<span class="input-group-addon">Major</span>
-			<select class="form-control" name="m_major" id="select_major">
-				<option value="none">세부전공을 선택하세요</option>
-				<option value="Piano">피아노</option>
-				<option value="Organ">오르간</option>
-				<option value="Flute">플루트</option>
-				<option value="Oboe">오보에</option>
-				<option value="Clarinet">클라리넷</option>
-				<option value="Basson">바순</option>
-				<option value="Horn">호른</option>
-				<option value="Trumpet">트럼펫</option>
-				<option value="Trombone">트럼본</option>
-				<option value="Tuba">튜바</option>
-				<option value="Violin">바이올린</option>
-				<option value="Viola">비올라</option>
-				<option value="Cello">첼로</option>
-				<option value="DoubleBass">더블베이스</option>
-			</select>
-		</div>
-
-		<div class="input-group" id="detail-group">
-<!--       <div class="form-group">
-        <label for="m_name">이름</label>
-        <input class="form-control" type="text" name="m_name">
-      </div>
-      <div class="form-group">
-        <label for="m_email">이메일</label>
-        <input class="form-control" type="text" name="m_email">
-    </div> -->
-    <div class="form-group">
-    	<label for="m_phrase">캐치프레이즈</label>
-    	<input class="form-control" type="text" name="m_phrase" maxlength="50" placeholder="당신을 어필하는 멋진 문구를 적어보세요(50자 이내).">
+    <div class="col-sm-6">
+        <form action="{{ url_for('musician_new') }}" method="POST">
+            <input type="text" name="award_info" maxlength="100" placeholder="정확히 입력하세요~">
+            <input type="submit" value="입력 하셈">
+        </form>
     </div>
-    <input type="submit">
 </div>
-</div><!-- form group ends -->
-</form>
-
-{% endblock %}
-{% block script %}
 {% endblock %}

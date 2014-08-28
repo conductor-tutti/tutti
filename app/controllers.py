@@ -114,15 +114,15 @@ def article_delete(article_id):
         flash(u"게시글 지웠다능..ㅠㅠ", "success")
         return redirect(url_for("article_list"))
 
-@app.route("/musician/musician_new", methods=["GET", "POST"])
-def musician_new():
+@app.route("/musician/musician_new/<int:musician_id>", methods=["GET", "POST"])
+def musician_new(musician_id):
     if request.method == "GET":
         return render_template("musician/musician_new.html")
     elif request.method == "POST":
         musician = Musician()
         awards = Awards(
-            name = request.form.get("award_info")
-            musician = Musician.query.get("musician_id")
+            name = request.form.get("award_info"),
+            musician = Musician.query.get(musician_id)
             )
         db.session.add(awards)
         db.session.commit()
