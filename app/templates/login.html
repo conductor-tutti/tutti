@@ -1,29 +1,29 @@
 {% extends "layout.html" %}
 
 {% block contents %}
-    <div class="llLoginCreate">
-        <form role="form" method="post">
+<div class="row">
+    <div class="col-md-4 col-md-offset-4 llLoginCreate">
+        <form class="form-inline" role="form" method="post">
             {{ form.hidden_tag() }}
 
             {% if form.errors %}
-                <div class="alert alert-danger fade in">
-                    <a class="close" data-dismiss="alert" href="#">&times;</a>
-                    {% for field, errors in form.errors.items() %}
-                        <ul>
-                            {% for error in errors %}
-                                {{ error }}
-                            {% endfor %}
-                        </ul>
+            <div class="alert alert-danger fade in">
+                <a class="close" data-dismiss="alert" href="#">&times;</a>
+                {% for field, errors in form.errors.items() %}
+                <ul>
+                    {% for error in errors %}
+                    {{ error }}
                     {% endfor %}
-                </div>
+                </ul>
+                {% endfor %}
+            </div>
             {% endif %}
 
             {% from "_form_field.html" import render_field %}
             {% for field in form if field.widget.input_type != 'hidden' %}
-                {{ render_field(field, class="form-control") }}
+            {{ render_field(field, class="form-control") }}
             {% endfor %}
-
-            <button type="submit" class="btn btn-default">로그인</button>
         </form>
     </div>
+</div>
 {% endblock %}
