@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
 from app import app, db
 from sqlalchemy import desc
-from app.models import Article, Comment, Musician, User, MusicianCategory, MusicianMajor
+from app.models import Article, Comment, User, Musician, Awards
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm, UserForm, LoginForm, NewMusician
 from flask import jsonify, render_template, session, request, redirect, url_for, flash, g
@@ -116,20 +116,19 @@ def article_delete(article_id):
 
 @app.route("/musician/musician_new", methods=["GET", "POST"])
 def musician_new():
-    form = NewMusician()
     if request.method == "GET":
-        return render_template("musician/musician_new.html", form=form)
+        return render_template("musician/musician_new.html")
     elif request.method == "POST":
-        if form.validate_on_submit():
-            musician = Musician(
-                m_category = request.form["m_category"],
-                m_major = request.form["m_major"],
-                m_phrase = request.form["m_phrase"]
-                )
-            db.session.add(musician)
-            db.session.commit()
-            flash(u"프로필이 성공적으로 올라갔어요! 와우~", "success")
-            return redirect(url_for("article_list"))
+        musician = Musician()
+        awards = Awards(
+            name = request.form.get("award_info")
+            musician = Musician.query.get("musician_id")
+            )
+        db.session.add(awards)
+        db.session.commit()
+        flash(u"존나좋군?")
+        return redirect(url_for("article_list"))
+        
 
 @app.route('/user/sign_up', methods = ['GET', 'POST'])
 def sign_up():
