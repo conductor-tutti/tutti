@@ -9,9 +9,9 @@ from flask import jsonify, render_template, session, request, redirect, url_for,
 @app.before_request
 def before_request():
     g.username = None
-    if "username" in session:
-        g.username = session["username"]
-
+    if session:
+        g.userid = session["user_id"]
+        
 @app.route('/', methods=["GET"])
 def article_list():
     context = {}
@@ -120,7 +120,6 @@ def musician_new():
         return render_template("musician/musician_new.html")
     elif request.method == "POST":
         musician_id = session["user_id"]
-        musician = Musician()
         awards = Awards(
             name = request.form.get("award_info"),
             musician = Musician.query.get(musician_id)
@@ -196,10 +195,10 @@ def delete_account():
     if request.method == "GET":
         return render_template("leave.html")
     elif request.method == "POST":
-        user_id = session['user_id']
+        user_id = session["user_id"]
         user = User.query.get(user_id)
         db.session.delete(user)
         db.session.commit()
 
-        flash(u"게시글 지웠다능..ㅠㅠ", "success")
+        flash(u"너 이제 안녕 ..ㅠㅠ", "success")
         return redirect(url_for("article_list"))
