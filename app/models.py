@@ -26,20 +26,26 @@ class User(db.Model):
     email = db.Column(db.String(255))
     password = db.Column(db.String(255))
     username = db.Column(db.String(255))
+    is_musician = db.Column(db.Integer, default=0)
+    is_deleted = db.Column(db.Integer, default=0)
     
 
-class Musician(User):
-    category = db.Column(db.Integer)
-    major = db.Column(db.Integer)
+class Musician(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship("User",
+        backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
+    category = db.Column(db.String(255))
+    major = db.Column(db.String(255))
     phrase = db.Column(db.String(255))
 
 
 class Awards(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(255))
-    musician_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    musician = db.relationship("Musician", backref=db.backref("awards", cascade="all, delete-orphan", lazy="dynamic"))
-
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    musician = db.relationship("Musician",
+        backref=db.backref("awards", cascade="all, delete-orphan", lazy="dynamic"))
+    awards_data = db.Column(db.String(255))
 
 # class MusicianCategory(db.Model):
 #     id = db.Column(db.Integer, primary_key = True)

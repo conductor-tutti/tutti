@@ -5,7 +5,12 @@
 <div class="row">
     <div class="col-sm-6">
         <form action="{{ url_for('musician_new') }}" method="POST">
-            <input type="text" name="award_info" maxlength="100" placeholder="정확히 입력하세요~">
+            <!-- 여기는 category -->
+            <input type="text" name="category" maxlength="100" placeholder="전공이 무너가요?">
+            <!-- 여기는 major -->
+            <input type="text" name="major" maxlength="100" placeholder="악기는 뭘 다루시나요?">
+            <!-- 여기는 phrase -->
+            <input type="text" name="phrase" maxlength="100" placeholder="하고 싶은 말은??">
             <input type="submit" value="입력 하셈">
         </form>
     </div>

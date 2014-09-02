@@ -9,8 +9,8 @@ from flask import jsonify, render_template, session, request, redirect, url_for,
 @app.before_request
 def before_request():
     g.username = None
-    if session:
-        g.userid = session["user_id"]
+    if 'user_name' in session:
+        g.username = session["user_name"]
         
 @app.route('/', methods=["GET"])
 def article_list():
@@ -116,15 +116,17 @@ def article_delete(article_id):
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
+    user_id = session['user_id']
     if request.method == "GET":
         return render_template("musician/musician_new.html")
     elif request.method == "POST":
-        musician_id = session["user_id"]
-        awards = Awards(
-            name = request.form.get("award_info"),
-            musician = Musician.query.get(musician_id)
+        musician = Musician(
+            category = request.form.get("category"),
+            major = request.form.get("major"),
+            phrase = request.form.get("phrase"),
+            user = User.query.get(user_id)
             )
-        db.session.add(awards)
+        db.session.add(musician)
         db.session.commit()
         flash(u"존나좋군?")
         return redirect(url_for("article_list"))
@@ -173,6 +175,7 @@ def login():
                     flash(u"반갑습니다, %s 님!" % userdata.username)
                     session["user_id"] = userdata.id
                     session["user_email"] = user_email
+                    session["user_name"] = userdata.username
                     return redirect(url_for("article_list"))
                 else:
                     flash(u"비밀번호가 다릅니다.", "danger")
@@ -202,3 +205,17 @@ def delete_account():
 
         flash(u"너 이제 안녕 ..ㅠㅠ", "success")
         return redirect(url_for("article_list"))
+
+
+
+awards = '고등학교, 대학교, 대학원'
+
+awards = awards +', 박사'
+
+'고등학교, 대학교, 대학원, 박사'
+
+
+
+
+
+
