@@ -1,1 +1,14 @@
 .DS_Store
+
+lib/
+migrations/
+
+.playground
+app.yaml
+appengine_config.py
+deploy.py
+LICENSE
+main.py
+manager.py
+README.md
+requirements.txt
