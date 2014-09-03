@@ -114,23 +114,6 @@ def article_delete(article_id):
         flash(u"게시글 지웠다능..ㅠㅠ", "success")
         return redirect(url_for("article_list"))
 
-@app.route("/musician/musician_new/", methods=["GET", "POST"])
-def musician_new():
-    user_id = session['user_id']
-    if request.method == "GET":
-        return render_template("musician/musician_new.html")
-    elif request.method == "POST":
-        musician = Musician(
-            category = request.form.get("category"),
-            major = request.form.get("major"),
-            phrase = request.form.get("phrase"),
-            user = User.query.get(user_id)
-            )
-        db.session.add(musician)
-        db.session.commit()
-        flash(u"존나좋군?")
-        return redirect(url_for("article_list"))
-        
 
 @app.route('/user/sign_up', methods = ['GET', 'POST'])
 def sign_up():
@@ -145,9 +128,9 @@ def sign_up():
             else:
                 article_data = request.form
                 user = User(
-                    email=form.email.data,
-                    password=generate_password_hash(form.password.data),
-                    username=form.username.data
+                    email = form.email.data,
+                    password = generate_password_hash(form.password.data),
+                    username = form.username.data
                 )
                 db.session.add(user)
                 db.session.commit()
@@ -191,6 +174,27 @@ def logout():
     session.clear()
     flash(u"잘가요, %s 님!" % g.username)
     return redirect(url_for("article_list"))
+
+
+@app.route("/musician/musician_new/", methods=["GET", "POST"])
+def musician_new():
+    user_id = session['user_id']
+    if request.method == "GET":
+        return render_template("musician/musician_new.html")
+    elif request.method == "POST":
+        musician = Musician(
+            category = request.form.get("category"),
+            major = request.form.get("major"),
+            phrase = request.form.get("phrase"),
+            user = User.query.get(user_id)
+            )
+        user = User(
+            is_musician = 1
+            )
+        db.session.add(musician)
+        db.session.commit()
+        flash(u"넌 이제 뮤지션임")
+        return redirect(url_for("article_list"))
 
 
 @app.route("/delete_account", methods=["GET", "POST"])
