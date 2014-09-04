@@ -199,4 +199,6 @@ def musician_new():
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):
     musician = Musician.query.get(musician_id)
-    return render_template("musician/profile.html", musician=musician)
+    user = User.query.get(musician.user_id)
+    username = user.username
+    return render_template("musician/profile.html", username=username, musician=musician)
