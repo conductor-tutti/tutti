@@ -25,8 +25,8 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     email = db.Column(db.String(255))
     password = db.Column(db.String(255))
-    username = db.Column(db.String(255))
-    is_musician = db.Column(db.Integer, default=)
+    username = db.Column(db.String(255))    
+    is_musician = db.Column(db.Integer, default=0)
     is_out = db.Column(db.Integer, default=0)
     
 

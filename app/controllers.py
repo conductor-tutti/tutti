@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
 from app import app, db
 from sqlalchemy import desc
-from app.models import Article, Comment, User, Musician, Awards
+from app.models import Article, Comment, User, Musician
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm, UserForm, LoginForm
 from flask import jsonify, render_template, session, request, redirect, url_for, flash, g
@@ -182,44 +182,21 @@ def musician_new():
     if request.method == "GET":
         return render_template("musician/musician_new.html")
     elif request.method == "POST":
+        user = User.query.get(user_id)
+        user.is_musician = 1
+
         musician = Musician(
             category = request.form.get("category"),
             major = request.form.get("major"),
             phrase = request.form.get("phrase"),
-            user = User.query.get(user_id)
-            )
-        user = User(
-            is_musician = 1
+            user = user
             )
         db.session.add(musician)
         db.session.commit()
         flash(u"넌 이제 뮤지션임")
         return redirect(url_for("article_list"))
 
-
-@app.route("/delete_account", methods=["GET", "POST"])
-def delete_account():
-    if request.method == "GET":
-        return render_template("leave.html")
-    elif request.method == "POST":
-        user_id = session["user_id"]
-        user = User.query.get(user_id)
-        db.session.delete(user)
-        db.session.commit()
-
-        flash(u"너 이제 안녕 ..ㅠㅠ", "success")
-        return redirect(url_for("article_list"))
-
-
-
-awards = '고등학교, 대학교, 대학원'
-
-awards = awards +', 박사'
-
-'고등학교, 대학교, 대학원, 박사'
-
-
-
-
-
-
+@app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
+def musician_profile(musician_id):
+    musician = Musician.query.get(musician_id)
+    return render_template("musician/profile.html", musician=musician)
