@@ -39,14 +39,6 @@ class Musician(db.Model):
     major = db.Column(db.String(255))
     phrase = db.Column(db.String(255))
 
-
-class Awards(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
-    musician = db.relationship("Musician",
-        backref=db.backref("awards", cascade="all, delete-orphan", lazy="dynamic"))
-    awards_data = db.Column(db.String(255))
-
 # class MusicianCategory(db.Model):
 #     id = db.Column(db.Integer, primary_key = True)
 #     name = db.Column(db.String(40), default="(classic), (jazz)")
