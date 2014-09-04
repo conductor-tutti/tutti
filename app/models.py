@@ -35,16 +35,16 @@ class Musician(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User",
         backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
-    category = db.Column(db.String(255))
-    major = db.Column(db.String(255))
+    category_id = db.Column(db.String(255))
+    major_id = db.Column(db.String(255))
     phrase = db.Column(db.String(255))
 
-# class MusicianCategory(db.Model):
-#     id = db.Column(db.Integer, primary_key = True)
-#     name = db.Column(db.String(40), default="(classic), (jazz)")
-#     musicians = db.relationship("Musician", backref="category", lazy="dynamic")
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(40))
+    musicians = db.relationship("Musician", backref="category", lazy="dynamic")
 
-# class MusicianMajor(db.Model):
-#     id = db.Column(db.Integer, primary_key = True)
-#     name = db.Column(db.String(40))
-#     musicians = db.relationship("Musician", backref="major", lazy="dynamic")
+class Major(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String(40))
+    musicians = db.relationship("Musician", backref="major", lazy="dynamic")
