@@ -27,7 +27,9 @@ class User(db.Model):
     password = db.Column(db.String(255))
     username = db.Column(db.String(255))    
     is_musician = db.Column(db.Integer, default=0)
-    is_out = db.Column(db.Integer, default=0)
+
+    # just forget deleting accounts until 'real' launching
+    ## is_out = db.Column(db.Integer, default=0)
     
 
 class Musician(db.Model):
@@ -35,17 +37,33 @@ class Musician(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     user = db.relationship("User",
         backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
-    category_id = db.Column(db.String(255))
-    major_id = db.Column(db.String(255))
+    
+    # each musician has its own category_id
+    category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
+    category = db.relationship("Category", backref=db.backref("category", cascade="all, delete-orphan", lazy="dynamic"))
+    
+    # and major_id too
+    major_id = db.Column(db.Integer, db.ForeignKey("major.id"))
+    major = db.relationship("Major", backref=db.backref("major", cascade="all, delete-orphan", lazy="dynamic"))
     phrase = db.Column(db.String(255))
+    
+    # Soyoung'll initialize Location table
+    ## location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
+    ## location = db.relationship()
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
-    musicians = db.relationship("Musician", backref="category", lazy="dynamic")
+    
+    # musicians have same category_id will be updated in this column
+    musicians = db.relationship("Musician")
 
 class Major(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
+    
+    # each major has its mother category
     category_id = db.Column(db.Integer)
-    musicians = db.relationship("Musician", backref="major", lazy="dynamic")
+    
+    # same as musicians in Category table
+    musicians = db.relationship("Musician")
