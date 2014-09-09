@@ -150,22 +150,20 @@ def login():
         return render_template("login.html", active_tab="login")
     else:
         userdata = User.query.filter(User.email == request.form["user-email"]).first()
-            if userdata:
-                if check_password_hash(userdata.password, request.form["user-pw"]):
-                    flash(u"반갑습니다, %s 님!" % userdata.username)
-                    session["user_id"] = userdata.id
-                    session["user_email"] = userdata.email
-                    session["user_name"] = userdata.username
-                    return redirect(url_for("article_list"))
-                else:
-                    flash(u"비밀번호가 다릅니다.", "danger")
-                    return redirect(url_for("login", form=form))
+        if userdata:
+            if check_password_hash(userdata.password, request.form["user-pw"]):
+                flash(u"반갑습니다, %s 님!" % userdata.username)
+                session["user_id"] = userdata.id
+                session["user_email"] = userdata.email
+                session["user_name"] = userdata.username
+                return redirect(url_for("article_list"))
             else:
-                flash(u"존재하지 않는 이메일입니다. 정확히 입력하셨나요?", "danger")
+                flash(u"비밀번호가 다릅니다.", "danger")
                 return redirect(url_for("login", form=form))
         else:
-            return render_template("login.html", active_tab="login")
-
+            flash(u"존재하지 않는 이메일입니다. 정확히 입력하셨나요?", "danger")
+            return redirect(url_for("login", form=form))
+    
 @app.route("/logout", methods=["GET"])
 def logout():
     session.clear()
