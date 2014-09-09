@@ -146,33 +146,30 @@ def sign_up_success(id):
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    form = LoginForm()
     if request.method == "GET":
-        return render_template("login.html", active_tab="login", form=form)
+        return render_template("login.html", active_tab="login")
     else:
-        if form.validate_on_submit():
-            userdata = User.query.filter(User.email == form.login_email.data).first()
+        userdata = User.query.filter(User.email == request.form["user-email"]).first()
             if userdata:
-                if check_password_hash(userdata.password, form.login_password.data):
-                    user_email = form.login_email.data
+                if check_password_hash(userdata.password, request.form["user-pw"]):
                     flash(u"반갑습니다, %s 님!" % userdata.username)
                     session["user_id"] = userdata.id
-                    session["user_email"] = user_email
+                    session["user_email"] = userdata.email
                     session["user_name"] = userdata.username
                     return redirect(url_for("article_list"))
                 else:
                     flash(u"비밀번호가 다릅니다.", "danger")
                     return redirect(url_for("login", form=form))
             else:
-                flash(u"존재하지 않는 이메일입니다.", "danger")
+                flash(u"존재하지 않는 이메일입니다. 정확히 입력하셨나요?", "danger")
                 return redirect(url_for("login", form=form))
         else:
-            return render_template("login.html", active_tab="login", form=form)
+            return render_template("login.html", active_tab="login")
 
 @app.route("/logout", methods=["GET"])
 def logout():
     session.clear()
-    flash(u"잘가요, %s 님!" % g.username)
+    flash(u"%s 님, 다음에 또 만나요!" % g.username)
     return redirect(url_for("article_list"))
 
 
@@ -181,9 +178,8 @@ def musician_new():
     user_id = session['user_id']
     if request.method == "GET":
         return render_template("musician/musician_new.html")
-    elif request.method == "POST":
-        user = User.query.get(user_id)
-        user.is_musician = 1
+    elif request.method == "POST":`
+        User.query.get(user_id).is_musician = 1
 
         musician = Musician(
             category = request.form.get("category"),

@@ -2,13 +2,12 @@
 
 {% block customhead %}
 <style type="text/css">
-body {
-    padding-top: 15px;
-    font-size: 12px
-}
 
 .main {
-    max-width: 320px;
+    background-color: white;
+    max-width: 420px;
+    padding: 20px;
+    border-radius: 20px;
     margin: 0 auto;
 }
 
@@ -40,12 +39,8 @@ body {
     margin-bottom: 0px !important;
 }
 
-h3 {
+.main .help-message{
     text-align: center;
-    line-height: 300%;
-}
-
-.help-message{
     font-size: 1em;        
 }
 
@@ -77,13 +72,13 @@ h3 {
         <form role="form">
             <div class="form-group">
                 <label for="inputUsernameEmail">Username or email</label>
-                <input type="text" class="form-control" id="inputUsernameEmail">
+                <input type="text" class="form-control" name="user-email" id="inputUsernameEmail">
             </div>
 
             <div class="form-group">
                 <a class="pull-right" href="#">Forgot password?</a>
                 <label for="inputPassword">Password</label>
-                <input type="password" class="form-control" id="inputPassword">
+                <input type="password" class="form-control" name="user-pw" id="inputPassword">
             </div>
 
             <div class="checkbox pull-right">
