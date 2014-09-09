@@ -10,7 +10,7 @@ body{
 
 .navbar-default {
     background-color: #CC575A;
-    border-color: #BD5959;
+    border-color: black;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
@@ -27,12 +27,12 @@ body{
 }
 
 .nav-container{
-    background-color: #CC575A;
+    background-color: black;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
     color: white;
-    background-color: #D95D5F;
+    background-color: #272727;
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
