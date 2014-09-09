@@ -27,12 +27,12 @@ body{
 }
 
 .nav-container{
-    background-color: black;
+    background-color: #3F3F3F;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
     color: white;
-    background-color: #272727;
+    background-color: #4E4E4E;
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
@@ -75,10 +75,8 @@ body{
 
 /* buttons */
 
-.btn-default{
-
+.btn-default {
     color: white;
-    background-color: #CC575A;
-    border-color: #D95D5F;
-
+    background-color: #AE846C;
+    border-color: #A77F68;
 }
