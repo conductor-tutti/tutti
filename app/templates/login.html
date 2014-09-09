@@ -69,7 +69,7 @@
             <span class="span-or">or</span>
         </div>
 
-        <form role="form">
+        <form role="form" method="POST">
             <div class="form-group">
                 <label for="inputUsernameEmail">Username or email</label>
                 <input type="text" class="form-control" name="user-email" id="inputUsernameEmail">
@@ -88,39 +88,11 @@
                 </div>
 
                 <button type="submit" class="btn btn btn-primary">
-                    Log In
+                    로그인
                 </button>
             </form>
         </div>
     </div>
 </div>
-
-<!-- <div class="row">
-    <div class="col-md-2 col-sm-offset-5 llLoginCreate">
-        <form role="form" method="post">
-            {{ form.hidden_tag() }}
-            {% if form.errors %}
-            <div class="alert alert-danger fade in">
-                <a class="close" data-dismiss="alert" href="#">&times;</a>
-                {% for field, errors in form.errors.items() %}
-                <ul>
-                    {% for error in errors %}
-                    {{ error }}
-                    {% endfor %}
-                </ul>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            {% from "_form_field.html" import render_field %}
-            {% for field in form if field.widget.input_type != 'hidden' %}
-            {{ render_field(field, class="form-control") }}
-            {% endfor %}
-            <div>
-                <button type="submit" class="btn btn-default login_submit">로그인</button>
-            </div>
-        </form>
-    </div>
-</div> -->
 
 {% endblock %}
