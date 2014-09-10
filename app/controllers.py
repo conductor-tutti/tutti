@@ -115,28 +115,27 @@ def article_delete(article_id):
         return redirect(url_for("article_list"))
 
 
-@app.route('/user/sign_up', methods = ['GET', 'POST'])
+@app.route('/sign_up', methods = ['GET', 'POST'])
 def sign_up():
-    form = UserForm()
     if request.method == 'GET':
-        return render_template('user/sign_up.html', active_tab = 'sign_up', form = form)
+        return render_template('sign_up.html', active_tab = 'sign_up')
     elif request.method == 'POST':
-        if form.validate_on_submit():
-            if db.session.query(User).filter(User.email == form.email.data).count() > 0:
-                flash(u"이미 가입한 이메일입니다.", "danger")
-                return render_template("user/sign_up.html", form=form, active_tab="sign_up")
-            else:
-                article_data = request.form
-                user = User(
-                    email = form.email.data,
-                    password = generate_password_hash(form.password.data),
-                    username = form.username.data
-                )
-                db.session.add(user)
-                db.session.commit()
-                flash(u"가입 완료!", "success")
-                return redirect(url_for('sign_up_success', id = user.id))
-    return render_template('user/sign_up.html', active_tab = 'sign_up', form = form)
+        
+        if db.session.query(User).filter(User.email == request.form.get("user-email")).count() > 0:
+            flash(u"이미 가입한 이메일입니다.", "danger")
+            return render_template("sign_up.html", active_tab="sign_up")
+        else:
+            article_data = request.form
+            user = User(
+                email = form.email.data,
+                password = generate_password_hash(form.password.data),
+                username = form.username.data
+            )
+            db.session.add(user)
+            db.session.commit()
+            flash(u"가입 완료!", "success")
+            return redirect(url_for('sign_up_success', id = user.id))
+        return render_template('user/sign_up.html', active_tab = 'sign_up')
 
 
 @app.route('/sign_up_success/<int:id>', methods = ['GET'])
