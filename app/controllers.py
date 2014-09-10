@@ -119,22 +119,21 @@ def article_delete(article_id):
 def sign_up():
     if request.method == 'GET':
         return render_template('sign_up.html', active_tab = 'sign_up')
-    elif request.method == 'POST':
-        
+    elif request.method == 'POST':     
         if db.session.query(User).filter(User.email == request.form.get("user-email")).count() > 0:
             flash(u"이미 가입한 이메일입니다.", "danger")
             return render_template("sign_up.html", active_tab="sign_up")
         else:
-            article_data = request.form
             user = User(
-                email = form.email.data,
-                password = generate_password_hash(form.password.data),
-                username = form.username.data
+                email = request.form.get("user-email"),
+                password = generate_password_hash(request.form.get("user-pw")),
+                username = request.form.get("user-name"),
+                is_musician = 1
             )
             db.session.add(user)
             db.session.commit()
-            flash(u"가입 완료!", "success")
-            return redirect(url_for('sign_up_success', id = user.id))
+            flash(u"가입이 완료되었습니다. 반가워요!", "success")
+            return redirect(url_for('', id = user.id))
         return render_template('user/sign_up.html', active_tab = 'sign_up')
 
 
