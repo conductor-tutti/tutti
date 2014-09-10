@@ -149,7 +149,7 @@ def login():
     if request.method == "GET":
         return render_template("login.html", active_tab="login")
     else:
-        userdata = User.query.filter(User.email == request.form["user-email"]).first()
+        userdata = User.query.filter(User.email == request.form.get("user-email")).first()
         if userdata:
             if check_password_hash(userdata.password, request.form["user-pw"]):
                 flash(u"반갑습니다, %s 님!" % userdata.username)
@@ -176,7 +176,7 @@ def musician_new():
     user_id = session['user_id']
     if request.method == "GET":
         return render_template("musician/musician_new.html")
-    elif request.method == "POST":`
+    elif request.method == "POST":
         User.query.get(user_id).is_musician = 1
 
         musician = Musician(
