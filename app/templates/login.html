@@ -48,11 +48,12 @@ a:hover, a:focus {
 .span-or {
     display: block;
     position: absolute;
-    left: 50%;
+    left: 45%;
     top: -2px;
     margin-left: -25px;
     background-color: #fff;
     width: 50px;
+    font-size: 0.7em;
     text-align: center;
 }
 
@@ -95,35 +96,35 @@ a:hover, a:focus {
 
             <div class="checkbox pull-right">
                 <label>
-                    <input type="checkbox">
-                    로그인 정보 저장</label>
-                </div>
+                    <input type="checkbox">로그인 정보 저장
+                </label>
+            </div>
+        </form>
 
-                <button type="submit" class="btn btn btn-default">
-                    로그인
-                </button>
-            </form>
+        <button type="submit" class="btn btn btn-default">
+            로그인
+        </button>
 
-            <div class="login-or">
-                <hr class="hr-or">
-                <span class="span-or">더 쉽게 로그인하기</span>
+        <div class="login-or">
+            <hr class="hr-or">
+            <span class="span-or">더 쉽게 로그인</span>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <a class="btn btn-block btn-social btn-sm btn-facebook" href="#">
+                    <i class="fa fa-facebook"></i>페이스북 연동
+                </a>
             </div>
 
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <a class="btn btn-block btn-social btn-sm btn-facebook" href="#">
-                        <i class="fa fa-facebook"></i>페이스북 연동
-                    </a>
-                </div>
-
-                <div class="col-xs-6 col-sm-6 col-md-6">
-                    <a class="btn btn-block btn-social btn-sm btn-google-plus" href="#">
-                        <i class="fa fa-google-plus"></i>구글플러스 연동
-                    </a>
-                </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+                <a class="btn btn-block btn-social btn-sm btn-google-plus" href="#">
+                    <i class="fa fa-google-plus"></i>구글플러스 연동
+                </a>
             </div>
         </div>
     </div>
+</div>
 </div>
 
 {% endblock %}
