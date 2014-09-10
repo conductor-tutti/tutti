@@ -159,10 +159,10 @@ def login():
                 return redirect(url_for("article_list"))
             else:
                 flash(u"비밀번호가 다릅니다.", "danger")
-                return redirect(url_for("login", form=form))
+                return redirect(url_for("login")
         else:
             flash(u"존재하지 않는 이메일입니다. 정확히 입력하셨나요?", "danger")
-            return redirect(url_for("login", form=form))
+            return redirect(url_for("login")
     
 @app.route("/logout", methods=["GET"])
 def logout():
