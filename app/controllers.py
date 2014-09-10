@@ -162,7 +162,7 @@ def login():
                 return redirect(url_for("login"))
         else:
             flash(u"존재하지 않는 이메일입니다. 정확히 입력하셨나요?", "danger")
-            return redirect(url_for("login")
+            return redirect(url_for("login"))
     
 @app.route("/logout", methods=["GET"])
 def logout():
