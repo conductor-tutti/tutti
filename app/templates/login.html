@@ -3,12 +3,36 @@
 {% block customhead %}
 <style type="text/css">
 
+/* default colors */
+/* creamy brown: #BB8F76 */
+/* deep creamy brown: #AF866F */
+
 .main {
     background-color: white;
     max-width: 420px;
     padding: 20px;
     border-radius: 20px;
     margin: 0 auto;
+}
+
+h3, .h3{
+    text-align: center;
+}
+
+a.help-message{
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+    color: #BB8F76;
+}
+
+a {
+    color: #BB8F76;
+}
+
+a:hover, a:focus {
+    color: #AF866F;
+    text-decoration: none;
 }
 
 .login-or {
@@ -37,11 +61,6 @@
     height: 1px;
     margin-top: 0px !important;
     margin-bottom: 0px !important;
-}
-
-.main .help-message{
-    text-align: center;
-    font-size: 1em;        
 }
 
 .alert{
@@ -95,7 +114,7 @@
                     Remember me </label>
                 </div>
 
-                <button type="submit" class="btn btn btn-primary">
+                <button type="submit" class="btn btn btn-default">
                     로그인
                 </button>
             </form>
