@@ -24,8 +24,8 @@
             <ul class="nav navbar-nav navbar-right nav-menu">
 
                 {% if g.username == None %}
-                <li {% if active_tab == "login" %} class="active" {% endif %}>
-                    <a href="{{ url_for("login") }}">로그인</a>
+                <li {% if active_tab == "sign_in" %} class="active" {% endif %}>
+                    <a href="{{ url_for("sign_in") }}">로그인</a>
                 </li>
                 {% endif %}
 

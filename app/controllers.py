@@ -3,7 +3,7 @@ from app import app, db
 from sqlalchemy import desc
 from app.models import Article, Comment, User, Musician
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.forms import ArticleForm, CommentForm, UserForm, LoginForm
+from app.forms import ArticleForm, CommentForm
 from flask import jsonify, render_template, session, request, redirect, url_for, flash, g
 
 @app.before_request
@@ -144,10 +144,10 @@ def sign_up_success(id):
     user = User.query.get(id)
     return render_template('user/sign_up_success.html', user=user)
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
+@app.route("/sign_in", methods=["GET", "POST"])
+def sign_in():
     if request.method == "GET":
-        return render_template("login.html", active_tab="login")
+        return render_template("sign_in.html", active_tab="sign_in")
     else:
         userdata = User.query.filter(User.email == request.form.get("user-email")).first()
         if userdata:
@@ -159,10 +159,10 @@ def login():
                 return redirect(url_for("article_list"))
             else:
                 flash(u"비밀번호가 다릅니다.", "danger")
-                return redirect(url_for("login"))
+                return redirect(url_for("sign_in"))
         else:
             flash(u"존재하지 않는 이메일입니다. 정확히 입력하셨나요?", "danger")
-            return redirect(url_for("login"))
+            return redirect(url_for("sign_in"))
     
 @app.route("/logout", methods=["GET"])
 def logout():
