@@ -172,8 +172,8 @@ def logout():
 def musician_new():
     user_id = session['user_id']
     if request.method == "GET":
-        category = Category()
-        major = Major()
+        category_id = Category.query.all()
+        major = Major.query.all()
         return render_template("musician/musician_new.html", category=category, major=major, active_tab="musician_new")
     elif request.method == "POST":
         User.query.get(user_id).is_musician = 1

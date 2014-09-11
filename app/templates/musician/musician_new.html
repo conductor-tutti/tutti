@@ -97,7 +97,7 @@ a:hover, a:focus {
                     <label for="inputCategory">전공분야</label>
                     <select name="category" id="inputCategory">
                         {% for e in category %}
-                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        <option value="{{ e.id }}">{{ e.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
@@ -106,7 +106,7 @@ a:hover, a:focus {
                     <label for="inputMajor">세부전공</label>
                     <select name="major" id="inputMajor">
                         {% for e in major %}
-                        <option value="{{ major.id }}">{{ major.name }}</option>
+                        <option value="{{ e.id }}">{{ e.name }}</option>
                         {% endfor %}
                     </select>
                 </div>
