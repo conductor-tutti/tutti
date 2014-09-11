@@ -46,6 +46,7 @@ class Musician(db.Model):
     major_id = db.Column(db.Integer, db.ForeignKey("major.id"))
     major = db.relationship("Major", backref=db.backref("major", cascade="all, delete-orphan", lazy="dynamic"))
     phrase = db.Column(db.String(255))
+    date_created = db.Column(db.DateTime(), default=db.func.now())
     
     # Soyoung'll initialize Location table
     ## location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
