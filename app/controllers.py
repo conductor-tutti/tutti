@@ -13,10 +13,10 @@ def before_request():
         g.username = session["user_name"]
         
 @app.route('/', methods=["GET"])
-def article_list():
+def index():
     context = {}
     context["musician_list"] = Musician.query.order_by(desc(Musician.id)).limit(4)
-    return render_template("home.html", context=context, active_tab="article_list")
+    return render_template("index.html", context=context, active_tab="index")
 
 @app.route("/total_article_num")
 def total_article_num():
@@ -59,7 +59,7 @@ def article_create():
             db.session.add(article)
             db.session.commit()
             flash(u"게시물이 작성되따능.", "success")
-            return redirect(url_for("article_list"))
+            return redirect(url_for("index"))
 
 @app.route("/article/detail/<int:article_id>", methods=["GET"])
 def article_detail(article_id):
@@ -112,7 +112,7 @@ def article_delete(article_id):
         db.session.commit()
 
         flash(u"게시글 지웠다능..ㅠㅠ", "success")
-        return redirect(url_for("article_list"))
+        return redirect(url_for("index"))
 
 
 @app.route('/sign_up', methods = ['GET', 'POST'])
@@ -132,7 +132,7 @@ def sign_up():
             db.session.add(user)
             db.session.commit()
             flash(u"가입이 완료되었습니다. 반가워요!", "success")
-            return redirect(url_for('article_list'))
+            return redirect(url_for('index'))
         return render_template('sign_up.html', active_tab='sign_up')
 
 
@@ -153,7 +153,7 @@ def sign_in():
                 session["user_id"] = userdata.id
                 session["user_email"] = userdata.email
                 session["user_name"] = userdata.username
-                return redirect(url_for("article_list"))
+                return redirect(url_for("index"))
             else:
                 flash(u"비밀번호가 다릅니다.", "danger")
                 return redirect(url_for("sign_in"))
@@ -165,7 +165,7 @@ def sign_in():
 def logout():
     session.clear()
     flash(u"%s 님, 다음에 또 만나요!" % g.username)
-    return redirect(url_for("article_list"))
+    return redirect(url_for("index"))
 
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
@@ -186,7 +186,7 @@ def musician_new():
         db.session.add(musician)
         db.session.commit()
         flash(u"프로필이 잘 등록되었어요!", "success")
-        return redirect(url_for("article_list"))
+        return redirect(url_for("index"))
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):
