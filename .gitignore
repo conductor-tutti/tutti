@@ -3,8 +3,8 @@
 lib/
 migrations/
 
-setting.pyc
-__init__.pyc
+app/settings.pyc
+app/__init__.pyc
 .playground
 app.yaml
 appengine_config.py
