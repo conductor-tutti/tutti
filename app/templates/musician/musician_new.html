@@ -9,7 +9,7 @@
 
 .main {
     background-color: white;
-    padding: 20px;
+    padding: 40px;
     border-radius: 20px;
 }
 
@@ -84,18 +84,18 @@ a:hover, a:focus {
 
 <div class="row">
     <div class="main">
-        <h3>프로필 등록</h3>
+        <h3>{{ g.username }}님의 프로필</h3>
 
         <div class="essential_field">
             <hr>
-            <h5>필수 입력사항</h5>
+            <h4>필수 입력사항</h4>
         </div>
 
         <form role="form" method="POST">
             <div class="row">
                 <div class="form-group col-xs-2 col-sm-2 col-md-2">
                     <label for="inputCategory">전공분야</label>
-                    <select name="category" id="inputCategory">
+                    <select class="form-control" name="category" id="inputCategory">
                         {% for e in category %}
                         <option value="{{ e.id }}">{{ e.name }}</option>
                         {% endfor %}
@@ -104,7 +104,7 @@ a:hover, a:focus {
 
                 <div class="form-group col-xs-2 col-sm-2 col-md-2">
                     <label for="inputMajor">세부전공</label>
-                    <select name="major" id="inputMajor">
+                    <select class="form-control" name="major" id="inputMajor">
                         {% for e in major %}
                         <option value="{{ e.id }}">{{ e.name }}</option>
                         {% endfor %}
@@ -115,8 +115,13 @@ a:hover, a:focus {
             <div class="row">
                 <div class="form-group col-xs-12 col-sm-12 col-md-12">
                     <label for="inputPhrase">100자 메시지</label>
-                    <input type="text" maxlength="100" name="phrase" id="inputPhase">
+                    <input class="form-control" type="text" maxlength="100" name="phrase" id="inputPhase" placeholder="당신을 표현할 수 있는 간결하고 멋진 100자 메시지를 적어보세요.">
                 </div>
+            </div>
+
+            <div class="additional">
+                <hr>
+                <h4>추가 입력사항</h4>
             </div>
 
             <button type="submit" class="btn btn btn-default pull-right">
