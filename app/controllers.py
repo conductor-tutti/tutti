@@ -178,13 +178,14 @@ def musician_new():
     elif request.method == "POST":
         User.query.get(user_id).is_musician = 1
         musician = Musician(
-            category = request.form.get("category"),
-            major = request.form.get("major"),
-            phrase = request.form.get("phrase"),
+            user_id = user_id,
+            category_id = request.form.get("category"),
+            major_id = request.form.get("major"),
+            phrase = request.form.get("phrase")
             )
         db.session.add(musician)
         db.session.commit()
-        flash(u"프로필이 잘 등록되었어요!")
+        flash(u"프로필이 잘 등록되었어요!", "success")
         return redirect(url_for("article_list"))
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
