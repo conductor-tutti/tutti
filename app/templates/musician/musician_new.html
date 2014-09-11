@@ -1,18 +1,131 @@
 {% extends "layout.html" %}
 {% block customhead %}
+
+<style type="text/css">
+
+/* default colors */
+/* creamy brown: #BB8F76 */
+/* deep creamy brown: #AF866F */
+
+.main {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+}
+
+h3, .h3{
+    text-align: center;
+}
+
+.please-login{
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #BB8F76;
+}
+
+a {
+    color: #BB8F76;
+}
+
+a:hover, a:focus {
+    color: #AF866F;
+    text-decoration: none;
+}
+
+.help{
+    color: #BB8F76;
+    font-size: 0.9em;
+}
+
+.easy-signup {
+    position: relative;
+    font-size: 18px;
+    color: #aaa;
+    margin-top: 60px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.span-easy {
+    display: block;
+    position: absolute;
+    left: 45%;
+    top: -2px;
+    margin-left: -25px;
+    background-color: #fff;
+    width: 100px;
+    font-size: 0.7em;
+    text-align: center;
+}
+
+.hr {
+    background-color: #cdcdcd;
+    height: 1px;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+
+.alert{
+    max-width: 420px;
+    margin: 0 auto 20px auto;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+</style>
 {% endblock %}
+
 {% block contents %}
+
 <div class="row">
-    <div class="col-sm-6">
-        <form action="{{ url_for('musician_new') }}" method="POST">
-            <!-- 여기는 category -->
-            <input type="text" name="category" maxlength="100" placeholder="전공이 무너가요?">
-            <!-- 여기는 major -->
-            <input type="text" name="major" maxlength="100" placeholder="악기는 뭘 다루시나요?">
-            <!-- 여기는 phrase -->
-            <input type="text" name="phrase" maxlength="100" placeholder="하고 싶은 말은??">
-            <input type="submit" value="입력 하셈">
+    <div class="main">
+        <h3>프로필 등록</h3>
+
+        <div class="essential_field">
+            <hr>
+            <h5>필수 입력사항</h5>
+        </div>
+
+        <form role="form" method="POST">
+            <div class="row">
+                <div class="form-group col-xs-2 col-sm-2 col-md-2">
+                    <label for="inputCategory">전공분야</label>
+                    <select name="category" id="inputCategory">
+                        {% for e in category %}
+                        <option value="{{ category.id }}">{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group col-xs-2 col-sm-2 col-md-2">
+                    <label for="inputMajor">세부전공</label>
+                    <select name="major" id="inputMajor">
+                        {% for e in major %}
+                        <option value="{{ major.id }}">{{ major.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                    <label for="inputPhrase">100자 메시지</label>
+                    <input type="text" maxlength="100" name="phrase" id="inputPhase">
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn btn-default pull-right">
+                프로필 등록
+            </button>
+
         </form>
+
     </div>
 </div>
+
 {% endblock %}

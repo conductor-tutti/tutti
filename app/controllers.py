@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
 from app import app, db
 from sqlalchemy import desc
-from app.models import Article, Comment, User, Musician
+from app.models import Article, Comment, User, Musician, Category, Major
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm
 from flask import jsonify, render_template, session, request, redirect, url_for, flash, g
@@ -172,19 +172,19 @@ def logout():
 def musician_new():
     user_id = session['user_id']
     if request.method == "GET":
-        return render_template("musician/musician_new.html")
+        category = Category()
+        major = Major()
+        return render_template("musician/musician_new.html", category=category, major=major, active_tab="musician_new")
     elif request.method == "POST":
         User.query.get(user_id).is_musician = 1
-
         musician = Musician(
             category = request.form.get("category"),
             major = request.form.get("major"),
             phrase = request.form.get("phrase"),
-            user = user
             )
         db.session.add(musician)
         db.session.commit()
-        flash(u"넌 이제 뮤지션임")
+        flash(u"프로필이 잘 등록되었어요!")
         return redirect(url_for("article_list"))
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
