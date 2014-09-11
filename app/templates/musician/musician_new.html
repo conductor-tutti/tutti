@@ -61,11 +61,8 @@ a:hover, a:focus {
     text-align: center;
 }
 
-.hr {
-    background-color: #cdcdcd;
-    height: 1px;
-    margin-top: 0px !important;
-    margin-bottom: 0px !important;
+hr {
+    border-top: 1px dashed #e2e2e2;
 }
 
 
@@ -87,8 +84,8 @@ a:hover, a:focus {
         <h3>{{ g.username }}님의 프로필</h3>
 
         <div class="essential_field">
-            <hr>
             <h4>필수 입력사항</h4>
+            <hr>
         </div>
 
         <form role="form" method="POST">
@@ -96,6 +93,7 @@ a:hover, a:focus {
                 <div class="form-group col-xs-2 col-sm-2 col-md-2">
                     <label for="inputCategory">전공분야</label>
                     <select class="form-control" name="category" id="inputCategory">
+                        <option>선택하세요</option>
                         {% for e in category %}
                         <option value="{{ e.id }}">{{ e.name }}</option>
                         {% endfor %}
@@ -105,6 +103,7 @@ a:hover, a:focus {
                 <div class="form-group col-xs-2 col-sm-2 col-md-2">
                     <label for="inputMajor">세부전공</label>
                     <select class="form-control" name="major" id="inputMajor">
+                        <option>선택하세요</option>
                         {% for e in major %}
                         <option value="{{ e.id }}">{{ e.name }}</option>
                         {% endfor %}
@@ -120,8 +119,8 @@ a:hover, a:focus {
             </div>
 
             <div class="additional">
-                <hr>
                 <h4>추가 입력사항</h4>
+                <hr>
             </div>
 
             <button type="submit" class="btn btn btn-default pull-right">

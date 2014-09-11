@@ -1,28 +1,22 @@
 {% extends "layout.html" %}
+{% block customhead %}
+<style type="text/css">
+    .musician{
+        background-color: white;
+    }
+
+</style>
+{% endblock %}
 {% block contents %}
-<div class="LLArticleList">
-    <div id="total_article_num">총 </div>
-    {% if context.article_list %}
-    {% for article in context.article_list %}
-    <div class="well" id="article_{{ article.id }}">
-        <h1><a href="{{ url_for("article_detail", article_id=article.id) }}">{{ article.title }}</a></h1>
-        <h3>{{ article.author }}</h3>
-        <h6>{{ article.date_created.strftime("%Y-%m-%d %H:%M:%S")}}</h6>
-        <p>
-            {{ article.content|truncate(50)|safe }}
-        </p>
+<div class="row">
+    {% if context.musician_list %}
+    {% for musician in context.musician_list %}
+    <div class="musician col-xs-3 col-sm-3 col-md-3">
+        {{ musician.category_id }}
+        {{ musician.major_id }}
     </div>
     {% endfor %}
-    <div class="row">
-        <div class="col-sm-12" id="called_articles_list"></div>
-        <div class="col-sm-12" style="align:center">
-            <button class="btn btn-default" id="more_btn">멍청아 Load more</button>
-        </div>
-    </div>
-    {% else %}
-    <div class="no_list">
-        글이 아직 없다능!
-    </div>
     {% endif %}
+
 </div>
 {% endblock %}

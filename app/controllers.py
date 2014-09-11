@@ -15,7 +15,7 @@ def before_request():
 @app.route('/', methods=["GET"])
 def article_list():
     context = {}
-    context["article_list"] = Article.query.order_by(desc(Article.date_created)).limit(1)
+    context["musician_list"] = Musician.query.order_by(desc(Musician.id)).limit(4)
     return render_template("home.html", context=context, active_tab="article_list")
 
 @app.route("/total_article_num")
