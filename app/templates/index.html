@@ -9,11 +9,13 @@
 {% endblock %}
 {% block contents %}
 <div class="row">
-    {% if context.musician_list %}
-    {% for musician in context.musician_list %}
-    <div class="musician col-xs-3 col-sm-3 col-md-3">
-        {{ musician.category_id }}
-        {{ musician.major_id }}
+    {% if index.musician_list %}
+    {% for musician in index.musician_list %}
+    <div class="col-xs-3 col-sm-3 col-md-3">
+        {{ musician.user.username }}
+        {{ musician.category.name }}
+        {{ musician.major.name }}
+        반가운 우리 뉴비!
     </div>
     {% endfor %}
     {% endif %}

@@ -1,5 +1,5 @@
 from app import db
-
+from datetime import datetime
 
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,7 +27,8 @@ class User(db.Model):
     password = db.Column(db.String(255))
     username = db.Column(db.String(255))    
     is_musician = db.Column(db.Integer, default=0)
-
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
     # just forget deleting accounts until 'real' launching
     ## is_out = db.Column(db.Integer, default=0)
     
@@ -40,13 +41,14 @@ class Musician(db.Model):
     
     # each musician has its own category_id
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
-    category = db.relationship("Category", backref=db.backref("category", cascade="all, delete-orphan", lazy="dynamic"))
+    category = db.relationship("Category", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
     
     # and major_id too
     major_id = db.Column(db.Integer, db.ForeignKey("major.id"))
-    major = db.relationship("Major", backref=db.backref("major", cascade="all, delete-orphan", lazy="dynamic"))
+    major = db.relationship("Major", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
     phrase = db.Column(db.String(255))
-    date_created = db.Column(db.DateTime(), default=db.func.now())
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
     
     # Soyoung'll initialize Location table
     ## location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
@@ -58,6 +60,8 @@ class Category(db.Model):
     
     # musicians have same category_id will be updated in this column
     musicians = db.relationship("Musician")
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
 class Major(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -68,3 +72,5 @@ class Major(db.Model):
     
     # same as musicians in Category table
     musicians = db.relationship("Musician")
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())

@@ -14,9 +14,9 @@ def before_request():
         
 @app.route('/', methods=["GET"])
 def index():
-    context = {}
-    context["musician_list"] = Musician.query.order_by(desc(Musician.id)).limit(4)
-    return render_template("index.html", context=context, active_tab="index")
+    index = {}
+    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    return render_template("index.html", index=index, active_tab="index")
 
 @app.route("/total_article_num")
 def total_article_num():
@@ -31,7 +31,7 @@ def more_article():
     data = {}
     data["article"] = []
     temp = {}
-    for article in temp["title"]:
+    for article in temp["title"]: 
         temp["id"] = article.id
         temp["title"] = article.title
         temp["content"] = article.content
