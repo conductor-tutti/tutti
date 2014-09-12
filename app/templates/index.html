@@ -33,9 +33,9 @@
     {% for musician in index.musician_list %}
     <div class="col-xs-12 col-sm-6 col-md-3">
         <div class="newbie_box">
-        {{ musician.user.username }}
-        {{ musician.category.name }}
-        {{ musician.major.name }}
+        <div class="newbie_name">{{ musician.user.username }}</div>
+        <div class="newbie_category">{{ musician.category.name }}</div>
+        <div class="newbie_major">{{ musician.major.name }}</div>
         </div>
     </div>
     {% endfor %}
