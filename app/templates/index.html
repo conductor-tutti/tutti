@@ -5,17 +5,35 @@
         background-color: white;
     }
 
+    .fredoka{
+        font-family: "Fredoka One", cursive;
+    }
+
+    hr{
+        border-top: 1px dashed #e2e2e2;
+    }
+
+    .newbie_box{
+        height: 293px;
+        border-radius: 20px;
+        background-color: white;
+
+    }
+
 </style>
 {% endblock %}
 {% block contents %}
 <div class="row">
+    <h3 class="fredoka">NEWEST MUSICIANS</h3>
+    <hr>
     {% if index.musician_list %}
     {% for musician in index.musician_list %}
     <div class="col-xs-3 col-sm-3 col-md-3">
+        <div class="newbie_box">
         {{ musician.user.username }}
         {{ musician.category.name }}
         {{ musician.major.name }}
-        반가운 우리 뉴비!
+        </div>
     </div>
     {% endfor %}
     {% endif %}
