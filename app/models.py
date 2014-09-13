@@ -22,7 +22,7 @@ class Comment(db.Model):
 
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255))
     password = db.Column(db.String(255))
     username = db.Column(db.String(255))    
@@ -35,7 +35,7 @@ class User(db.Model):
 
 class Musician(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"))
     user = db.relationship("User",
         backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
     
@@ -47,6 +47,7 @@ class Musician(db.Model):
     major_id = db.Column(db.Integer, db.ForeignKey("major.id"))
     major = db.relationship("Major", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
     phrase = db.Column(db.String(255))
+    photo = db.Column(db.String(255))
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
     

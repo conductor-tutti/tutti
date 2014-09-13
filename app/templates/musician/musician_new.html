@@ -88,12 +88,18 @@ hr {
             <hr>
         </div>
 
-        <form role="form" method="POST">
+        <form role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
             <div class="row">
+                <div class="form-group col-xs-2 col-sm-2 col-md-2">
+                    <label for="inputFile">프로필 사진</label>
+                    <input type="file" name="profile_image" id="inputFile">
+                    <p class="help-message">멋진 프로필 사진을 등록해보세요~</p>
+                </div>
+
                 <div class="form-group col-xs-2 col-sm-2 col-md-2">
                     <label for="inputCategory">전공분야</label>
                     <select class="form-control" name="category" id="inputCategory">
-                        <option>선택하세요</option>
+                        <option value="none">선택하세요</option>
                         {% for e in category %}
                         <option value="{{ e.id }}">{{ e.name }}</option>
                         {% endfor %}
@@ -103,9 +109,11 @@ hr {
                 <div class="form-group col-xs-2 col-sm-2 col-md-2">
                     <label for="inputMajor">세부전공</label>
                     <select class="form-control" name="major" id="inputMajor">
-                        <option>선택하세요</option>
-                        {% for e in major %}
-                        <option value="{{ e.id }}">{{ e.name }}</option>
+                        <option value="none">선택하세요</option>
+                        {% for m in major %}
+                            {% if m.category_id == 1 %}
+                            <option class="classic-major" value="{{ m.id }}">{{ m.name }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
                 </div>

@@ -5,9 +5,19 @@ from app.models import Article, Comment, User, Musician, Category, Major
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm
 from flask import jsonify, render_template, session, request, redirect, url_for, flash, g
+from google.appengine.api import images
+from werkzeug.http import parse_options_header
+from google.appengine.ext import blobstore
 
 @app.before_request
 def before_request():
+    category = ["클래식", "국악"]
+    if db.session.query(Category).count() == 0:
+        for c in category:
+            category_record = Category(name=c)
+            db.session.add(category_record)
+        db.session.commit()
+    
     g.username = None
     if 'user_name' in session:
         g.username = session["user_name"]
@@ -167,21 +177,26 @@ def logout():
     flash(u"%s 님, 다음에 또 만나요!" % g.username)
     return redirect(url_for("index"))
 
-
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
     user_id = session['user_id']
+    upload_uri = blobstore.create_upload_url("musician/musician_new/")
     if request.method == "GET":
         category = Category.query.all()
         major = Major.query.all()
-        return render_template("musician/musician_new.html", category=category, major=major, active_tab="musician_new")
+        return render_template("musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, active_tab="musician_new")
     elif request.method == "POST":
+        photo = request.files["profile_image"]
+        header = photo.headers["Content-Type"]
+        parsed_header = parse_options_header(header)
+        blob_key = parsed_header[1]["blob-key"]
         User.query.get(user_id).is_musician = 1
         musician = Musician(
             user_id = user_id,
             category_id = request.form.get("category"),
             major_id = request.form.get("major"),
             phrase = request.form.get("phrase")
+            photo = blob_key
             )
         db.session.add(musician)
         db.session.commit()
