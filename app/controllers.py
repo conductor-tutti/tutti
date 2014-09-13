@@ -195,7 +195,7 @@ def musician_new():
             user_id = user_id,
             category_id = request.form.get("category"),
             major_id = request.form.get("major"),
-            phrase = request.form.get("phrase")
+            phrase = request.form.get("phrase"),
             photo = blob_key
             )
         db.session.add(musician)
@@ -209,3 +209,34 @@ def musician_profile(musician_id):
     user = User.query.get(musician.user_id)
     username = user.username
     return render_template("musician/profile.html", username=username, musician=musician)
+
+@app.route("/photo/get/<path:blob_key>/", methods=["GET"])
+def get_photo(blob_key):
+    if blob_key:
+        blob_info = blobstore.get(blob_key)
+        logging.warn(blob_info)
+        if blob_info:
+            img = images.Image(blob_key=blob_key)
+            img.im_feeling_lucky()
+            thumbnail = img.execute_transforms(output_encoding=images.PNG)
+            logging.info(thumbnail)
+
+            response = make_response(thumbnail)
+            response.headers["Content-Type"] = blob_info.content_type
+            return response
+
+@app.route('/photo/resized/<path:blob_key>/', methods=['GET'])
+def get_resized_photo(blob_key):
+    if blob_key:
+        blob_info = blobstore.get(blob_key)
+        logging.warn(blob_info)
+        if blob_info:
+            img = images.Image(blob_key=blob_key)
+            img.resize(width=250, height=250)
+            img.im_feeling_lucky()
+            thumbnail = img.execute_transforms(output_encoding=images.PNG)
+            logging.info(thumbnail)
+
+            response = make_response(thumbnail)
+            response.headers['Content-Type'] = blob_info.content_type
+            return response
