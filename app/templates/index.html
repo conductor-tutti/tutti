@@ -1,27 +1,48 @@
 {% extends "layout.html" %}
 {% block customhead %}
 <style type="text/css">
-    .musician{
-        background-color: white;
-    }
+.musician{
+    background-color: white;
+}
 
-    .fredoka{
-        font-family: "Fredoka One", cursive;
-        color: #BB8F76;
-        text-shadow: 2px 2px white;
-    }
+.fredoka{
+    font-family: "Fredoka One", cursive;
+    color: #BB8F76;
+    text-shadow: 2px 2px white;
+}
 
-    hr{
-        margin-top: 0;
-        border-top: 1px dashed #CCCCCC;
-    }
+hr{
+    margin-top: 0;
+    border-top: 1px dashed #CCCCCC;
+}
 
-    .newbie_box{
-        height: 293px;
-        border-radius: 20px;
-        background-color: white;
+.newest_musicians{
+    padding-bottom: 20px;
+}
 
-    }
+.newbie_box{
+    height: 263px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: white;
+
+}
+
+.newbie_name{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.newbie_category{
+    float: left;
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+
+.newbie_major{
+    float: left;
+    font-size: 0.9em;
+}
 
 </style>
 {% endblock %}
@@ -31,11 +52,12 @@
     <hr>
     {% if index.musician_list %}
     {% for musician in index.musician_list %}
-    <div class="col-xs-12 col-sm-6 col-md-3">
+    <div class="col-xs-12 col-sm-6 col-md-3 newest_musicians">
         <div class="newbie_box">
-        <div class="newbie_name">{{ musician.user.username }}</div>
-        <div class="newbie_category">{{ musician.category.name }}</div>
-        <div class="newbie_major">{{ musician.major.name }}</div>
+            <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}">
+            <div class="newbie_name">{{ musician.user.username }}</div>
+            <div class="newbie_category">{{ musician.category.name }} | </div>
+            <div class="newbie_major">{{ musician.major.name }}</div>
         </div>
     </div>
     {% endfor %}
