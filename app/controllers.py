@@ -4,17 +4,18 @@ from sqlalchemy import desc
 from app.models import Article, Comment, User, Musician, Category, Major
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm
-from flask import jsonify, render_template, session, request, redirect, url_for, flash, g
+from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
 from google.appengine.api import images
 from werkzeug.http import parse_options_header
 from google.appengine.ext import blobstore
+import logging
 
 @app.before_request
 def before_request():
-    category = ["클래식", "국악"]
+    category_list = ["클래식", "국악"]
     if db.session.query(Category).count() == 0:
-        for c in category:
-            category_record = Category(name=c)
+        for category in category_list:
+            category_record = Category(name=category)
             db.session.add(category_record)
         db.session.commit()
     
@@ -180,11 +181,11 @@ def logout():
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
     user_id = session['user_id']
-    upload_uri = blobstore.create_upload_url("musician/musician_new/")
+    upload_uri = blobstore.create_upload_url("/musician/musician_new/")
     if request.method == "GET":
         category = Category.query.all()
         major = Major.query.all()
-        return render_template("musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, active_tab="musician_new")
+        return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, active_tab="musician_new")
     elif request.method == "POST":
         photo = request.files["profile_image"]
         header = photo.headers["Content-Type"]
