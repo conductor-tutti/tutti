@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko-kr">
 <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>tutti</title>
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
@@ -19,13 +19,6 @@
 </head>
 <body>
     {% block layout %}{% endblock %}
-    
-    <!-- <div class="navbar navbar-default navbar-fixed-bottom">
-        <div class="container">
-            <p class="col-md-4 navbar-text">뮤지션을 위해 열씨미 개발중!<br>
-                김슬기, 성준석, 이소영 똘똘뭉쳐 열심히 개발합니다~</p>
-        </div>
-    </div> -->
 
     {% block scripts %}
     <script src="{{ url_for('static', filename='js/jquery-1.11.1.min.js') }}"></script>
