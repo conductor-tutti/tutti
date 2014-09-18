@@ -8,7 +8,15 @@ from flask import jsonify, make_response, render_template, session, request, red
 from google.appengine.api import images
 from werkzeug.http import parse_options_header
 from google.appengine.ext import blobstore
+import re
+import json
 import logging
+import sys
+reload(sys)
+sys.setdefaultencoding('UTF8')
+
+app.secret_key = 'sdfadsjvckjnbvehjjfhnvjchm'
+# 이 부분은 페이스북 디벨롭에서 따로 설정을 해줘야 합니당
 
 @app.before_request
 def before_request():
@@ -135,15 +143,21 @@ def sign_up():
             flash(u"이미 가입한 이메일입니다.", "danger")
             return render_template("sign_up.html", active_tab="sign_up")
         else:
-            user = User(
-                email = request.form.get("user-email"),
-                password = generate_password_hash(request.form.get("user-pw")),
-                username = request.form.get("user-name"),
-            )
-            db.session.add(user)
-            db.session.commit()
-            flash(u"가입이 완료되었습니다. 반가워요!", "success")
-            return redirect(url_for('index'))
+            if len(request.form.get('user-pw'))<8 or re.match("^[a-zA-Z0-9 ]+$", request.form.get('user-pw')):
+                flash(u"비밀번호를 8자 이상, 특수문자를 포함해주세요!", "danger")
+                return render_template("sign_up.html", active_tab="sign_up") 
+                # print "..boo"
+            else:
+                # print "OK!"
+                user = User(
+                    email = request.form.get("user-email"),
+                    password = generate_password_hash(request.form.get("user-pw")),
+                    username = request.form.get("user-name")
+                )
+                db.session.add(user)
+                db.session.commit()
+                flash(u"가입이 완료되었습니다. 반가워요!", "success")
+                return redirect(url_for('index'))
         return render_template('sign_up.html', active_tab='sign_up')
 
 
@@ -241,3 +255,112 @@ def get_resized_photo(blob_key):
             response = make_response(thumbnail)
             response.headers['Content-Type'] = blob_info.content_type
             return response
+            
+@app.route('/facebook_login')
+def facebook_login():
+    return facebook.authorize(callback = url_for('facebook_authorized',
+        next = request.args.get('next') or request.referrer or None,
+        _external = True))
+
+@app.route('/login/authorized')
+@facebook.authorized_handler
+def facebook_authorized(resp):
+    if resp is None:
+        return redirect(url_for('index'))
+    session['oauth_token'] = (resp['access_token'], '')
+    me = facebook.get('/me')
+    userdata = User.query.filter(User.facebook_id == me.data['id']).first()
+    
+    if userdata:
+        session["user_email"] = userdata.email
+        session["user_name"] = userdata.username
+        session["user_id"] = userdata.id
+        flash(u"반갑습니다, %s 님!" % session["user_name"])
+    else:
+        user = User(
+                email = me.data['email'],
+                username = me.data['name'],
+                facebook_id = me.data['id'],
+                access_token = session['oauth_token'][0]
+            )
+        db.session.add(user)
+        db.session.commit()
+        userdata = User.query.filter(User.facebook_id == me.data['id']).first()
+        session["user_email"] = userdata.email
+        session["user_name"] = userdata.username
+        session["user_id"] = userdata.id
+        flash(u"반갑습니다, %s 님!" % session["user_name"])
+
+    return redirect(url_for('index'))
+
+@facebook.tokengetter
+def get_facebook_oauth_token():
+    return session.get('oauth_token')
+
+# This is login using google account
+@app.route('/google_login')
+def google_login():
+    access_token = session.get('access_token')
+    if access_token is None:
+        return redirect(url_for('login_go'))
+ 
+    access_token = access_token[0]
+    from urllib2 import Request, urlopen, URLError
+ 
+    headers = {'Authorization': 'OAuth ' + access_token}
+    req = Request('https://www.googleapis.com/oauth2/v1/userinfo',
+                  None, headers)
+    try:
+        res = urlopen(req)
+    except URLError, e:
+        if e.code == 401:
+            # Unauthorized - bad token
+            session.pop('access_token', None)
+            return redirect(url_for('login_go'))
+        return res.read()
+    google_userinfo = json.loads(res.read())
+    userdata = User.query.filter(User.google_id == google_userinfo['id']).first()
+    
+    if userdata:
+        session["user_email"] = userdata.email
+        session["user_name"] = userdata.username
+        session["user_id"] = userdata.id
+        flash(u"반갑습니다, %s 님!" % session["user_name"])
+    else:
+        user = User(
+                email = google_userinfo['email'],
+                username = google_userinfo[u'name'],
+                google_id = google_userinfo['id'],
+                access_token = session['access_token'][0]
+            )
+        db.session.add(user)
+        db.session.commit()
+
+        userdata = User.query.filter(User.google_id == google_userinfo['id']).first()
+        session["user_email"] = userdata.email
+        session["user_name"] = userdata.username
+        session["user_id"] = userdata.id
+        flash(u"반갑습니다, %s 님!" % session["user_name"])
+
+    return redirect(url_for('index'))
+    # return str(session['access_token'][0])
+    
+ 
+ 
+@app.route('/login_go')
+def login_go():
+    callback = url_for('authorized', _external=True)
+    return google.authorize(callback=callback)
+ 
+ 
+@app.route('/login_go/authorized')
+@google.authorized_handler
+def authorized(resp):
+    access_token = resp['access_token']
+    session['access_token'] = access_token, ''
+    return redirect(url_for('google_login'))
+ 
+ 
+@google.tokengetter
+def get_access_token():
+    return session.get('access_token')
