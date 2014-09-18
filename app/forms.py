@@ -8,7 +8,7 @@ from wtforms.fields import (
 )
 from wtforms import validators
 from wtforms.fields.html5 import EmailField
-
+from app.models import Category, Major
 
 class UserForm(Form):
     email = EmailField(
@@ -45,6 +45,8 @@ class LoginForm(Form):
         )
 
 class MusicianProfileForm(Form):
+    category = SelectField(u"전공 분야",
+        choices=Category.query.all())
     phrase = StringField(
         u"당신을 표현하는 인상적인 100자 메시지",
         [validators.data_required(u"100자 메시지를 입력하세요."),
