@@ -8,6 +8,7 @@ from flask import jsonify, make_response, render_template, session, request, red
 from google.appengine.api import images
 from werkzeug.http import parse_options_header
 from google.appengine.ext import blobstore
+from datetime import timedelta
 
 import re
 import json
@@ -18,13 +19,7 @@ sys.setdefaultencoding('UTF8')
 # give app.secret_key the same value with SECRET_KEY in Config in settings.py
 app.secret_key = "xrdtfvbyuhnjimuygtfrdessdfnhhmjjygh65hrytrytr"
 
-# from datetime import timedelta
-# from flask import session, app
-
-# session.permanent = True
-# app.permanent_session_lifetime = timedelta(hours=72)
-
-@app.before_request 
+@app.before_request
 def before_request():
     category_list = ["클래식", "국악"]
     if db.session.query(Category).count() == 0:
