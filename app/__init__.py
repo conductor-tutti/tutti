@@ -2,16 +2,14 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager
-from flask_oauth import  OAuth
+from flask_oauth import OAuth
 from app import settings
 
-# 이 부분도 각자의 구글 클라이언트 setting을 해줘야 합니다.
-# 참고 문서: https://developers.google.com/accounts/docs/OAuth2Login
 GOOGLE_CLIENT_ID = '446320683721-5682au4ts51jm1al7rhf3fmlp8l5btid.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = 'hWYMEa07SuVQ5WeLkAjCVwAU'
 
 SECRET_KEY = 'YOUWILLNEVERKNOWTHISKEY'
-DEBUG = False
+DEBUG = True
 
 app = Flask(__name__)
 app.config.from_object("app.settings.Production")

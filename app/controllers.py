@@ -1,5 +1,5 @@
 #-*-coding:utf-8-*-
-from app import app, db
+from app import app, db, facebook, google
 from sqlalchemy import desc
 from app.models import User, Musician, Category, Major
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -18,11 +18,11 @@ sys.setdefaultencoding('UTF8')
 # give app.secret_key the same value with SECRET_KEY in Config in settings.py
 app.secret_key = "xrdtfvbyuhnjimuygtfrdessdfnhhmjjygh65hrytrytr"
 
-from datetime import timedelta
-from flask import session, app
+# from datetime import timedelta
+# from flask import session, app
 
-session.permanent = True
-app.permanent_session_lifetime = timedelta(hours=72)
+# session.permanent = True
+# app.permanent_session_lifetime = timedelta(hours=72)
 
 @app.before_request 
 def before_request():
