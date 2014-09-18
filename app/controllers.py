@@ -8,17 +8,23 @@ from flask import jsonify, make_response, render_template, session, request, red
 from google.appengine.api import images
 from werkzeug.http import parse_options_header
 from google.appengine.ext import blobstore
+
 import re
 import json
 import logging
 import sys
 reload(sys)
 sys.setdefaultencoding('UTF8')
+# give app.secret_key the same value with SECRET_KEY in Config in settings.py
+app.secret_key = "xrdtfvbyuhnjimuygtfrdessdfnhhmjjygh65hrytrytr"
 
-app.secret_key = 'sdfadsjvckjnbvehjjfhnvjchm'
-# 이 부분은 페이스북 디벨롭에서 따로 설정을 해줘야 합니당
+from datetime import timedelta
+from flask import session, app
 
-@app.before_request
+session.permanent = True
+app.permanent_session_lifetime = timedelta(hours=72)
+
+@app.before_request 
 def before_request():
     category_list = ["클래식", "국악"]
     if db.session.query(Category).count() == 0:
