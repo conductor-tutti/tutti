@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+
+{% block customhead %}
+<style type="text/css">
+
+/* default colors */
+/* creamy brown: #BB8F76 */
+/* deep creamy brown: #AF866F */
+
+.main {
+    background-color: white;
+    max-width: 420px;
+    padding: 20px;
+    border-radius: 20px;
+    margin: 0 auto;
+}
+
+h3, .h3{
+    text-align: center;
+}
+
+.please-login{
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #BB8F76;
+}
+
+a {
+    color: #BB8F76;
+}
+
+a:hover, a:focus {
+    color: #AF866F;
+    text-decoration: none;
+}
+
+.help{
+    color: #BB8F76;
+    font-size: 0.9em;
+}
+
+.easy-signup {
+    position: relative;
+    font-size: 18px;
+    color: #aaa;
+    margin-top: 60px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.span-easy {
+    display: block;
+    position: absolute;
+    left: 45%;
+    top: -2px;
+    margin-left: -25px;
+    background-color: #fff;
+    width: 100px;
+    font-size: 0.7em;
+    text-align: center;
+}
+
+.hr-easy {
+    background-color: #cdcdcd;
+    height: 1px;
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+
+.alert{
+    max-width: 420px;
+    margin: 0 auto 20px auto;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+</style>
+{% endblock %}
+
+{% block contents %}
+
+<div class="row">
+    <div class="main">
+        <form role="form" method="POST">
+            <div class="form-group">
+                <label for="inputEmail">친구 이름을 찾아보아요!!</label>
+                <input type="text" class="form-control" name="search-name" id="searchName">
+            </div>
+            <button type="submit" class="btn btn btn-default">
+                검
+            </button>
+        </form>    
+    </div>
+</div>
+
+{% endblock %}

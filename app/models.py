@@ -52,6 +52,12 @@ class Musician(db.Model):
     photo = db.Column(db.String(255))
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+<<<<<<< Updated upstream
+=======
+    
+    location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
+    location = db.relationship("Location", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
+>>>>>>> Stashed changes
 
 
 class Category(db.Model):
@@ -70,7 +76,11 @@ class Major(db.Model):
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
+<<<<<<< Updated upstream
 class Locations(db.Model):
+=======
+class Location(db.Model):
+>>>>>>> Stashed changes
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
     upper_id = db.Column(db.Integer)

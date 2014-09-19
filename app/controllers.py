@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
-from app import app, db
+from app import app, db, facebook, google
 from sqlalchemy import desc
-from app.models import Article, Comment, User, Musician, Category, Major
+from app.models import Article, Comment, User, Musician, Category, Major, Location
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
@@ -185,7 +185,8 @@ def musician_new():
     if request.method == "GET":
         category = Category.query.all()
         major = Major.query.all()
-        return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, active_tab="musician_new")
+        location = Location.query.all()
+        return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, location=location, active_tab="musician_new")
     elif request.method == "POST":
         photo = request.files["profile_image"]
         header = photo.headers["Content-Type"]
@@ -196,6 +197,7 @@ def musician_new():
             user_id = user_id,
             category_id = request.form.get("category"),
             major_id = request.form.get("major"),
+            location_id = request.form.get("location"),
             phrase = request.form.get("phrase"),
             photo = blob_key
             )
@@ -241,3 +243,127 @@ def get_resized_photo(blob_key):
             response = make_response(thumbnail)
             response.headers['Content-Type'] = blob_info.content_type
             return response
+<<<<<<< Updated upstream
+=======
+
+@app.route('/facebook_login')
+def facebook_login():
+    return facebook.authorize(callback = url_for('facebook_authorized',
+        next = request.args.get('next') or request.referrer or None,
+        _external = True))
+
+@app.route('/login/authorized')
+@facebook.authorized_handler
+def facebook_authorized(resp):
+    if resp is None:
+        return redirect(url_for('index'))
+    session['oauth_token'] = (resp['access_token'], '')
+    me = facebook.get('/me')
+    userdata = User.query.filter(User.facebook_id == me.data['id']).first()
+    
+    if userdata:
+        session["user_email"] = userdata.email
+        session["user_name"] = userdata.username
+        session["user_id"] = userdata.id
+        flash(u"반갑습니다, %s 님!" % session["user_name"])
+    else:
+        user = User(
+                email = me.data['email'],
+                username = me.data['name'],
+                facebook_id = me.data['id'],
+                access_token = session['oauth_token'][0]
+            )
+        db.session.add(user)
+        db.session.commit()
+        userdata = User.query.filter(User.facebook_id == me.data['id']).first()
+        session["user_email"] = userdata.email
+        session["user_name"] = userdata.username
+        session["user_id"] = userdata.id
+        flash(u"반갑습니다, %s 님!" % session["user_name"])
+
+    return redirect(url_for('index'))
+
+@facebook.tokengetter
+def get_facebook_oauth_token():
+    return session.get('oauth_token')
+
+# This is login using google account
+@app.route('/google_login')
+def google_login():
+    access_token = session.get('access_token')
+    if access_token is None:
+        return redirect(url_for('login_go'))
+ 
+    access_token = access_token[0]
+    from urllib2 import Request, urlopen, URLError
+ 
+    headers = {'Authorization': 'OAuth ' + access_token}
+    req = Request('https://www.googleapis.com/oauth2/v1/userinfo',
+                  None, headers)
+    try:
+        res = urlopen(req)
+    except URLError, e:
+        if e.code == 401:
+            # Unauthorized - bad token
+            session.pop('access_token', None)
+            return redirect(url_for('login_go'))
+        return res.read()
+    google_userinfo = json.loads(res.read())
+    userdata = User.query.filter(User.google_id == google_userinfo['id']).first()
+    
+    if userdata:
+        session["user_email"] = userdata.email
+        session["user_name"] = userdata.username
+        session["user_id"] = userdata.id
+        flash(u"반갑습니다, %s 님!" % session["user_name"])
+    else:
+        user = User(
+                email = google_userinfo['email'],
+                username = google_userinfo[u'name'],
+                google_id = google_userinfo['id'],
+                access_token = session['access_token'][0]
+            )
+        db.session.add(user)
+        db.session.commit()
+
+        userdata = User.query.filter(User.google_id == google_userinfo['id']).first()
+        session["user_email"] = userdata.email
+        session["user_name"] = userdata.username
+        session["user_id"] = userdata.id
+        flash(u"반갑습니다, %s 님!" % session["user_name"])
+
+    return redirect(url_for('index'))
+    # return str(session['access_token'][0])
+    
+ 
+ 
+@app.route('/login_go')
+def login_go():
+    callback = url_for('authorized', _external=True)
+    return google.authorize(callback=callback)
+ 
+ 
+@app.route('/login_go/authorized')
+@google.authorized_handler
+def authorized(resp):
+    access_token = resp['access_token']
+    session['access_token'] = access_token, ''
+    return redirect(url_for('google_login'))
+ 
+ 
+@google.tokengetter
+def get_access_token():
+    return session.get('access_token')
+
+@app.route('/search_name', methods = ['GET','POST'])
+def search_name():
+    index = {}
+    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    if request.method == "GET":
+        return render_template("search.html", active_tab="search_name")
+    else:
+        # index['userdata'] = User.query.filter(User.username == request.form.get("search-name")).limit(4)
+        index['userdata'] = User.query.filter(User.username.contains(request.form.get("search-name"))).limit(4)
+        return render_template("show_friends.html", index=index, active_tab="index")
+
+>>>>>>> Stashed changes

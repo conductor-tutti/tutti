@@ -1,11 +1,52 @@
+#-*-coding:utf-8-*-
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager
+<<<<<<< Updated upstream
 
 
 app = Flask(__name__)
 app.config.from_object("app.settings.Production")
+=======
+from flask_oauth import  OAuth
+import settings
+
+# 이 부분도 각자의 구글 클라이언테 setting을 해줘야 합니다.
+GOOGLE_CLIENT_ID = '695566589596-eov5uiidks7dqrm8oag7r50q5imr9rqs.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = '3yKervjM4HCwZPWS8Mu50L1v'
+
+SECRET_KEY = 'development key'
+DEBUG = True
+
+app = Flask(__name__)
+app.config.from_object("app.settings.Production")
+app.debug = DEBUG
+app.secret_key = SECRET_KEY
+ 
+oauth = OAuth()
+ 
+google = oauth.remote_app('google',
+    base_url='https://www.google.com/accounts/',
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+    request_token_url=None,
+    request_token_params={'scope': 'https://www.googleapis.com/auth/userinfo.email', 'response_type': 'code'},
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    access_token_method='POST',
+    access_token_params={'grant_type': 'authorization_code'},
+    consumer_key=GOOGLE_CLIENT_ID,
+    consumer_secret=GOOGLE_CLIENT_SECRET)
+
+facebook = oauth.remote_app('facebook',
+    base_url='https://graph.facebook.com/',
+    request_token_url=None,
+    access_token_url='/oauth/access_token',
+    authorize_url='https://www.facebook.com/dialog/oauth',
+    consumer_key=settings.Production.FACEBOOK_APP_ID,
+    consumer_secret=settings.Production.FACEBOOK_APP_SECRET,
+    request_token_params={'scope': 'email'}
+    )
+>>>>>>> Stashed changes
 
 db = SQLAlchemy(app)
 manager = Manager(app)
