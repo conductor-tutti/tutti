@@ -3,8 +3,8 @@
 lib/
 migrations/
 
-#app/settings.py
-#__init__.py
+app/settings.py
+__init__.py
 
 .playground
 app.yaml
