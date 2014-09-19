@@ -16,9 +16,9 @@ app = Flask(__name__)
 app.config.from_object("app.settings.Production")
 app.debug = DEBUG
 app.secret_key = SECRET_KEY
-
+ 
 oauth = OAuth()
-
+ 
 google = oauth.remote_app('google',
     base_url='https://www.google.com/accounts/',
     authorize_url='https://accounts.google.com/o/oauth2/auth',

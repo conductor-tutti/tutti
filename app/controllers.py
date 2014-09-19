@@ -1,5 +1,5 @@
 #-*-coding:utf-8-*-
-from app import app, db
+from app import app, db, facebook, google
 from sqlalchemy import desc
 from app.models import Article, Comment, User, Musician, Category, Major
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -255,7 +255,7 @@ def get_resized_photo(blob_key):
             response = make_response(thumbnail)
             response.headers['Content-Type'] = blob_info.content_type
             return response
-            
+
 @app.route('/facebook_login')
 def facebook_login():
     return facebook.authorize(callback = url_for('facebook_authorized',
@@ -364,3 +364,14 @@ def authorized(resp):
 @google.tokengetter
 def get_access_token():
     return session.get('access_token')
+
+@app.route('/search_name', methods = ['GET','POST'])
+def search_name():
+    index = {}
+    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    if request.method == "GET":
+        return render_template("search.html", active_tab="search_name")
+    else:
+        index['userdata'] = User.query.filter(User.username == request.form.get("search-name")).limit(4)
+        return render_template("show_friends.html", index=index, active_tab="index")
+
