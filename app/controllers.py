@@ -372,6 +372,7 @@ def search_name():
     if request.method == "GET":
         return render_template("search.html", active_tab="search_name")
     else:
-        index['userdata'] = User.query.filter(User.username == request.form.get("search-name")).limit(4)
+        # index['userdata'] = User.query.filter(User.username == request.form.get("search-name")).limit(4)
+        index['userdata'] = User.query.filter(User.username.contains(request.form.get("search-name"))).limit(4)
         return render_template("show_friends.html", index=index, active_tab="index")
 
