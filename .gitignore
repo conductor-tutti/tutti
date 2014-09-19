@@ -4,6 +4,7 @@ lib/
 migrations/
 
 app/settings.py
+app/__init__.py
 .playground
 app.yaml
 appengine_config.py
