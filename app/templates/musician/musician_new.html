@@ -118,6 +118,19 @@ hr {
                         {% endfor %}
                     </select>
                 </div>
+
+                <div class="form-group col-xs-2 col-sm-2 col-md-2">
+                    <label for="inputLocation">지역</label>
+                    <select class="form-control" name="location" id="inputLocation">
+                        <option value="none">선택하세요</option>
+                        {% for m in location %}
+                            {% if m.upper_id == 0 %}
+                            <option class="state" value="{{ m.id }}">{{ m.name }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
             </div>
 
             <div class="row">
