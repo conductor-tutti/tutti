@@ -78,3 +78,13 @@ class Major(db.Model):
     musicians = db.relationship("Musician")
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+class UserRelationship(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    user = db.relationship("User",
+        backref=db.backref("userrelationship", cascade="all, delete-orphan", lazy="dynamic"))
+    relateduserid = db.Column(db.Integer)
+    type = db.Column(db.Integer, default=0)
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
