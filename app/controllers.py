@@ -21,7 +21,7 @@ app.secret_key = "xrdtfvbyuhnjimuygtfrdessdfnhhmjjygh65hrytrytr"
 
 @app.before_request
 def before_request():
-    category_list = ["클래식", "국악"]
+    category_list = ["클래식", "국악", "재즈", "실용음악", "기타"]
     if db.session.query(Category).count() == 0:
         for category in category_list:
             category_record = Category(name=category)
