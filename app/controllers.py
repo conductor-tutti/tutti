@@ -246,6 +246,7 @@ def get_resized_photo(blob_key):
 <<<<<<< Updated upstream
 =======
 
+
 @app.route('/facebook_login')
 def facebook_login():
     return facebook.authorize(callback = url_for('facebook_authorized',
@@ -366,4 +367,3 @@ def search_name():
         index['userdata'] = User.query.filter(User.username.contains(request.form.get("search-name"))).limit(4)
         return render_template("show_friends.html", index=index, active_tab="index")
 
->>>>>>> Stashed changes

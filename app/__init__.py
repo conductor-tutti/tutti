@@ -3,12 +3,11 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager
-<<<<<<< Updated upstream
 
 
 app = Flask(__name__)
 app.config.from_object("app.settings.Production")
-=======
+
 from flask_oauth import  OAuth
 import settings
 
@@ -46,7 +45,7 @@ facebook = oauth.remote_app('facebook',
     consumer_secret=settings.Production.FACEBOOK_APP_SECRET,
     request_token_params={'scope': 'email'}
     )
->>>>>>> Stashed changes
+
 
 db = SQLAlchemy(app)
 manager = Manager(app)

@@ -45,24 +45,24 @@ class Musician(db.Model):
     major_id = db.Column(db.Integer, db.ForeignKey("major.id"))
     major = db.relationship("Major", backref=db.backref("majors_musician", cascade="all, delete-orphan", lazy="dynamic"))
 
-    locations_id = db.Column(db.Integer, db.ForeignKey("major.id"))
-    locations = db.relationship("Locations", backref=db.backref("locations_musician", cascade="all, delete-orphan", lazy="dynamic"))
+    location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
+    location = db.relationship("Locations", backref=db.backref("location_musician", cascade="all, delete-orphan", lazy="dynamic"))
 
     phrase = db.Column(db.String(255))
     photo = db.Column(db.String(255))
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
-<<<<<<< Updated upstream
-=======
+
     
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     location = db.relationship("Location", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
->>>>>>> Stashed changes
+
 
 
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
+    
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
@@ -72,16 +72,15 @@ class Major(db.Model):
     name = db.Column(db.String(40))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
     category = db.relationship("Category", backref=db.backref("categorys_major", cascade="all, delete-orphan", lazy="dynamic"))
+    
 
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
-<<<<<<< Updated upstream
-class Locations(db.Model):
-=======
+
 class Location(db.Model):
->>>>>>> Stashed changes
+
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
     upper_id = db.Column(db.Integer)
-    
+   
