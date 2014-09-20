@@ -74,6 +74,15 @@ hr {
     border-radius: 4px;
 }
 
+.fileinput .thumbnail{
+    max-width: 250px;
+    max-height: 250px;
+}
+
+.img-notice{
+    font-size: 0.9em;
+}
+
 </style>
 {% endblock %}
 
@@ -87,77 +96,29 @@ hr {
             <h4>필수 입력사항</h4>
             <hr>
         </div>
-
         
         <form role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
             <div class="row">
-                <div class="form-group col-xs-2 col-sm-2 col-md-2">
-                    <label for="inputFile">프로필 사진</label>
-                    <input type="file" name="profile_image" id="inputFile">
-                    <p class="help-message">멋진 프로필 사진을 등록해보세요~</p>
-                </div>
-
-                <div class="form-group col-xs-2 col-sm-2 col-md-2">
+                <div class="form-group col-sm-1">
                     <label for="inputCategory">전공분야</label>
-                    <select class="form-control" name="category" id="inputCategory">
-                        <option value="none">선택하세요</option>
-                        {% for e in category %}
-                        <option value="{{ e.id }}">{{ e.name }}</option>
-                        {% endfor %}
+                    <select class="form-control">
+                        
                     </select>
                 </div>
-
-                <div class="form-group col-xs-2 col-sm-2 col-md-2">
+                <div class="form-group col-sm-1">
                     <label for="inputMajor">세부전공</label>
-                    <select class="form-control" name="major" id="inputMajor">
-                        <option value="none">선택하세요</option>
-                        {% for m in major %}
-                        {% if m.category_id == 1 %}
-                        <option class="classic-major" value="{{ m.id }}">{{ m.name }}</option>
-                        {% endif %}
-                        {% endfor %}
+                    <select class="form-control">
+                        <!-- Dyanamic inputMajor option elements here -->    
                     </select>
-                </div>
+                </div>                
 
-                <div class="form-group col-xs-2 col-sm-2 col-md-2">
-                    <label for="inputLocation">지역</label>
-                    <select class="form-control" name="location" id="inputLocation">
-                        <option value="none">선택하세요</option>
-                        {% for m in location %}
-                            {% if m.upper_id == 0 %}
-                            <option class="state" value="{{ m.id }}">{{ m.name }}</option>
-                            {% endif %}
-                        {% endfor %}
-                    </select>
-                </div>
+        <button type="submit" class="btn btn-default pull-right">
+            프로필 등록
+        </button>
 
-            </div>
+    </form>
 
-            <div class="row">
-                <div class="form-group col-xs-12 col-sm-12 col-md-12">
-                    <label for="inputPhrase">100자 메시지</label>
-                    {{ form.phrase(class="form-control", id="inputPhrase", placeholder="ex) 초견 짱 좋은 피아니스트에요.") }}
-                </div>
-            </div>
-
-            <div class="additional">
-                <h4>추가 입력사항</h4>
-                <hr>
-            </div>
-
-            <div id="awards_list">
-                <div class="subtitle">수상경력</div>
-                <button type="button" id="add_awards" class="btn btn-default"><i class="fa fa-plus-circle"></i></button>
-            </div>
-
-
-            <button type="submit" class="btn btn-default pull-right">
-                프로필 등록
-            </button>
-
-        </form>
-
-    </div>
+</div>
 </div>
 
 <script type="text/javascript">
