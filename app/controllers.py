@@ -243,8 +243,7 @@ def get_resized_photo(blob_key):
             response = make_response(thumbnail)
             response.headers['Content-Type'] = blob_info.content_type
             return response
-<<<<<<< Updated upstream
-=======
+
 
 
 @app.route('/facebook_login')
