@@ -13,16 +13,28 @@
     border-radius: 20px;
 }
 
-h3, .h3{
+#essential_box{
+    background-color: rgb(247, 247, 247);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px dashed rgb(221, 221, 221);
+}
+
+#top-title{
     text-align: center;
 }
 
-.please-login{
-    display: block;
-    margin-bottom: 10px;
-    text-align: center;
-    font-size: 0.9em;
-    color: #BB8F76;
+#additory_box{
+    background-color: rgb(229, 229, 229);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px dashed rgb(204, 204, 204);
+    margin-top: 30px;
+
+}
+
+.submit-button{
+    padding: 15px;
 }
 
 a {
@@ -34,34 +46,9 @@ a:hover, a:focus {
     text-decoration: none;
 }
 
-.help{
-    color: #BB8F76;
-    font-size: 0.9em;
-}
-
-.easy-signup {
-    position: relative;
-    font-size: 18px;
-    color: #aaa;
-    margin-top: 60px;
-    margin-bottom: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.span-easy {
-    display: block;
-    position: absolute;
-    left: 45%;
-    top: -2px;
-    margin-left: -25px;
-    background-color: #fff;
-    width: 100px;
-    font-size: 0.7em;
-    text-align: center;
-}
 
 hr {
+    margin: 40px 0px 40px 0px;
     border-top: 1px dashed #e2e2e2;
 }
 
@@ -74,14 +61,11 @@ hr {
     border-radius: 4px;
 }
 
-.fileinput .thumbnail{
-    max-width: 250px;
-    max-height: 250px;
+h3{
+    text-align: center;
 }
 
-.img-notice{
-    font-size: 0.9em;
-}
+*/
 
 </style>
 {% endblock %}
@@ -90,52 +74,146 @@ hr {
 
 <div class="row">
     <div class="main">
-        <h3>{{ g.username }}님의 프로필</h3>
-
-        <div class="essential_field">
-            <h4>필수 입력사항</h4>
-            <hr>
-        </div>
+        <h2 id="top-title"><strong>{{ g.username }}</strong>님의 프로필</h2>
         
         <form role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
-            <div class="row">
-                <div class="form-group col-sm-1">
-                    <label for="inputCategory">전공분야</label>
-                    <select class="form-control">
-                        
-                    </select>
+
+            <div id="essential_box">
+
+                <input type="file" name="profile_image">
+
+                <div class="sub-title">
+                    <h4><i class="fa fa-star"></i> <strong>필수 입력사항</strong></h4>
                 </div>
-                <div class="form-group col-sm-1">
-                    <label for="inputMajor">세부전공</label>
-                    <select class="form-control">
-                        <!-- Dyanamic inputMajor option elements here -->    
-                    </select>
-                </div>                
 
-        <button type="submit" class="btn btn-default pull-right">
-            프로필 등록
-        </button>
+                <div class="row">
+                    <div class="col-md-2">
+                        <h3 class=""><strong>기본정보</strong></h3>
+                    </div>
+                    <div class="form-group col-xs-6 col-sm-3 col-md-2">
+                        <label for="inputCategory">전공분야</label>
+                        <select class="form-control" id="inputCategory">
+                            <option value="none">- - - - - - - -</option>
+                            {% if category_list %}
 
-    </form>
+                            {% for category in category_list %}
+                            <option value={{ category.id }}>{{ category.name }}</option>
+                            {% endfor %}
 
+                            {% else %}
+                            <option value="error">NO DATA</option>
+                            {% endif %}
+                        </select>
+                    </div>
+
+                    <div class="form-group col-xs-6 col-sm-3 col-md-2">
+                        <label for="inputMajor">세부전공</label>
+                        <select class="form-control" id="inputMajor">
+                            <option value="none">- - - - - - - -</option>
+                            <!-- Dyanamic inputMajor option elements here -->    
+                        </select>
+                    </div>
+
+                    <div class="form-group col-xs-12 col-sm-6 col-md-3">
+                        <label for="inputLocation">거주지역</label>
+                        <select class="form-control" id="inputLocation">
+                            <option value="none">- - - - - - - -</option>        
+                            <!-- Soyoung's part -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <h3 class=""><strong>학력</strong></h3>
+                    </div>
+                    <div class="form-group col-sm-10 col-md-6">
+                        <label for="inputEducationName">학교명</label>
+                        <input type="text" class="form-control" id="inputEducationName" placeholder="출신 학교명">
+                    </div>
+                    <div class="form-group col-sm-2 col-md-2">
+                        <label for="inputEducationStatus">학적사항</label>
+                        <select class="form-control" id="inputEducationStatus">
+                            <option value="none">- - - -</option>
+                            <option value="1">졸업</option>
+                            <option value="2">재학</option>
+                            <option value="3">휴학</option>
+                            <option value="4">중퇴</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <a class="btn btn-default" href="#"><i class="fa fa-plus-square"></i></a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-12">
+                        <label for="inputPhrase">100자 메시지</label>
+                        <input type="text" class="form-control" id="inputPhrase" maxlength="100" placeholder="당신을 표현하는 인상적인 100자 메시지">
+                    </div>
+                </div>
+
+            </div><!-- essential box ends -->
+
+            <div id="additory_box">
+                <div class="sub-title">
+                    <h4><i class="fa fa-plus"></i> <strong>추가 입력사항</strong></h4>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <h3 class=""><strong>수상경력</strong></h3>
+                    </div>
+                    <div class="form-group col-xs-12 col-sm-6 col-md-5">
+                        <label for="inputAwardsName">대회명</label>
+                        <input type="text" class="form-control" id="inputAwardsName" placeholder="ex) 제 3회 뚜띠 음악 콩쿠르">
+                    </div>
+
+                    <div class="form-group col-xs-6 col-sm-2 col-md-2">
+                        <label for="inputAwardsOrg">주관기관</label>
+                        <input type="text" class="form-control" id="inputAwardsOrg" placeholder="ex) 뚜띠">
+                    </div>
+
+                    <div class="form-group col-xs-6 col-sm-2 col-md-2">
+                        <label for="inputAwardsOrg">수상내용</label>
+                        <input type="text" class="form-control" id="inputAwardsDetail" placeholder="ex) 3등">
+                    </div>
+
+                    <div class="form-group col-md-1">
+                        <a class="btn btn-default" href="#"><i class="fa fa-plus-square"></i></a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <h3 class=""><strong>레퍼토리</strong></h3>
+                    </div>
+                    <div class="form-group col-xs-12 col-sm-6 col-md-2">
+                        <label for="inputAwardsName">작곡가</label>
+                        <input type="text" class="form-control" id="inputAwardsName" placeholder="ex) J. S. Bach">
+                    </div>
+
+                    <div class="form-group col-xs-6 col-sm-2 col-md-7">
+                        <label for="inputAwardsOrg">작품명</label>
+                        <input type="text" class="form-control" id="inputAwardsOrg" placeholder="ex) The Well-Tempered Clavier, ">
+                    </div>
+
+                    <div class="form-group col-md-1">
+                        <a class="btn btn-default" href="#"><i class="fa fa-plus-square"></i></a>
+                    </div>
+                </div>
+            </div><!-- additory box ends -->
+
+            <div class="row">
+                <div class="submit-button">
+                    <button type="submit" class="btn btn-default pull-right">
+                        프로필 등록
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
 </div>
-</div>
 
-<script type="text/javascript">
-$(document).ready(function(){
-    $("#add_awards").click(function(){
-        $("#awards_list").append(
-            '<div class="row form-group">'
-            +
-            '<div class="col-xs-8 col-sm-8 col-md-8"> {{ form.awards(class="form-control education") }} </div>'
-            +
-            '<div class="col-xs-2 col-sm-2 col-md-2"> {{ form.awards_data(class="form-control education_status") }} </div>'
-            +
-            '</div>'
-            );
-        console.log("successfully added a new field for education!")
-    });
-
-});
-</script>
 {% endblock %}
