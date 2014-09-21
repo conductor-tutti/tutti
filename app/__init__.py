@@ -3,7 +3,7 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager
 from flask_oauth import  OAuth
-from app import settings
+import settings
 
 # 이 부분도 각자의 구글 클라이언테 setting을 해줘야 합니다.
 GOOGLE_CLIENT_ID = '124147246934-e9jneu9uced2tpt31lg98q80mck1es1m.apps.googleusercontent.com'
