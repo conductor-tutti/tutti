@@ -1,22 +1,16 @@
 #-*-coding:utf-8-*-
 from app import app, db, facebook, google
 from sqlalchemy import desc
-from app.models import Article, Comment, User, Musician, Category, Major, UserRelationship, Location
+
+from app.models import Article, Comment, User, Musician, Category, Major, Location
+
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
 from google.appengine.api import images
 from werkzeug.http import parse_options_header
 from google.appengine.ext import blobstore
-import re
-import json
 import logging
-import sys
-reload(sys)
-sys.setdefaultencoding('UTF8')
-
-app.secret_key = 'sdfadsjvckjnbvehjjfhnvjchm'
-# 이 부분은 페이스북 디벨롭에서 따로 설정을 해줘야 합니당
 
 @app.before_request
 def before_request():
@@ -143,21 +137,15 @@ def sign_up():
             flash(u"이미 가입한 이메일입니다.", "danger")
             return render_template("sign_up.html", active_tab="sign_up")
         else:
-            if len(request.form.get('user-pw'))<8 or re.match("^[a-zA-Z0-9 ]+$", request.form.get('user-pw')):
-                flash(u"비밀번호를 8자 이상, 특수문자를 포함해주세요!", "danger")
-                return render_template("sign_up.html", active_tab="sign_up") 
-                # print "..boo"
-            else:
-                # print "OK!"
-                user = User(
-                    email = request.form.get("user-email"),
-                    password = generate_password_hash(request.form.get("user-pw")),
-                    username = request.form.get("user-name")
-                )
-                db.session.add(user)
-                db.session.commit()
-                flash(u"가입이 완료되었습니다. 반가워요!", "success")
-                return redirect(url_for('index'))
+            user = User(
+                email = request.form.get("user-email"),
+                password = generate_password_hash(request.form.get("user-pw")),
+                username = request.form.get("user-name"),
+            )
+            db.session.add(user)
+            db.session.commit()
+            flash(u"가입이 완료되었습니다. 반가워요!", "success")
+            return redirect(url_for('index'))
         return render_template('sign_up.html', active_tab='sign_up')
 
 
@@ -194,6 +182,7 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
+
     if session:
         user_id = session['user_id']
         upload_uri = blobstore.create_upload_url("/musician/musician_new/")
@@ -207,20 +196,33 @@ def musician_new():
             parsed_header = parse_options_header(header)
             blob_key = parsed_header[1]["blob-key"]
             User.query.get(user_id).is_musician = 1
-            musician = Musician(
-                user_id = user_id,
-                category_id = request.form.get("category"),
-                major_id = request.form.get("major"),
-                phrase = request.form.get("phrase"),
-                photo = blob_key
-                )
-            db.session.add(musician)
-            db.session.commit()
-            flash(u"프로필이 잘 등록되었어요!", "success")
-            return redirect(url_for("index"))
+   
+            locationsido = request.form.get("location")
+            
+            if locationsido == location.upper_id:
+                sigungu = [location.id]
+                return jsonify(sigungu)
+
+
+                musician = Musician(
+                    user_id = user_id,
+                    category_id = request.form.get("category"),
+                    major_id = request.form.get("major"),
+
+                    location_id = request.form.get("location"),
+
+                    phrase = request.form.get("phrase"),
+                    photo = blob_key
+                    )
+                db.session.add(musician)
+                db.session.commit()
+                flash(u"프로필이 잘 등록되었어요!", "success")
+                return redirect(url_for("index"))
+
     else:
         flash(u"로그인 후 이용해 주세요~", "danger")
         return redirect(url_for('index'))
+
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):
@@ -259,6 +261,8 @@ def get_resized_photo(blob_key):
             response = make_response(thumbnail)
             response.headers['Content-Type'] = blob_info.content_type
             return response
+
+
 
 @app.route('/facebook_login')
 def facebook_login():

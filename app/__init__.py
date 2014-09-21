@@ -1,13 +1,19 @@
+#-*-coding:utf-8-*-
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager
+
+
+app = Flask(__name__)
+app.config.from_object("app.settings.Production")
+
 from flask_oauth import  OAuth
 import settings
 
 # 이 부분도 각자의 구글 클라이언테 setting을 해줘야 합니다.
-GOOGLE_CLIENT_ID = '124147246934-e9jneu9uced2tpt31lg98q80mck1es1m.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = 'Q7WXw-xZln1gNbdtWgDHPEYm'
+GOOGLE_CLIENT_ID = '695566589596-eov5uiidks7dqrm8oag7r50q5imr9rqs.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = '3yKervjM4HCwZPWS8Mu50L1v'
 
 SECRET_KEY = 'development key'
 DEBUG = True
@@ -39,6 +45,7 @@ facebook = oauth.remote_app('facebook',
     consumer_secret=settings.Production.FACEBOOK_APP_SECRET,
     request_token_params={'scope': 'email'}
     )
+
 
 db = SQLAlchemy(app)
 manager = Manager(app)

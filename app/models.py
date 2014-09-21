@@ -56,11 +56,6 @@ class Musician(db.Model):
     location = db.relationship("Location", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
 
 
-class Location(db.Model):
-
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(40))
-    upper_id = db.Column(db.Integer)
     
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key = True)
