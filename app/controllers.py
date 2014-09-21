@@ -1,9 +1,7 @@
 #-*-coding:utf-8-*-
 from app import app, db, facebook, google
 from sqlalchemy import desc
-
 from app.models import Article, Comment, User, Musician, Category, Major, Location
-
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.forms import ArticleForm, CommentForm
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
@@ -182,14 +180,14 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
-
     if session:
         user_id = session['user_id']
         upload_uri = blobstore.create_upload_url("/musician/musician_new/")
         if request.method == "GET":
             category = Category.query.all()
             major = Major.query.all()
-            return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, active_tab="musician_new")
+            location = Location.query.all()
+            return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, location=location, active_tab="musician_new")
         elif request.method == "POST":
             photo = request.files["profile_image"]
             header = photo.headers["Content-Type"]
@@ -230,6 +228,7 @@ def musician_profile(musician_id):
     user = User.query.get(musician.user_id)
     username = user.username
     return render_template("musician/profile.html", username=username, musician=musician)
+
 
 @app.route("/photo/get/<path:blob_key>/", methods=["GET"])
 def get_photo(blob_key):
@@ -352,8 +351,7 @@ def google_login():
 
     return redirect(url_for('index'))
     # return str(session['access_token'][0])
-    
- 
+
  
 @app.route('/login_go')
 def login_go():
@@ -386,19 +384,26 @@ def search_name():
         flash(u"로그인 후 이용해 주세요~", "danger")
         return redirect(url_for('index'))
         
-@app.route('/friendship_request/<int:user_id>', methods = ['GET', 'POST'])
-def friendship_request(user_id):
-    if request.method == "GET":
-        userrelationship = UserRelationship(
-            relateduserid = user_id,
-            user = User.query.get(session["user_id"])
-            )
-        db.session.add(userrelationship)
-        db.session.commit()
-        flash(u"친구요청 되었습니다.", "success")
-        return redirect(url_for('index'))
-    elif request.method == "POST":
-        return render_template("show_friends.html", index=index, active_tab="index")
+# @app.route('/friendship_request/<int:user_id>', methods = ['GET', 'POST'])
+# def friendship_request(user_id):
+#     if request.method == "GET":
+#         userrelationship = UserRelationship(
+#             relateduserid = user_id,
+#             user = User.query.get(session["user_id"])
+#             )
+#         db.session.add(userrelationship)
+#         db.session.commit()
+#         flash(u"친구요청 되었습니다.", "success")
+#         return redirect(url_for('index'))
+#     elif request.method == "POST":
+#         return render_template("show_friends.html", index=index, active_tab="index")
 
-# 지금 이 부분을 포스트 방식으로 넘겨야 하는데 show_friends에서 post 방식으로 넘겨도 안되가지고
-# get 방식으로 넘겻습니다 물어봐서 해결해야합니
+#     index = {}
+#     index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+#     if request.method == "GET":
+#         return render_template("search.html", active_tab="search_name")
+#     else:
+#         # index['userdata'] = User.query.filter(User.username == request.form.get("search-name")).limit(4)
+#         index['userdata'] = User.query.filter(User.username.contains(request.form.get("search-name"))).limit(4)
+#         return render_template("show_friends.html", index=index, active_tab="index")
+
