@@ -40,25 +40,28 @@ class Musician(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"))
     user = db.relationship("User",
-        backref=db.backref("musicians_user", cascade="all, delete-orphan", lazy="dynamic"))
-
-    category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
-    category = db.relationship("Category", backref=db.backref("categorys_musician", cascade="all, delete-orphan", lazy="dynamic"))
-
-    major_id = db.Column(db.Integer, db.ForeignKey("major.id"))
-    major = db.relationship("Major", backref=db.backref("majors_musician", cascade="all, delete-orphan", lazy="dynamic"))
-
-    locations_id = db.Column(db.Integer, db.ForeignKey("major.id"))
-    locations = db.relationship("Locations", backref=db.backref("locations_musician", cascade="all, delete-orphan", lazy="dynamic"))
-
-    phrase = db.Column(db.String(255))
-    photo = db.Column(db.String(255))
-    created_on = db.Column(db.DateTime, default=db.func.now())
-    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+        backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
 
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     location = db.relationship("Location", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
 
+    category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
+    category = db.relationship("Category", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
+
+    major_id = db.Column(db.Integer, db.ForeignKey("major.id"))
+    major = db.relationship("Major", foreign_keys=[major_id], backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
+
+    phrase = db.Column(db.String(255)) 
+    
+    awards_id = db.Column(db.Integer, db.ForeignKey("awards.id"))
+    awards = db.relationship("Awards", backref=db.backref("musician", cascade="all, delete-orphan"))
+    
+    photo = db.Column(db.String(255)) # blob key lives in here
+
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+    
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
@@ -70,13 +73,28 @@ class Major(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
-    category = db.relationship("Category", backref=db.backref("categorys_major", cascade="all, delete-orphan", lazy="dynamic"))
+    category = db.relationship("Category", backref=db.backref("major", cascade="all, delete-orphan", lazy="dynamic"))
 
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+
+class Awards(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(255))
+    org = db.Column(db.String(255))
+    detail = db.Column(db.String(255))
+
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+
+class Education(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(255))
+    status = db.Column(db.Integer)
 
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
     upper_id = db.Column(db.Integer)
-    

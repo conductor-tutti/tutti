@@ -44,23 +44,16 @@ class LoginForm(Form):
         description={'placeholder':u'패스워드를 입력하세요.'}
         )
 
+category_list = Category.query.all()
+major_list = Major.query.all()
+
 class MusicianProfileForm(Form):
-    # category = SelectField(u"전공 분야", coerce=int)
-    # major = SelectField(u"어쩌구", choices=[])
+    category = SelectField(u"전공 분야", choices=[(c, c) for c in category_list])
+    major = SelectField(u"어쩌구", choices=[(m, m) for m in major_list])
     phrase = StringField(
         u"당신을 표현하는 인상적인 100자 메시지",
         [validators.data_required(u"100자 메시지를 입력하세요."),
         validators.Length(max=100)]
-        )
-    
-    education = StringField(
-        u"학력사항",
-        [validators.data_required(u"학력사항을 입력하세요.")]
-        )
-    
-    education_status = SelectField(
-        u"학적사항",
-        choices=[(1, "졸업"), (2, "재학"), (3, "휴학"), (4, "중퇴")],
         )
 
     awards = StringField(

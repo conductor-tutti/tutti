@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-group col-xs-6 col-sm-3 col-md-2">
                         <label for="inputCategory">전공분야</label>
-                        <select class="form-control" id="inputCategory">
+                        <select class="form-control" name="category" id="inputCategory">
                             <option value="none">- - - - - - - -</option>
                             {% if category_list %}
 
@@ -41,7 +41,7 @@
 
                     <div class="form-group col-xs-6 col-sm-3 col-md-2">
                         <label for="inputMajor">세부전공</label>
-                        <select class="form-control" id="inputMajor">
+                        <select class="form-control" name="major" id="inputMajor">
                             <option value="none">- - - - - - - -</option>
                             <!-- Dyanamic inputMajor option elements here -->    
                         </select>
@@ -49,8 +49,8 @@
 
                     <div class="form-group col-xs-12 col-sm-6 col-md-3">
                         <label for="inputLocation">거주지역</label>
-                        <select class="form-control" id="inputLocation">
-                            <option value="none">- - - - - - - -</option>        
+                        <select class="form-control" name="location" id="inputLocation">
+                            <option value="none">- - - - - - - -</option>     
                             <!-- Soyoung's part -->
                         </select>
                     </div>
@@ -82,7 +82,7 @@
                 <div class="row">
                     <div class="form-group col-sm-12">
                         <label for="inputPhrase">100자 메시지</label>
-                        <input type="text" class="form-control" id="inputPhrase" maxlength="100" placeholder="당신을 표현하는 인상적인 100자 메시지">
+                        <input type="text" name="phrase" class="form-control" id="inputPhrase" maxlength="100" placeholder="당신을 표현하는 인상적인 100자 메시지">
                     </div>
                 </div>
 
@@ -99,17 +99,17 @@
                     </div>
                     <div class="form-group col-xs-12 col-sm-6 col-md-5">
                         <label for="inputAwardsName">대회명</label>
-                        <input type="text" class="form-control" id="inputAwardsName" placeholder="ex) 제 3회 뚜띠 음악 콩쿠르">
+                        <input type="text" name="awards-title" class="form-control" id="inputAwardsName" placeholder="ex) 제 3회 뚜띠 음악 콩쿠르">
                     </div>
 
                     <div class="form-group col-xs-6 col-sm-2 col-md-2">
                         <label for="inputAwardsOrg">주관기관</label>
-                        <input type="text" class="form-control" id="inputAwardsOrg" placeholder="ex) 뚜띠">
+                        <input type="text" name="awards-org" class="form-control" id="inputAwardsOrg" placeholder="ex) 뚜띠">
                     </div>
 
                     <div class="form-group col-xs-6 col-sm-2 col-md-2">
                         <label for="inputAwardsOrg">수상내용</label>
-                        <input type="text" class="form-control" id="inputAwardsDetail" placeholder="ex) 3등">
+                        <input type="text" name="awards-detail" class="form-control" id="inputAwardsDetail" placeholder="ex) 3등">
                     </div>
 
                     <div class="form-group col-md-1">
@@ -122,13 +122,13 @@
                         <h3 class=""><strong>레퍼토리</strong></h3>
                     </div>
                     <div class="form-group col-xs-12 col-sm-6 col-md-2">
-                        <label for="inputAwardsName">작곡가</label>
-                        <input type="text" class="form-control" id="inputAwardsName" placeholder="ex) J. S. Bach">
+                        <label for="inputRepComposer">작곡가</label>
+                        <input type="text" name="rep-composer" class="form-control" id="inputAwardsName" placeholder="ex) J. S. Bach">
                     </div>
 
                     <div class="form-group col-xs-6 col-sm-2 col-md-7">
-                        <label for="inputAwardsOrg">작품명</label>
-                        <input type="text" class="form-control" id="inputAwardsOrg" placeholder="ex) The Well-Tempered Clavier, ">
+                        <label for="inputRepTitle">작품명</label>
+                        <input type="text" name="rep-title" class="form-control" id="inputAwardsOrg" placeholder="ex) The Well-Tempered Clavier, ">
                     </div>
 
                     <div class="form-group col-md-1">
