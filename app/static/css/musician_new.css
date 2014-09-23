@@ -1,5 +1,70 @@
-#profile_box{
+#profile-box{
     background-color: white;
     border-top-right-radius: 20px;
     border-bottom-left-radius: 20px;
+}
+
+#essential_fields{
+    margin-top: 30px;
+}
+
+.fileinput {
+    margin-bottom: 20px;
+    display: block;
+    text-align: center;
+}
+
+.fileinput .thumbnail{
+    width: 200px;
+    height: 200px;
+}
+
+#thumbnail-help{
+    display: block;
+    margin-top: 80px;
+    font-size: 0.9em;
+}
+
+.help-message{
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: gray;
+}
+
+#submit{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/* Whipping File Inputs Into Shape
+http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+*/
+
+#additional_fields{
+    margin-top: 30px;
+}
+
+hr{
+    margin-top: 0px;
+    border-top: 1px dashed #eeeeee;
 }

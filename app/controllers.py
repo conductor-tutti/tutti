@@ -1,13 +1,12 @@
 #-*-coding:utf-8-*-
 from app import app, db, facebook, google
 from sqlalchemy import desc
-from app.models import User, Musician, Category, Major, Awards, Location
+from app.models import User, Musician, Category, Major
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.forms import MusicianProfileForm
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
-from google.appengine.api import images
+# from google.appengine.api import images
+# from google.appengine.ext import blobstore
 from werkzeug.http import parse_options_header
-from google.appengine.ext import blobstore
 from datetime import timedelta
 
 import re
@@ -105,8 +104,7 @@ def musician_new():
     if request.method == "GET":
         category_list = Category.query.all()
         major = Major.query.all()
-        location = Location.query.all()
-        return render_template("/musician/musician_new.html", upload_uri=upload_uri, category_list=category_list, major=major, location=location, active_tab="musician_new")
+        return render_template("/musician/musician_new.html", upload_uri=upload_uri, category_list=category_list, major=major, active_tab="musician_new")
     elif request.method == "POST":
         photo = request.files["profile_image"]
         header = photo.headers["Content-Type"]
@@ -116,22 +114,7 @@ def musician_new():
         musician = Musician(
             user_id = user_id,
             category_id = request.form.get("category"),
-            # major_id = request.form.get("major"),
-            # location_id = request.form.get("location"),
             phrase = request.form.get("phrase"),
-            
-            # awards and repertoires should be dictionary
-            # awards = {
-            # "title": request.form.get("awards-title"),
-            # "org": request.form.get("awards-org"),
-            # "detail": request.form.get("awards-detail")
-            # },
-
-            # repertoires = {
-            # "composer": request.form.get("rep-composer"),
-            # "title": request.form.get("rep-title")
-            # },
-
             photo = blob_key
             )
         db.session.add(musician)
