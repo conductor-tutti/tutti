@@ -1,11 +1,11 @@
 #-*-coding:utf-8-*-
 from app import app, db, facebook, google
 from sqlalchemy import desc
-from app.models import User, Musician, Category, Major
+from app.models import User, Musician, Category
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
-# from google.appengine.api import images
-# from google.appengine.ext import blobstore
+from google.appengine.api import images
+from google.appengine.ext import blobstore
 from werkzeug.http import parse_options_header
 from datetime import timedelta
 
@@ -100,7 +100,6 @@ def logout():
 def musician_new():
     user_id = session['user_id']
     upload_uri = blobstore.create_upload_url("/musician/musician_new/")
-    form = MusicianProfileForm()
     if request.method == "GET":
         category_list = Category.query.all()
         major = Major.query.all()
@@ -114,7 +113,10 @@ def musician_new():
         musician = Musician(
             user_id = user_id,
             category_id = request.form.get("category"),
+            major_id = request.form.get("major"),
             phrase = request.form.get("phrase"),
+            education = request.form.get("education"),
+            repertoire = request.form.get("repertoire"),
             photo = blob_key
             )
         db.session.add(musician)

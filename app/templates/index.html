@@ -57,7 +57,6 @@ hr{
             <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}">
             <div class="newbie_name">{{ musician.user.username }}</div>
             <div class="newbie_category">{{ musician.category.name }} | </div>
-            <div class="newbie_major">{{ musician.major.name }}</div>
         </div>
     </div>
     {% endfor %}

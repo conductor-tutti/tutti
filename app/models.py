@@ -23,9 +23,11 @@ class Musician(db.Model):
         backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
     category = db.relationship("Category", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
-    major_id = db.Column(db.Integer, db.ForeignKey("major.id"))
-    major = db.relationship("Major", foreign_keys=[major_id], backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
-    phrase = db.Column(db.String(255)) 
+    major_id = db.Column(db.Integer)
+    # major = db.relationship("Major", foreign_keys=[major_id], backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
+    phrase = db.Column(db.String(255))
+    education = db.Column(db.String(255))
+    repertoire = db.Column(db.String(255))
     photo = db.Column(db.String(255)) # blob key lives in here
 
     created_on = db.Column(db.DateTime, default=db.func.now())
@@ -39,11 +41,11 @@ class Category(db.Model):
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
 
-class Major(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    name = db.Column(db.String(40))
-    category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
-    category = db.relationship("Category", backref=db.backref("major", cascade="all, delete-orphan", lazy="dynamic"))
+# class Major(db.Model):
+#     id = db.Column(db.Integer, primary_key = True)
+#     name = db.Column(db.String(40))
+#     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
+#     category = db.relationship("Category", backref=db.backref("major", cascade="all, delete-orphan", lazy="dynamic"))
 
-    created_on = db.Column(db.DateTime, default=db.func.now())
-    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+#     created_on = db.Column(db.DateTime, default=db.func.now())
+#     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
