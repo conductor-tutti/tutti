@@ -3,13 +3,14 @@ body{
     font-family: "Nanum Gothic", sans-serif;
 }
 
+/* tuttiblack: #3F3F3F */
 
 .navbar .nav > li > a {
     color:  #ffffff;
 }
 
 .navbar-default {
-    background-color: #CC575A;
+    background-color: #3F3F3F;
     border-color: black;
 }
 
@@ -43,7 +44,7 @@ body{
 .navbar-default .navbar-brand {
     width: 120px;
     text-align: center;
-    font-family: "Fredoka One", cursive;
+    font-family: "Lobster", cursive;
     font-size: 2em;
     letter-spacing: 2px;
     color: white;
