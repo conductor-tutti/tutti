@@ -78,7 +78,6 @@ def sign_in():
         userdata = User.query.filter(User.email == request.form.get("user-email")).first()
         if userdata:
             if check_password_hash(userdata.password, request.form["user-pw"]):
-                flash(u"반갑습니다, %s 님!" % userdata.username)
                 session["user_id"] = userdata.id
                 session["user_email"] = userdata.email
                 session["user_name"] = userdata.username
@@ -102,8 +101,7 @@ def musician_new():
     upload_uri = blobstore.create_upload_url("/musician/musician_new/")
     if request.method == "GET":
         category_list = Category.query.all()
-        major = Major.query.all()
-        return render_template("/musician/musician_new.html", upload_uri=upload_uri, category_list=category_list, major=major, active_tab="musician_new")
+        return render_template("/musician/musician_new.html", upload_uri=upload_uri, category_list=category_list, active_tab="musician_new")
     elif request.method == "POST":
         photo = request.files["profile_image"]
         header = photo.headers["Content-Type"]

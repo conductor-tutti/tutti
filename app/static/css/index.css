@@ -2,14 +2,18 @@
     background-color: white;
 }
 
-.title{
+.newbies{
     font-family: "Lobster", cursive;
+    letter-spacing: 2px;
     color: #BB8F76;
     text-shadow: 2px 2px white;
 }
 
+.newbies_sub{
+    font-size: 0.9em;
+}
+
 hr{
-    margin-top: 0;
     border-top: 1px dashed #CCCCCC;
 }
 
@@ -39,4 +43,12 @@ hr{
 .newbie_major{
     float: left;
     font-size: 0.9em;
+}
+
+#nobody{
+    text-align: center;
+    font-family: "Lobster", cursive;
+    letter-spacing: 2px;
+    color: #D04E4E;
+    text-shadow: 2px 2px white;
 }
