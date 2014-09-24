@@ -5,7 +5,7 @@ from flask.ext.script import Manager
 from flask_oauth import  OAuth
 from app import settings
 
-# 이 부분도 각자의 구글 클라이언테 setting을 해줘야 합니다.
+
 GOOGLE_CLIENT_ID = '124147246934-e9jneu9uced2tpt31lg98q80mck1es1m.apps.googleusercontent.com'
 GOOGLE_CLIENT_SECRET = 'Q7WXw-xZln1gNbdtWgDHPEYm'
 
@@ -16,9 +16,9 @@ app = Flask(__name__)
 app.config.from_object("app.settings.Production")
 app.debug = DEBUG
 app.secret_key = SECRET_KEY
-
+ 
 oauth = OAuth()
-
+ 
 google = oauth.remote_app('google',
     base_url='https://www.google.com/accounts/',
     authorize_url='https://accounts.google.com/o/oauth2/auth',
