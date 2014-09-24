@@ -46,8 +46,8 @@
                 <li {% if active_tab == "musician_new" %} class="active" {% endif %}>
                     <a href="{{ url_for('musician_new') }}">뮤지션 등록</a>
                 </li>
-                {% endif %}
-                {% if g.is_musician != 1 %}
+
+                {% else %}
                 <li {% if active_tab == "musician_new" %} class="active" {% endif %}>
                     <a href="{{ url_for('musician_new') }}">포트폴리오 수정</a>
                 </li>
