@@ -1,0 +1,98 @@
+{% extends "layout.html" %}
+{% block customhead %}
+<style type="text/css">
+.musician{
+    background-color: white;
+}
+
+.fredoka{
+    font-family: "Fredoka One", cursive;
+    color: #BB8F76;
+    text-shadow: 2px 2px white;
+}
+
+hr{
+    margin-top: 0;
+    border-top: 1px dashed #CCCCCC;
+}
+
+.newest_musicians{
+    padding-bottom: 20px;
+}
+
+.newbie_box{
+    height: 263px;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: white;
+
+}
+
+.newbie_name{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.newbie_category{
+    float: left;
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+
+.newbie_major{
+    float: left;
+    font-size: 0.9em;
+}
+
+</style>
+{% endblock %}
+{% block contents %}
+<div class="row">
+    <h3 class="fredoka">Request</h3>
+    <hr>
+    {% if index.request_friends %}
+    {% for user in index.request_friends %}
+    <div class="col-xs-12 col-sm-6 col-md-3 newest_musicians">
+        <div class="newbie_box">
+            <div class="newbie_name">{{ user.username }}</div>
+            <form role="form" method="post">
+                <a href="{{ url_for("accept_friend_request", user_id=user.id) }}" class="btn btn btn-default">친구수락</a>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    친구 요청이 없습니다.
+    {% endif %}
+</div>
+<div class="row">
+    <h3 class="fredoka">Request</h3>
+    <hr>
+    {% if index.friends_request %}
+    {% for user in index.friends_request %}
+    <div class="col-xs-12 col-sm-6 col-md-3 newest_musicians">
+        <div class="newbie_box">
+            <div class="newbie_name">{{ user.username }}</div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    그 이름을 가진 회원님이 없습니다.
+    {% endif %}
+</div>
+<div class="row">
+    <h3 class="fredoka">Friends</h3>
+    <hr>
+    {% if index.friends %}
+    {% for user in index.friends %}
+    <div class="col-xs-12 col-sm-6 col-md-3 newest_musicians">
+        <div class="newbie_box">
+            <div class="newbie_name">{{ user.username }}</div>
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    아직 친구가 없습니다.
+    {% endif %}
+</div>
+{% endblock %}

@@ -82,9 +82,19 @@ class Major(db.Model):
 class UserRelationship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+<<<<<<< HEAD
     user = db.relationship("User",
         backref=db.backref("userrelationship", cascade="all, delete-orphan", lazy="dynamic"))
     relateduserid = db.Column(db.Integer)
     type = db.Column(db.Integer, default=0)
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+=======
+    related_user_id = db.Column(db.Integer, db.ForeignKey("user.id")) 
+    type = db.Column(db.Integer, default=0)
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+    user = db.relationship("User", foreign_keys=[user_id])
+    related_user = db.relationship("User", foreign_keys=[related_user_id])
+>>>>>>> Juneseok_branch
