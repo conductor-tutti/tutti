@@ -42,9 +42,16 @@
                 {% endif %}
 
                 {% if g.username != None %}
+                {% if g.is_musician == 0 %}
                 <li {% if active_tab == "musician_new" %} class="active" {% endif %}>
                     <a href="{{ url_for('musician_new') }}">뮤지션 등록</a>
                 </li>
+                {% endif %}
+                {% if g.is_musician != 1 %}
+                <li {% if active_tab == "musician_new" %} class="active" {% endif %}>
+                    <a href="{{ url_for('musician_new') }}">포트폴리오 수정</a>
+                </li>
+                {% endif %}
                 {% endif %}
                 
             </ul>

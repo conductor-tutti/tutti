@@ -30,6 +30,9 @@ def before_request():
     g.username = None
     if 'user_name' in session:
         g.username = session["user_name"]
+    if 'is_musician' in session:
+        g.is_musician = session["is_musician"]
+    
         
 @app.route('/', methods=["GET"])
 def index():
@@ -81,6 +84,7 @@ def sign_in():
                 session["user_id"] = userdata.id
                 session["user_email"] = userdata.email
                 session["user_name"] = userdata.username
+                session["is_musician"] = userdata.is_musician
                 return redirect(url_for("index"))
             else:
                 flash(u"비밀번호가 다릅니다.", "danger")
