@@ -75,6 +75,7 @@ hr {
 }
 
 </style>
+
 {% endblock %}
 
 {% block contents %}
@@ -111,10 +112,33 @@ hr {
                     <select class="form-control" name="major" id="inputMajor">
                         <option value="none">선택하세요</option>
                         {% for m in major %}
-                            {% if m.category_id == 1 %}
-                            <option class="classic-major" value="{{ m.id }}">{{ m.name }}</option>
-                            {% endif %}
+                        {% if m.category_id == 1 %}
+                        <option class="classic-major" value="{{ m.id }}">{{ m.name }}</option>
+                        {% endif %}
                         {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group col-xs-2 col-sm-2 col-md-2">
+                    <label for="inputLocation">지역</label>
+
+                    <select class="form-control" name="location" id="sido">
+                        <option value="none">선택하세요</option>
+                        {% for m in location %}
+                        {% if m.upper_id == 0 %}
+                        <option class="state" value="{{ m.id }}">{{ m.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group col-xs-2 col-sm-2 col-md-2">
+                    <label for="inputLocation"></label>
+                    <select class="form-control" name="sigungu" id="sigungu">
+                        
+                    <option value="none">선택하세요</option>
+                    
+                                         
                     </select>
                 </div>
             </div>
@@ -140,4 +164,9 @@ hr {
     </div>
 </div>
 
+{% endblock %}
+{% block scripts %}
+
+{{ super() }}
+<script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
 {% endblock %}
