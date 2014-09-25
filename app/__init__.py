@@ -14,7 +14,7 @@ DEBUG = True
 
 app = Flask(__name__)
 # change app.config.from_object value when you want to user local DB like me!
-app.config.from_object("app.settings.Development")
+app.config.from_object("app.settings.Production")
 app.debug = DEBUG
 app.secret_key = SECRET_KEY
 
