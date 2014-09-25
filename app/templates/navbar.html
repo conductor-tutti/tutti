@@ -54,20 +54,22 @@
                 {% endif %}
                 {% endif %}
                 
-                {% if g.username != None %}
+                {% if g.userdata != None %}
                 <li {% if active_tab == "search_name" %} class="active" {% endif %}>
-                    <a href="{{ url_for('search_name') }}">친구 검색</a>
+                    <a href="{{ url_for('search_name') }}">유저 검색</a>
                 </li>
                 {% endif %}
-<<<<<<< HEAD
-=======
 
-                {% if g.username != None %}
+                {% if g.userdata != None %}
                 <li {% if active_tab == "my_friends" %} class="active" {% endif %}>
-                    <a href="{{ url_for('my_friends') }}">My Friends</a>
+                    <a href="{{ url_for('my_friends') }}">내 친구</a>
                 </li>
                 {% endif %}
->>>>>>> Juneseok_branch
+
+                {% if g.userdata != None %}
+                <li>{{ g.userdata.username }}</li>
+                {% endif %}
+
             </ul>
         </div>
     </div>
