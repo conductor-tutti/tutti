@@ -103,8 +103,9 @@ def musician_new():
         upload_uri = blobstore.create_upload_url("/musician/musician_new/")
         if request.method == "GET":
             if g.userdata.is_musician == 1:
-                profile_data = Musician.query.filter(Musician.user_id == user_id).all()
-                return render_template("/musician/musician_new.html", upload_uri=upload_uri, profile_data=profile_data, category_list=category_list)
+                musician = Musician.query.filter(Musician.user_id == user_id)
+                profile_data = musician.first()
+                return render_template("/musician/musician_new.html", profile_data=profile_data, category_list=category_list)
             return render_template("/musician/musician_new.html", upload_uri=upload_uri, category_list=category_list, active_tab="musician_new")
         elif request.method == "POST":
             photo = request.files["profile_image"]
