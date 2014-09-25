@@ -1,0 +1,9 @@
+diff a/app/controllers.py b/app/controllers.py	(rejected hunks)
+@@ -185,7 +185,6 @@
+     if request.method == "GET":
+         category = Category.query.all()
+         major = Major.query.all()
+-        return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, active_tab="musician_new")
+         location = Location.query.all()
+         return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, location=location, active_tab="musician_new")
+     elif request.method == "POST":

@@ -1,11 +1,18 @@
 #-*-coding:utf-8-*-
 from app import app, db, facebook, google
 from sqlalchemy import desc
+<<<<<<< HEAD
 from app.models import User, Musician, Category, UserRelationship
+=======
+
+from app.models import User, Musician, Category, Major, UserRelationship, Location
+
+>>>>>>> 270c7fcbfb1c0571ddde6de6fa4eadc189c04315
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
 from google.appengine.api import images
 from google.appengine.ext import blobstore
+<<<<<<< HEAD
 from werkzeug.http import parse_options_header
 from datetime import timedelta
 import re
@@ -17,6 +24,9 @@ reload(sys)
 sys.setdefaultencoding('UTF8')
 # give app.secret_key the same value with SECRET_KEY in Config in settings.py
 # app.secret_key = "xrdtfvbyuhnjimuygtfrdessdfnhhmjjygh65hrytrytr"
+=======
+import logging
+>>>>>>> 270c7fcbfb1c0571ddde6de6fa4eadc189c04315
 
 @app.before_request
 def before_request():
@@ -47,21 +57,15 @@ def sign_up():
             flash(u"이미 가입한 이메일입니다.", "danger")
             return render_template("sign_up.html", active_tab="sign_up")
         else:
-            if len(request.form.get('user-pw'))<8 or re.match("^[a-zA-Z0-9 ]+$", request.form.get('user-pw')):
-                flash(u"비밀번호를 8자 이상, 특수문자를 포함해주세요!", "danger")
-                return render_template("sign_up.html", active_tab="sign_up") 
-                # print "..boo"
-            else:
-                # print "OK!"
-                user = User(
-                    email = request.form.get("user-email"),
-                    password = generate_password_hash(request.form.get("user-pw")),
-                    username = request.form.get("user-name")
-                )
-                db.session.add(user)
-                db.session.commit()
-                flash(u"가입이 완료되었습니다. 반가워요!", "success")
-                return redirect(url_for('index'))
+            user = User(
+                email = request.form.get("user-email"),
+                password = generate_password_hash(request.form.get("user-pw")),
+                username = request.form.get("user-name"),
+            )
+            db.session.add(user)
+            db.session.commit()
+            flash(u"가입이 완료되었습니다. 반가워요!", "success")
+            return redirect(url_for('index'))
         return render_template('sign_up.html', active_tab='sign_up')
 
 
@@ -95,24 +99,36 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
+<<<<<<< HEAD
     user_id = session['user_id']
     upload_uri = blobstore.create_upload_url("/musician/musician_new/")
     category_list = Category.query.all()
+=======
+>>>>>>> 270c7fcbfb1c0571ddde6de6fa4eadc189c04315
     if session:
         user_id = session['user_id']
         upload_uri = blobstore.create_upload_url("/musician/musician_new/")
         if request.method == "GET":
+<<<<<<< HEAD
             if g.userdata.is_musician == 1:
                 musician = Musician.query.filter(Musician.user_id == user_id)
                 profile_data = musician.first()
                 return render_template("/musician/musician_new.html", profile_data=profile_data, category_list=category_list)
             return render_template("/musician/musician_new.html", upload_uri=upload_uri, category_list=category_list, active_tab="musician_new")
+=======
+            category = Category.query.all()
+            major = Major.query.all()
+            location = Location.query.all()
+            return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, location=location, active_tab="musician_new")
+
+>>>>>>> 270c7fcbfb1c0571ddde6de6fa4eadc189c04315
         elif request.method == "POST":
             photo = request.files["profile_image"]
             header = photo.headers["Content-Type"]
             parsed_header = parse_options_header(header)
             blob_key = parsed_header[1]["blob-key"]
             User.query.get(user_id).is_musician = 1
+            
             musician = Musician(
                 user_id = user_id,
                 category_id = request.form.get("category"),
@@ -123,11 +139,26 @@ def musician_new():
             db.session.add(musician)
             db.session.commit()
             flash(u"프로필이 잘 등록되었어요!", "success")
-            return redirect(url_for("index"))
+        return redirect(url_for("index"))
+
     else:
         flash(u"로그인 후 이용해 주세요~", "danger")
         return redirect(url_for('index'))
 
+<<<<<<< HEAD
+=======
+@app.route("/musician/musician_location/", methods=["GET","POST"])
+def musician_location():
+    
+    if request.method == "POST":
+        
+        locationsidoid = request.form.get("location")
+        locations = Location.query.filter(Location.upper_id==locationsidoid).all()
+        sigungu = {"locations":[(x.id, x.name) for x in locations]}
+        return jsonify(sigungu)
+
+
+>>>>>>> 270c7fcbfb1c0571ddde6de6fa4eadc189c04315
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):
@@ -170,6 +201,10 @@ def get_resized_photo(blob_key):
             response.headers['Content-Type'] = blob_info.content_type
             return response
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 270c7fcbfb1c0571ddde6de6fa4eadc189c04315
 
 @app.route('/facebook_login')
 def facebook_login():
@@ -260,6 +295,10 @@ def google_login():
 
     return redirect(url_for('index'))
     # return str(session['access_token'][0])
+<<<<<<< HEAD
+=======
+
+>>>>>>> 270c7fcbfb1c0571ddde6de6fa4eadc189c04315
  
 
 @app.route('/login_go')
@@ -293,8 +332,13 @@ def search_name():
     else:
         flash(u"로그인 후 이용해 주세요~", "danger")
         return redirect(url_for('index'))
+<<<<<<< HEAD
 
       
+=======
+        
+
+>>>>>>> 270c7fcbfb1c0571ddde6de6fa4eadc189c04315
 @app.route('/friendship_request/<int:user_id>', methods = ['GET', 'POST'])
 def friendship_request(user_id):
     if request.method == "GET":
@@ -309,6 +353,7 @@ def friendship_request(user_id):
     elif request.method == "POST":
         return render_template("show_friends.html", index=index, active_tab="index")
 
+<<<<<<< HEAD
 
 @app.route('/my_friends', methods = ['GET','POST'])
 def my_friends():
@@ -347,3 +392,31 @@ def accept_friend_request(user_id):
         return redirect(url_for('my_friends'))
     elif request.method == "POST":
         return render_template("show_friends.html", index=index, active_tab="index")
+=======
+# @app.route('/friendship_request/<int:user_id>', methods = ['GET', 'POST'])
+# def friendship_request(user_id):
+#     if request.method == "GET":
+#         userrelationship = UserRelationship(
+#             relateduserid = user_id,
+#             user = User.query.get(session["user_id"])
+#             )
+#         db.session.add(userrelationship)
+#         db.session.commit()
+#         flash(u"친구요청 되었습니다.", "success")
+#         return redirect(url_for('index'))
+#     elif request.method == "POST":
+#         return render_template("show_friends.html", index=index, active_tab="index")
+
+#     index = {}
+#     index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+#     if request.method == "GET":
+#         return render_template("search.html", active_tab="search_name")
+#     else:
+#         # index['userdata'] = User.query.filter(User.username == request.form.get("search-name")).limit(4)
+#         index['userdata'] = User.query.filter(User.username.contains(request.form.get("search-name"))).limit(4)
+#         return render_template("show_friends.html", index=index, active_tab="index")
+
+
+# 지금 이 부분을 포스트 방식으로 넘겨야 하는데 show_friends에서 post 방식으로 넘겨도 안되가지고
+# get 방식으로 넘겻습니다 물어봐서 해결해야합니
+>>>>>>> 270c7fcbfb1c0571ddde6de6fa4eadc189c04315

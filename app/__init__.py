@@ -1,4 +1,3 @@
-#-*-coding:utf-8-*-
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
@@ -17,6 +16,18 @@ app = Flask(__name__)
 app.config.from_object("app.settings.Production")
 app.debug = DEBUG
 app.secret_key = SECRET_KEY
+
+# set these two values to match your account
+GOOGLE_CLIENT_ID = '695566589596-9i3crjfqvflrq4dt6793gndh9jf1dpqp.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = 'MMCXtJtgCDpzKwRYsbPKdUzp'
+
+SECRET_KEY = "ILOVETUTTISOMUCH"
+DEBUG = True
+
+app = Flask(__name__)
+app.config.from_object("app.settings.Development")
+# app.debug = DEBUG
+# app.secret_key = SECRET_KEY
 
 oauth = OAuth()
 
