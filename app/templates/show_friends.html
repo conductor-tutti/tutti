@@ -55,20 +55,15 @@ hr{
     <div class="col-xs-12 col-sm-6 col-md-3 newest_musicians">
         <div class="newbie_box">
             <div class="newbie_name">{{ user.username }}</div>
-<<<<<<< HEAD
-        </div>
-    </div>
-    {% endfor %}
-=======
             <form role="form" method="post">
                 <a href="{{ url_for("friendship_request", user_id=user.id) }}" class="btn btn btn-default">친구요청</a>
             </form>
         </div>
     </div>
-    {% endfor %}
+
     {% else %}
     그 이름을 가진 회원님이 없습니다.
->>>>>>> 6661fbf0b1c092ed17592fbfafaf7ab98f754e99
+    {% endfor %}
     {% endif %}
 
 </div>
