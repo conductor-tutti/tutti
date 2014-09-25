@@ -27,13 +27,10 @@ def before_request():
             db.session.add(category_record)
         db.session.commit()
     
-    g.username = None
-    if 'user_name' in session:
-        g.username = session["user_name"]
-    if 'is_musician' in session:
-        g.is_musician = session["is_musician"]
-    
-        
+    g.userdata = None
+    if 'user_id' in session:
+        g.userdata = User.query.get(session["user_id"])
+
 @app.route('/', methods=["GET"])
 def index():
     index = {}
@@ -82,9 +79,6 @@ def sign_in():
         if userdata:
             if check_password_hash(userdata.password, request.form["user-pw"]):
                 session["user_id"] = userdata.id
-                session["user_email"] = userdata.email
-                session["user_name"] = userdata.username
-                session["is_musician"] = userdata.is_musician
                 return redirect(url_for("index"))
             else:
                 flash(u"비밀번호가 다릅니다.", "danger")
@@ -96,16 +90,21 @@ def sign_in():
 @app.route("/logout", methods=["GET"])
 def logout():
     session.clear()
-    flash(u"%s 님, 다음에 또 만나요!" % g.username)
+    flash(u"%s 님, 다음에 또 만나요!" % g.userdata.username)
     return redirect(url_for("index"))
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
     user_id = session['user_id']
     upload_uri = blobstore.create_upload_url("/musician/musician_new/")
+    category_list = Category.query.all()
     if request.method == "GET":
-        category_list = Category.query.all()
-        return render_template("/musician/musician_new.html", upload_uri=upload_uri, category_list=category_list, active_tab="musician_new")
+        if g.userdata.is_musician == 1:
+            musician = Musician.query.filter(Musician.user_id == user_id)
+            profile_data = musician.first()
+            return render_template("/musician/musician_new.html", profile_data=profile_data, category_list=category_list)
+        
+        return render_template("/musician/musician_new.html", profile_data="UNDEFINED", upload_uri=upload_uri, category_list=category_list, active_tab="musician_new")
     elif request.method == "POST":
         photo = request.files["profile_image"]
         header = photo.headers["Content-Type"]
@@ -126,10 +125,12 @@ def musician_new():
         flash(u"프로필이 잘 등록되었어요!", "success")
         return redirect(url_for("index"))
 
+
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):
     musician = Musician.query.get(musician_id)
     user = User.query.get(musician.user_id)
+    category_list = Category.query.all()
     username = user.username
     return render_template("musician/profile.html", username=username, musician=musician)
 

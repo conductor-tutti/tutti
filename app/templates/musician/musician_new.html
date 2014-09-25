@@ -8,7 +8,11 @@
 
 <div id="profile-box" class="col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3">
 
-    <h2 id="username"><strong>{{ g.username }}</strong>님의 프로필</h2>
+    {% if g.userdata.is_musician == 0 %}
+    <h2 id="username"><strong>{{ g.userdata.username }}</strong>님의 프로필</h2>
+    {% else %}
+    <h2 id="username"><strong>{{ g.userdata.username }}</strong>님의 프로필 수정</h2>
+    {% endif %}
     
     <form role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
 
@@ -38,13 +42,18 @@
         <div class="row">
             <div class="form-group col-xs-12 col-sm-12 col-md-12">
                 <label for="inputPhrase">50자 메시지</label>
+                {% if g.userdata.is_musician == 0 %}
                 <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" placeholder="나를 표현하는 인상적인 50자 메시지">
+                {% else %}
+                <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" value="{{ profile_data.phrase }}">
+                {% endif %}
             </div>
         </div>
 
         <div class="row">
             <div class="form-group col-sm-6 col-md-6">
                 <label for="inputCategory">전공분야</label>
+                {% if g.userdata.is_musician == 0 %}
                 <select name="category" id="inputCategory" class="form-control input-sm">
                     {% if category_list %}
                     {% for category in category_list %}
@@ -54,6 +63,16 @@
                     <option>NO DATA</option>
                     {% endif %}
                 </select>
+                {% else %}
+                <select name="category" id="inputCategory" class="form-control input-sm">
+                    <option value="{{ profile_data.category_id }}">
+                        {% for category in category_list %}
+                        {% if category.id == profile_data.category_id %}
+                        {{ category.name }}</option>
+                        {% endif %}
+                        {% endfor %}
+                </select>
+                {% endif %}
             </div>
 
             <div class="form-group col-sm-6 col-md-6">
@@ -67,7 +86,11 @@
         <div class="row">
             <div class="form-group col-xs-12 col-sm-12 col-md-12">
                 <label for="inputEducation">학력</label>
+                {% if g.userdata.is_musician == 0 %}
                 <input type="text" name="education" id="inputEducation" class="form-control input-sm" placeholder="ex) 한양대학교">
+                {% else %}
+                <input type="text" name="education" id="inputEducation" class="form-control input-sm" value="{{ profile_data.education }}">
+                {% endif %}
             </div>
         </div>
 
@@ -77,12 +100,20 @@
         <div class="row">
             <div class="form-group col-xs-12 col-sm-12 col-md-12">
                 <label for="inputRepertoire">레퍼토리</label>
+                {% if g.userdata.is_musician == 0 %}
                 <div class="help-message">지금까지 연주해온 곡들을 자유롭게 추가할 수 있습니다.</div>
                 <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" placeholder="ex) F.Chopin - Nocturne No.2 Op.9">
+                {% else %}
+                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" value="{{ profile_data.repertoire }}">
+                {% endif %}
             </div>
         </div>
         
+        {% if g.userdata.is_musician == 0 %}
         <button type="submit" id="submit" class="btn btn-default pull-right">프로필 등록</button>
+        {% else %}
+        <button type="submit" id="submit" class="btn btn-default pull-right">프로필 수정</button>
+        {% endif %}
 
     </form>
 

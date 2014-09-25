@@ -23,26 +23,26 @@
 
             <ul class="nav navbar-nav navbar-right nav-menu">
 
-                {% if g.username == None %}
+                {% if g.userdata == None %}
                 <li {% if active_tab == "sign_in" %} class="active" {% endif %}>
                     <a href="{{ url_for('sign_in') }}">로그인</a>
                 </li>
                 {% endif %}
 
-                {% if g.username != None %}
+                {% if g.userdata != None %}
                 <li>
                     <a href="{{ url_for('logout') }}">로그아웃</a>
                 </li>
                 {% endif %}
 
-                {% if g.username == None %}
+                {% if g.userdata == None %}
                 <li {% if active_tab == "sign_up" %} class="active" {% endif %}>
                     <a href="{{ url_for('sign_up') }}">회원가입</a>
                 </li>
                 {% endif %}
 
-                {% if g.username != None %}
-                {% if g.is_musician == 0 %}
+                {% if g.userdata != None %}
+                {% if g.userdata.is_musician == 0 %}
                 <li {% if active_tab == "musician_new" %} class="active" {% endif %}>
                     <a href="{{ url_for('musician_new') }}">뮤지션 등록</a>
                 </li>

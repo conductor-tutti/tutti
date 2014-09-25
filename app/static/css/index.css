@@ -1,3 +1,9 @@
+#eyecatch{
+    background-image: url(../images/orchestra.jpg);
+    background-size: cover;
+    height: 500px;
+}
+
 .musician{
     background-color: white;
 }
