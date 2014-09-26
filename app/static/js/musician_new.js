@@ -9,6 +9,10 @@ NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
     }
 }
 
+Array.prototype.remove = function(idx) {
+    return (idx<0 || idx>this.length) ? this : this.slice(0, idx).concat(this.slice(idx+1, this.length));
+};
+
 
 $(document).ready(function(){
     console.log("I'm ready!");
@@ -22,14 +26,15 @@ $(document).ready(function(){
                 location:$('#sido').val()
             },
             success: function(data) {
+                $('.sublocation').remove();
+                $(this).children("select").remove();
                 console.log("success!");
                 for (var i = 0; i < data.locations.length; i++) {
                     sigungu += '<option class="sublocation" value=' + data.locations[i][0] + '>' + data.locations[i][1] + '</option>';
                 }
-                console.log($('.sublocation'))
-                document.getElementsByClassName("sublocation").remove();
+                    
                 $("#sigungu").append(sigungu);
-                
+                    
             },
             error: function(e) {
                 console.log('Server error!!');
