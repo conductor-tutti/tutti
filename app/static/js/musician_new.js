@@ -1,19 +1,9 @@
-Element.prototype.remove = function() {
-    this.parentElement.removeChild(this);
-}
-NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
-    for(var i = 0, len = this.length; i < len; i++) {
-        if(this[i] && this[i].parentElement) {
-            this[i].parentElement.removeChild(this[i]);
-        }
-    }
-}
-
 
 $(document).ready(function(){
     console.log("I'm ready!");
     $('#sido').change(function() {
         console.log("I'm changed!");
+
         $.ajax({
             url:'/musician/musician_location/',
             type: 'POST',
@@ -22,13 +12,16 @@ $(document).ready(function(){
                 location:$('#sido').val()
             },
             success: function(data) {
+                
+                sigungu = "<option value='none'>선택하세요</option>";
+
                 console.log("success!");
                 for (var i = 0; i < data.locations.length; i++) {
                     sigungu += '<option class="sublocation" value=' + data.locations[i][0] + '>' + data.locations[i][1] + '</option>';
                 }
                 console.log($('.sublocation'))
-                document.getElementsByClassName("sublocation").remove();
-                $("#sigungu").append(sigungu);
+                
+                $("#sigungu").html(sigungu);
                 
             },
             error: function(e) {
