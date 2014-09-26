@@ -10,14 +10,16 @@
 
 .newbies{
     font-family: "Lobster", cursive;
+    text-align: center;
     letter-spacing: 2px;
     color: #BB8F76;
     text-shadow: 2px 2px white;
 }
 
 .newbies_sub{
-    font-size: 0.9em;
     margin-bottom: 10px;
+    text-align: center;
+    font-size: 0.9em;
 }
 
 hr{
@@ -25,15 +27,11 @@ hr{
 }
 
 .newest_musicians{
-    padding-bottom: 20px;
 }
 
-.newbie_box{
-    height: 263px;
-    padding: 20px;
-    border-radius: 20px;
-    background-color: white;
-
+#profile_image{
+    width: 200px;
+    height: 200px;
 }
 
 .newbie_name{
