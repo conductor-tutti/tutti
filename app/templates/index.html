@@ -9,22 +9,23 @@
 <div class="row">
     <h2 class="newbies"><strong>NEWBIES</strong></h2>
     <div class="newbies_sub">가장 최근에 등록한 뮤지션들입니다. 반갑게 인사해주세요~</div>
-</div>
-<div class="row newest_musicians">
+
     {% if index.musician_list %}
     {% for musician in index.musician_list %}
-    <div class="col-xs-6 col-sm-3 col-md-3">
-        <!-- <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}" class="img-circle"> -->
-        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p200x200/10647021_357046034446039_4282164189832330896_n.jpg?oh=42fd2d615e0d69e65579855fd8b23945&oe=548B9567&__gda__=1422714586_1e3f570b5f6244fbe1985e5a041bb6d5" class="img-circle" id="profile_image">
-        <div class="newbie_name">{{ musician.user.username }}</div>
-        <div class="newbie_cateogry">{{ musician.category.name }}</div>
-        <p>{{ musician.phrase }}</p>
-        <a href="#" class="view_profile">프로필 보기</a>
+    <div class="col-sm-6 col-md-3 newest_musicians">
+        <div class="thumbnail">
+            <!-- <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}"> -->
+            <img data-src="holder.js/300x300" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p200x200/10647021_357046034446039_4282164189832330896_n.jpg?oh=42fd2d615e0d69e65579855fd8b23945&oe=548B9567&__gda__=1422714586_1e3f570b5f6244fbe1985e5a041bb6d5" class="img-thumbnail">
+            <div class="caption">
+                <div class="newbie_name"><a href="#" class="view_profile">{{ musician.user.username }}</a>  <span class="newbie_category">{{ musician.category.name }} | (세부전공명)</span></div>
+                <div class="newbie_phrase">"{{ musician.phrase }}"</div>
+            </div>
+        </div>
     </div>
-</div>
-{% else %}
-<h1 id="nobody">I CAN'T BELIEVE IT! NOBODY'S HERE!</h1>
-{% endfor %}
-{% endif %}
+    {% else %}
+    <h1 id="nobody">I CAN'T BELIEVE IT! NOBODY'S HERE!</h1>
+    {% endfor %}
+    {% endif %}
+
 </div>
 {% endblock %}
