@@ -1,9 +1,6 @@
 {% extends "layout.html" %}
-
-<<<<<<< HEAD
 {% block customhead %}
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/musician_new.css') }}">
-=======
 <style type="text/css">
 
 /* default colors */
@@ -79,7 +76,6 @@ hr {
 
 </style>
 
->>>>>>> 270c7fcbfb1c0571ddde6de6fa4eadc189c04315
 {% endblock %}
 
 {% block contents %}
@@ -113,19 +109,28 @@ hr {
                         <input type="file" name="profile_image">
                     </span>
                     <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-
-                <div class="form-group col-xs-2 col-sm-2 col-md-2">
-                    <label for="inputLocation">지역</label>
-
-                    <select class="form-control" name="location" id="sido">
-                        <option value="none">선택하세요</option>
-                        {% for m in location %}
-                        {% if m.upper_id == 0 %}
-                        <option class="state" value="{{ m.id }}">{{ m.name }}</option>
-                        {% endif %}
-                        {% endfor %}
-                    </select>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                <label for="inputLocation">지역</label>
+                <select class="form-control" name="location" id="sido">
+                    <option value="none">선택하세요</option>
+                    {% for m in location %}
+                    {% if m.upper_id == 0 %}
+                    <option class="state" value="{{ m.id }}">{{ m.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                <label for="inputLocation"></label>
+                <select class="form-control" name="sigungu" id="sigungu">
+                    <option value="none">선택하세요</option>      
+                </select>
             </div>
         </div>
 
@@ -137,15 +142,6 @@ hr {
                 {% else %}
                 <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" value="{{ profile_data.phrase }}">
                 {% endif %}
-                <div class="form-group col-xs-2 col-sm-2 col-md-2">
-                    <label for="inputLocation"></label>
-                    <select class="form-control" name="sigungu" id="sigungu">
-                        
-                    <option value="none">선택하세요</option>
-                    
-                                         
-                    </select>
-                </div>
             </div>
         </div>
 
@@ -170,57 +166,57 @@ hr {
                         {{ category.name }}</option>
                         {% endif %}
                         {% endfor %}
-                </select>
-                {% endif %}
+                    </select>
+                    {% endif %}
+                </div>
+
+                <div class="form-group col-sm-6 col-md-6">
+                    <label for="inputMajor">세부전공</label>
+                    <select name="major" id="inputMajor" class="form-control input-sm">
+                        <option value="0">구현 준비 중</option>
+                    </select>
+                </div>
             </div>
 
-            <div class="form-group col-sm-6 col-md-6">
-                <label for="inputMajor">세부전공</label>
-                <select name="major" id="inputMajor" class="form-control input-sm">
-                    <option value="0">구현 준비 중</option>
-                </select>
+            <div class="row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                    <label for="inputEducation">학력</label>
+                    {% if g.userdata.is_musician == 0 %}
+                    <input type="text" name="education" id="inputEducation" class="form-control input-sm" placeholder="ex) 한양대학교">
+                    {% else %}
+                    <input type="text" name="education" id="inputEducation" class="form-control input-sm" value="{{ profile_data.education }}">
+                    {% endif %}
+                </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12">
-                <label for="inputEducation">학력</label>
-                {% if g.userdata.is_musician == 0 %}
-                <input type="text" name="education" id="inputEducation" class="form-control input-sm" placeholder="ex) 한양대학교">
-                {% else %}
-                <input type="text" name="education" id="inputEducation" class="form-control input-sm" value="{{ profile_data.education }}">
-                {% endif %}
+            <h4 id="additional_fields"><i class="fa fa-star-o"></i> <strong>추가 입력사항</strong></h4>
+            <hr>
+
+            <div class="row">
+                <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                    <label for="inputRepertoire">레퍼토리</label>
+                    {% if g.userdata.is_musician == 0 %}
+                    <div class="help-message">지금까지 연주해온 곡들을 자유롭게 추가할 수 있습니다.</div>
+                    <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" placeholder="ex) F.Chopin - Nocturne No.2 Op.9">
+                    {% else %}
+                    <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" value="{{ profile_data.repertoire }}">
+                    {% endif %}
+                </div>
             </div>
-        </div>
 
-        <h4 id="additional_fields"><i class="fa fa-star-o"></i> <strong>추가 입력사항</strong></h4>
-        <hr>
+            {% if g.userdata.is_musician == 0 %}
+            <button type="submit" id="submit" class="btn btn-default pull-right">프로필 등록</button>
+            {% else %}
+            <button type="submit" id="submit" class="btn btn-default pull-right">프로필 수정</button>
+            {% endif %}
 
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12">
-                <label for="inputRepertoire">레퍼토리</label>
-                {% if g.userdata.is_musician == 0 %}
-                <div class="help-message">지금까지 연주해온 곡들을 자유롭게 추가할 수 있습니다.</div>
-                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" placeholder="ex) F.Chopin - Nocturne No.2 Op.9">
-                {% else %}
-                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" value="{{ profile_data.repertoire }}">
-                {% endif %}
-            </div>
-        </div>
-        
-        {% if g.userdata.is_musician == 0 %}
-        <button type="submit" id="submit" class="btn btn-default pull-right">프로필 등록</button>
-        {% else %}
-        <button type="submit" id="submit" class="btn btn-default pull-right">프로필 수정</button>
-        {% endif %}
+        </form>
 
-    </form>
+    </div>
 
-</div>
+    {% endblock %}
+    {% block scripts %}
 
-{% endblock %}
-{% block scripts %}
-
-{{ super() }}
-<script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
-{% endblock %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
+    {% endblock %}

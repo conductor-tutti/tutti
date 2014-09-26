@@ -65,7 +65,6 @@ class UserRelationship(db.Model):
     user = db.relationship("User", foreign_keys=[user_id])
     related_user = db.relationship("User", foreign_keys=[related_user_id])
 
-
 class Location(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(40))
