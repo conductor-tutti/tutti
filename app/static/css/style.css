@@ -3,9 +3,6 @@ body{
     font-family: "Nanum Gothic", sans-serif;
 }
 
-.container{
-    background: rgba(255, 255, 255, 0.95);
-}
 
 /* tuttiblack: #3F3F3F */
 
@@ -15,7 +12,7 @@ body{
 
 .navbar-default {
     background-color: #3F3F3F;
-    border-color: black;
+    border-color: #393939;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
