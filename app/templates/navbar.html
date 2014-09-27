@@ -56,12 +56,6 @@
                 {% endif %}
 
                 {% if g.userdata != None %}
-                <li {% if active_tab == "search_name" %} class="active" {% endif %}>
-                    <a href="{{ url_for('search_name') }}">유저 검색</a>
-                </li>
-                {% endif %}
-
-                {% if g.userdata != None %}
                 <li {% if active_tab == "my_friends" %} class="active" {% endif %}>
                     <a href="{{ url_for('my_friends') }}">내 친구</a>
                 </li>
