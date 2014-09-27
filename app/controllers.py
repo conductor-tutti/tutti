@@ -96,7 +96,7 @@ def musician_new():
             if g.userdata.is_musician == 1:
                 musician = Musician.query.filter(Musician.user_id == user_id)
                 profile_data = musician.first()
-                return render_template("/musician/musician_new.html", profile_data=profile_data, category_list=category_list, location=location)
+                return render_template("/musician/musician_new.html", profile_data=profile_data, category_list=category_list, location=location, active_tab="musician_new")
             return render_template("/musician/musician_new.html", upload_uri=upload_uri, category_list=category_list, location=location, active_tab="musician_new")
 
         elif request.method == "POST":
