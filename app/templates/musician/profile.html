@@ -20,7 +20,7 @@
         <div class="col-sm-2 col-md-2 col-sm-offset-5 col-md-offset-5" id="category">
             {% for category in category_list %}
             {% if category.id == musician.category_id %}
-                <span class="category">{{ category.name }}</span>
+            <span class="category">{{ category.name }}</span>
             {% endif %}
             {% endfor %}
         </div>
@@ -31,18 +31,26 @@
     </div>
 
     <div class="row" id="comment_row">
-        {% if comments %}
-        {% for comment in comments%}
-        <div class="comment">
-            {{ comment.author_name }} : {{ comment.content }}
+        <div class="col-sm-12 col-md-12"> 
+            {% if comments %}
+            {% for comment in comments%}
+            <div class="comment">
+                {{ comment.author_name }} : {{ comment.content }}
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
-        {% endfor %}
-        {% endif %}
-    </div>
-    <div class="row">
-            <input type="text" name="comment" id="comment" class="form-control input-sm" placeholder="comment" data-musician-id = "{{ musician.id }}">
-            <button type="submit" id="comment_create" class="btn btn-default pull-right">등록</button>
     </div>
 
+    <div class="row" id="comment_row">
+        <div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
+            <div class="input-group input-sm">
+                <input type="text" name="comment" id="comment" class="form-control" placeholder="메시지 남기기" data-musician-id="{{ musician.id }}">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">메시지 남기기</button>
+                </span>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
