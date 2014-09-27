@@ -32,7 +32,6 @@
 3. Using GAE launcher, load project root directory as existing project
 4. Launch and connect to 'localhost:8080'
 
-
 [Etc]
 1. Make sure that the code is written as below in '[ROOT]\app\__init__.py' unless you can destroy running tutti application on production
 - RIGHT: app.config.from_object("app.settings.Development") 
