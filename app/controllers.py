@@ -201,7 +201,8 @@ def facebook_authorized(resp):
                 email = me.data['email'],
                 username = me.data['name'],
                 facebook_id = me.data['id'],
-                access_token = session['oauth_token'][0]
+                access_token = session['oauth_token'][0],
+                photo = 'http://graph.facebook.com/'+me.data['id']+'/picture/'
             )
         db.session.add(user)
         db.session.commit()
@@ -212,6 +213,7 @@ def facebook_authorized(resp):
         flash(u"반갑습니다, %s 님!" % session["user_name"])
 
     return redirect(url_for('index'))
+    # return str(me.data)
 
 
 @facebook.tokengetter
@@ -253,7 +255,8 @@ def google_login():
                 email = google_userinfo['email'],
                 username = google_userinfo[u'name'],
                 google_id = google_userinfo['id'],
-                access_token = session['access_token'][0]
+                access_token = session['access_token'][0],
+                photo = google_userinfo['picture']
             )
         db.session.add(user)
         db.session.commit()
@@ -265,6 +268,7 @@ def google_login():
 
     return redirect(url_for('index'))
     # return str(session['access_token'][0])
+    # return str(google_userinfo)
 
 
 @app.route('/login_go')
