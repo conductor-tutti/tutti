@@ -58,3 +58,16 @@ class Location(db.Model):
     name = db.Column(db.String(40))
     upper_id = db.Column(db.Integer)
 
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    author_name = db.Column(db.String(255))
+    content = db.Column(db.Text())
+    is_out = db.Column(db.Integer, default=0)
+    user = db.relationship("User", foreign_keys=[user_id])
+    musician = db.relationship("Musician",
+        backref=db.backref("comments", cascade="all, delete-orphan", lazy="dynamic"))
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
