@@ -49,7 +49,10 @@ def before_request():
 @app.route('/', methods=["GET"])
 def index():
     index = {}
-    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    musicians = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    for musician in musicians:
+        musician.profile_image = images.get_serving_url(musician.photo)
+    index["musician_list"] = musicians
     return render_template("index.html", index=index, active_tab="index")
 
 
@@ -159,7 +162,8 @@ def musician_new():
 
                 # Delete old photo if photo has been updated
                 if (blob_key != None) and (musician.photo != blob_key):
-                    blobstore.delete(musician.photo)
+                    if musician.photo: # In case there is no photo
+                        blobstore.delete(musician.photo)
 
                 musician.photo = blob_key                
                 flash(u"프로필이 잘 변경되었어요!", "success")
