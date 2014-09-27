@@ -40,9 +40,7 @@ class Musician(db.Model):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
-    
-    created_on = db.Column(db.DateTime, default=db.func.now())
-    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+    upper_id = db.Column(db.Integer)
 
 
 class UserRelationship(db.Model):
