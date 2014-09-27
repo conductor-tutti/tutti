@@ -13,7 +13,7 @@
     <h2 id="username"><strong>{{ g.userdata.username }}</strong>님의 프로필 수정</h2>
     {% endif %}
     
-    <form role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
+    <form id="profile_form"  role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
 
         <h3 id="essential_fields"><i class="fa fa-star"></i> 필수 입력사항</h3>
         <hr>
@@ -31,7 +31,7 @@
                     <span class="btn btn-default btn-file">
                         <span class="fileinput-new">Select image</span>
                         <span class="fileinput-exists">Change</span>
-                        <input type="file" name="profile_image">
+                        <input type="file" name="profile_image" id="profile_image">
                     </span>
                     <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                 </div>
@@ -43,9 +43,9 @@
                 <label for="inputCategory">전공분야</label>
                 <select class="form-control input-sm" name="category" id="category">
                     <option value="none">선택하세요</option>
-                    {% for m in category %}
-                    {% if m.upper_id == 0 %}
-                    <option class="category" value="{{ m.id }}">{{ m.name }}</option>
+                    {% for c in categories %}
+                    {% if c.upper_id == 0 %}
+                    <option class="category" value="{{ c.id }}">{{ c.name }}</option> <!-- selected -->
                     {% endif %}
                     {% endfor %}
                 </select>
@@ -54,7 +54,7 @@
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
                 <label for="inputMajor">세부전공</label>
                 <select class="form-control input-sm" name="major" id="major">
-                    <option value="none">선택하세요</option>      
+                    <option value="none">선택하세요</option>
                 </select>
             </div>
         </div>
@@ -64,9 +64,9 @@
                 <label for="inputLocation">거주지역</label>
                 <select class="form-control input-sm" name="location" id="sido">
                     <option value="none">선택하세요</option>
-                    {% for m in location %}
-                    {% if m.upper_id == 0 %}
-                    <option class="state" value="{{ m.id }}">{{ m.name }}</option>
+                    {% for l in locations %}
+                    {% if l.upper_id == 0 %}
+                    <option class="state" value="{{ l.id }}">{{ l.name }}</option>
                     {% endif %}
                     {% endfor %}
                 </select>
@@ -139,6 +139,20 @@
     </form>
 
 </div>
+
+<script>
+$("#profile_form").submit(function() {
+    if ($('#profile_image').val()) { 
+        console.log('file exists');    
+    } else {
+        console.log('no file');
+        console.log($(this));
+        $(this).attr('action', '{{ target_url }}');               
+       
+    }
+     return true;
+});
+</script>
 
 {% endblock %}
 {% block scripts %}

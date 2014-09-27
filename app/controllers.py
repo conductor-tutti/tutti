@@ -104,38 +104,67 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
-    category = Category.query.all()
-    location = Location.query.all()
+    categories = Category.query.all()
+    locations = Location.query.all()
     if session:
         user_id = session['user_id']
+
+        target_url = "/musician/musician_new/"
         if request.method == "GET":
-            upload_uri = blobstore.create_upload_url("/musician/musician_new/")
+            upload_uri = blobstore.create_upload_url(target_url)
+
+            musician = {}
             if g.userdata.is_musician == 1:
-                musician = Musician.query.filter(Musician.user_id == user_id)
-                profile_data = musician.first()
-                return render_template("/musician/musician_new.html", profile_data=profile_data, category=category, location=location)
-            logging.info('upload_uri' + upload_uri)
-            return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, location=location, active_tab="musician_new")
+                musician_query = Musician.query.filter(Musician.user_id == user_id)
+                musician = musician_query.first()
+
+            return render_template("/musician/musician_new.html", target_url=target_url, profile_data=musician, upload_uri=upload_uri, categories=categories, locations=locations, active_tab="musician_new")
 
         elif request.method == "POST":
             photo = request.files["profile_image"]
             header = photo.headers["Content-Type"]
             parsed_header = parse_options_header(header)
-            blob_key = parsed_header[1]["blob-key"]
-            User.query.get(user_id).is_musician = 1
-            
-            musician = Musician(
-                user_id = user_id,
-                category_id = request.form.get("major"),
-                phrase = request.form.get("phrase"),
-                education = request.form.get("education"),
-                repertoire = request.form.get("repertoire"),
-                location_id = request.form.get("sigungu"),
-                photo = blob_key
-                )
-            db.session.add(musician)
+            blob_key = None
+            if(parsed_header[1].has_key("blob-key")):
+                blob_key = parsed_header[1]["blob-key"]  
+
+            #User.query.get(user_id)
+            if g.userdata.is_musician == 0: # New musicion   
+                musician = Musician(
+                    user_id = user_id,
+                    category_id = request.form.get("major"),
+                    phrase = request.form.get("phrase"),
+                    education = request.form.get("education"),
+                    repertoire = request.form.get("repertoire"),
+                    location_id = request.form.get("sigungu"),
+                    photo = blob_key
+                    )
+                db.session.add(musician)
+                flash(u"프로필이 잘 등록되었어요!", "success")
+            else:
+                musician_query = Musician.query.filter(Musician.user_id == user_id)
+                musician = musician_query.first()
+
+                category_id = request.form.get("major")
+                if category_id != 'none':
+                    musician.category_id = category_id 
+                musician.phrase = request.form.get("phrase")
+                musician.education = request.form.get("education")
+                musician.repertoire = request.form.get("repertoire")
+
+                location_id = request.form.get("location")
+                if location_id != 'none':
+                    musician.location_id = request.form.get("sigungu")
+
+
+                # Delete old photo if photo has been updated
+                if (blob_key != None) and (musician.photo != blob_key):
+                    blobstore.delete(musician.photo)
+
+                musician.photo = blob_key                
+                flash(u"프로필이 잘 변경되었어요!", "success")
+
             db.session.commit()
-            flash(u"프로필이 잘 등록되었어요!", "success")
         return redirect(url_for("index"))
 
     else:
