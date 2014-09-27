@@ -27,7 +27,7 @@ def before_request():
         for line in f.readlines():
             logging.info(line)
             fields = line.split(',')
-            category_record = Category(name=fields[1], upper_id=fields[2])
+            category_record = Category(name=fields[1], upper_id=fields[2]) # Should not run twice because of auto increment id field
             db.session.add(category_record)
         f.close()
         db.session.commit()
@@ -36,7 +36,7 @@ def before_request():
         f = open(os.path.dirname(__file__) + DB_INITIAL_DIRECTORY + '/' + 'location_v1.csv')
         for line in f.readlines():
             fields = line.split(',')
-            location_record = Location(name=fields[1], upper_id=fields[2])
+            location_record = Location(name=fields[1], upper_id=fields[2]) # Should not run twice because of auto increment id field
             db.session.add(location_record)
         f.close()
         db.session.commit()
