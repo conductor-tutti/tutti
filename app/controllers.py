@@ -202,7 +202,7 @@ def facebook_authorized(resp):
                 username = me.data['name'],
                 facebook_id = me.data['id'],
                 access_token = session['oauth_token'][0],
-                photo = 'http://graph.facebook.com/'+me.data['id']+'/picture/'
+                photo = 'http://graph.facebook.com/'+me.data['id']+'/picture?width=200&amp;height=200'+'width="100%"'+'height="100%"'
             )
         db.session.add(user)
         db.session.commit()
