@@ -104,8 +104,10 @@ def musician_new():
 
 
         elif request.method == "POST":
+
             photo = request.files["profile_image"]
             header = photo.headers["Content-Type"]
+
             parsed_header = parse_options_header(header)
             blob_key = parsed_header[1]["blob-key"]
             User.query.get(user_id).is_musician = 1
@@ -113,7 +115,8 @@ def musician_new():
             musician = Musician(
                 user_id = user_id,
 
-                category_id = request.form.get("major"),
+                category_id = request.form.get("category"),
+                major_id = request.form.get("major"),
 
                 phrase = request.form.get("phrase"),
                 education = request.form.get("education"),
