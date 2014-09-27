@@ -160,6 +160,13 @@ def musician_category():
         major = {"categories":[(x.id, x.name) for x in categories]}
         return jsonify(major)
 
+@app.route("/musician/classic_musician/", methods=["GET"])
+def classic_musician():
+    index = {}
+    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 1).limit(4)
+    return render_template("musician/classic_musician.html", index=index, active_tab="index")
+
+
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):
     musician = Musician.query.get(musician_id)
