@@ -10,7 +10,10 @@ $(document).ready(function(){
             },
             success: function(data){
                 if (data.success){
-                    $('#comment_row').append("<div class='comment'>"+data.author_name+ ":"+data.comment_data+"</div>")
+                    $('#comment_row').append(
+                        "<div class='comment'>" + "<strong>" +
+                        "<i class='author_name'>" + data.author_name + "</i>"
+                        + "</strong>" + "<br>" + data.comment_data + "</div>")
                     $('#comment').val("");
                     console.log('send msg success!');
                 }
