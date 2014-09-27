@@ -87,7 +87,9 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
-    category_list = Category.query.all()
+
+    category = Category.query.all()
+
     location = Location.query.all()
     if session:
         user_id = session['user_id']
@@ -96,8 +98,10 @@ def musician_new():
             if g.userdata.is_musician == 1:
                 musician = Musician.query.filter(Musician.user_id == user_id)
                 profile_data = musician.first()
-                return render_template("/musician/musician_new.html", profile_data=profile_data, category_list=category_list, location=location, active_tab="musician_new")
-            return render_template("/musician/musician_new.html", upload_uri=upload_uri, category_list=category_list, location=location, active_tab="musician_new")
+
+                return render_template("/musician/musician_new.html", profile_data=profile_data, category=category, location=location)
+            return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, location=location, active_tab="musician_new")
+
 
         elif request.method == "POST":
             photo = request.files["profile_image"]
@@ -108,7 +112,9 @@ def musician_new():
             
             musician = Musician(
                 user_id = user_id,
-                category_id = request.form.get("category"),
+
+                category_id = request.form.get("major"),
+
                 phrase = request.form.get("phrase"),
                 education = request.form.get("education"),
                 repertoire = request.form.get("repertoire"),
@@ -132,6 +138,17 @@ def musician_location():
         locations = Location.query.filter(Location.upper_id==locationsidoid).all()
         sigungu = {"locations":[(x.id, x.name) for x in locations]}
         return jsonify(sigungu)
+
+
+
+@app.route("/musician/musician_category/", methods=["GET","POST"])
+def musician_category():
+    if request.method == "POST":
+        categoryid = request.form.get("category")
+        categories = Category.query.filter(Category.upper_id==categoryid).all()
+        major = {"categories":[(x.id, x.name) for x in categories]}
+        return jsonify(major)
+
 
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
@@ -296,7 +313,6 @@ def search_name():
     if request.method == "POST":
         index['userdata'] = User.query.filter(User.username.contains(request.form.get("search-name"))).limit(4)
         return render_template("show_friends.html", index=index, active_tab="index")
-    
 
 
 @app.route('/friendship_request/<int:user_id>', methods = ['GET', 'POST'])
@@ -352,6 +368,7 @@ def accept_friend_request(user_id):
     elif request.method == "POST":
         return render_template("show_friends.html", index=index, active_tab="index")
 
+
 @app.route("/user_profile", methods=["GET", "POST"])
 def user_profile():
     if session:
@@ -362,3 +379,4 @@ def user_profile():
     else:
         flash(u"로그인 후 이용해 주세요~", "danger")
         return redirect(url_for('index'))
+

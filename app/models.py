@@ -23,8 +23,7 @@ class Musician(db.Model):
         backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
     category = db.relationship("Category", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
-    major_id = db.Column(db.Integer)
-    # major = db.relationship("Major", foreign_keys=[major_id], backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
+
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     location = db.relationship("Location", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
 
@@ -41,7 +40,6 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
     upper_id = db.Column(db.Integer)
-
 
 class UserRelationship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
