@@ -15,7 +15,7 @@
     
     <form role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
 
-        <h4 id="essential_fields"><i class="fa fa-star"></i> <strong>필수 입력사항</strong></h4>
+        <h3 id="essential_fields"><i class="fa fa-star"></i> 필수 입력사항</h3>
         <hr>
 
         <div class="row">
@@ -37,11 +37,32 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="row">
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputLocation">지역</label>
-                <select class="form-control" name="location" id="sido">
+                <label for="inputCategory">전공분야</label>
+                <select class="form-control input-sm" name="category" id="category">
+                    <option value="none">선택하세요</option>
+                    {% for m in category %}
+                    {% if m.upper_id == 0 %}
+                    <option class="category" value="{{ m.id }}">{{ m.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                <label for="inputMajor">세부전공</label>
+                <select class="form-control input-sm" name="major" id="major">
+                    <option value="none">선택하세요</option>      
+                </select>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                <label for="inputLocation">거주지역</label>
+                <select class="form-control input-sm" name="location" id="sido">
                     <option value="none">선택하세요</option>
                     {% for m in location %}
                     {% if m.upper_id == 0 %}
@@ -52,8 +73,8 @@
             </div>
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputLocation"></label>
-                <select class="form-control" name="sigungu" id="sigungu">
+                <label for="inputLocation">시, 군, 구</label>
+                <select class="form-control input-sm" name="sigungu" id="sigungu">
                     <option value="none">선택하세요</option>      
                 </select>
             </div>
@@ -71,30 +92,6 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputCategory">전공분야</label>
-                <select class="form-control" name="category" id="category">
-                    <option value="none">선택하세요</option>
-                    {% for m in category %}
-                    {% if m.upper_id == 0 %}
-                    <option class="category" value="{{ m.id }}">{{ m.name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputMajor">세부전공</label>
-                <select class="form-control" name="major" id="major">
-                    <option value="none">선택하세요</option>      
-                </select>
-            </div>
-            
-
-
-        </div>
-
-        <div class="row">
             <div class="form-group col-xs-12 col-sm-12 col-md-12">
                 <label for="inputEducation">학력</label>
                 {% if g.userdata.is_musician == 0 %}
@@ -105,7 +102,7 @@
             </div>
         </div>
 
-        <h4 id="additional_fields"><i class="fa fa-star-o"></i> <strong>추가 입력사항</strong></h4>
+        <h3 id="additional_fields"><i class="fa fa-star-o"></i> 추가 입력사항</h3>
         <hr>
 
         <div class="row">
@@ -119,6 +116,19 @@
                 {% endif %}
             </div>
         </div>
+
+        <div class="row">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                <label for="inputRepertoire">연주 영상</label>
+                {% if g.userdata.is_musician == 0 %}
+                <div class="help-message">멋진 연주 동영상이 있나요? 동영상의 주소를 추가해 보세요.</div>
+                <input type="text" name="#" id="inputVideo" class="form-control input-sm" placeholder="ex) YouTube 주소, Vimeo 주소 등">
+                {% else %}
+                <input type="text" name="#" id="inputVideo" class="form-control input-sm" value="#">
+                {% endif %}
+            </div>
+        </div>
+
 
         {% if g.userdata.is_musician == 0 %}
         <button type="submit" id="submit" class="btn btn-default pull-right">프로필 등록</button>
