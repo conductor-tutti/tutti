@@ -1,21 +1,24 @@
 {% extends "layout.html" %}
 {% block customhead %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/classic_musicians.css') }}">
 
 {% endblock %}
 {% block outer %}
-<div class="wide">
+<div class="row">
 	<div class="col-sm-4 col-md-4 col-sm-offset-4 col-md-offset-4">
-		<div class="catchphrase">ARE YOU A MUSICIAN?</div>
-		<p class="logo">Show others your talents!</p>
+		<div class="lobster">CLASSICAL</div>
+		<div class="tag_list">
+			{% for category in category_list %}
+			{% if category.upper_id == 1 %}
+			<div class="tags">{{ category.name }}</div>
+			{% endif %}
+			{% endfor %}
+		</div>
 	</div>
 </div>
 
 
 <div class="row">
-	<h1 class="newbies"><strong>Classic</strong></h1>
-	<div class="newbies_sub">클래식을 전공한 뮤지션들입니다.</div>
-
 	{% if index.musician_list %}
 	{% for musician in index.musician_list %}
 	<div class="col-sm-6 col-md-3 classic_musician">
