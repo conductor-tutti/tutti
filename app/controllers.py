@@ -87,9 +87,7 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
-
     category = Category.query.all()
-
     location = Location.query.all()
     if session:
         user_id = session['user_id']
@@ -146,6 +144,7 @@ def musician_location():
 
 @app.route("/musician/musician_category/", methods=["GET","POST"])
 def musician_category():
+   
     if request.method == "POST":
         categoryid = request.form.get("category")
         categories = Category.query.filter(Category.upper_id==categoryid).all()
@@ -154,9 +153,17 @@ def musician_category():
 
 @app.route("/musician/classic_musician/", methods=["GET"])
 def classic_musician():
+    category_list = Category.query.all()
     index = {}
     index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 1).limit(4)
-    return render_template("musician/classic_musician.html", index=index, active_tab="index")
+    return render_template("musician/classic_musician.html", index=index, category_list=category_list, active_tab="index")
+
+@app.route("/musician/kukak_musician/", methods=["GET"])
+def kukak_musician():
+    category_list = Category.query.all()
+    index = {}
+    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 2).limit(4)
+    return render_template("musician/kukak_musician.html", index=index, category_list=category_list, active_tab="index")
 
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
