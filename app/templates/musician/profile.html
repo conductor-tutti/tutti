@@ -1,11 +1,12 @@
 {% extends "layout.html" %}
 {% block customhead %}
-
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/musician_profile.css') }}">
 {% endblock %}
 {% block contents %}
 
 <div class="box">
     <!-- 카테고리, 프로필, 뮤지션 이름 -->
+<<<<<<< HEAD
     <div class="row">
         <div class="col-md-9">
             <!-- <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}"> -->
@@ -29,3 +30,27 @@
         </div>
     </div>
     {% endblock %}
+=======
+    <div class="col-sm-2 col-md-2 col-sm-offset-5 col-md-offset-5">
+        <!-- <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}"> -->
+        <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p200x200/10647021_357046034446039_4282164189832330896_n.jpg?oh=42fd2d615e0d69e65579855fd8b23945&oe=548B9567&__gda__=1422714586_1e3f570b5f6244fbe1985e5a041bb6d5" class="profile_image img-circle">
+    </div>
+
+    <div class="row">
+        <h3 class="col-sm-2 col-md-2 col-sm-offset-5 col-md-offset-5" id="username">{{ username }}</h3>
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2 col-md-2 col-sm-offset-5 col-md-offset-5" id="category">
+            카테고리, 전공
+        </div>
+    </div>
+
+    <div class="row">
+        <h4 class="col-sm-4 col-md-6 col-sm-offset-4 col-md-offset-3" id="phrase">"{{ musician.phrase }}"</h4>
+    </div>
+
+</div>
+{% endblock %}
+>>>>>>> a559d731992acec621ba035cd15029e83757a81d

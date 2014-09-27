@@ -1,10 +1,16 @@
 body{
+<<<<<<< HEAD
     background-color: #3F3F3F;
+=======
+    /*background-color: #3F3F3F;*/
+    background-image: url("../images/struckaxiom.png");
+>>>>>>> a559d731992acec621ba035cd15029e83757a81d
     font-family: "Nanum Gothic", sans-serif;
 }
 
 
 /* tuttiblack: #3F3F3F */
+<<<<<<< HEAD
 
 .navbar .nav > li > a {
     color:  #ffffff;
@@ -27,11 +33,14 @@ body{
     color: #FEF3D7;
     background-color: transparent;
 }
+=======
+>>>>>>> a559d731992acec621ba035cd15029e83757a81d
 
 .nav-container{
     background-color: #3F3F3F;
 }
 
+<<<<<<< HEAD
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
     color: white;
     background-color: #4E4E4E;
@@ -64,6 +73,8 @@ body{
     color: white;
 }
 
+=======
+>>>>>>> a559d731992acec621ba035cd15029e83757a81d
 .no-list {
     padding: 10px;
     text-align: center;
