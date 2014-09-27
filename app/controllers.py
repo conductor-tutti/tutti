@@ -157,7 +157,7 @@ def musician_profile(musician_id):
     user = User.query.get(musician.user_id)
     category_list = Category.query.all()
     username = user.username
-    return render_template("musician/profile.html", username=username, musician=musician)
+    return render_template("musician/profile.html", username=username, category_list=category_list, musician=musician)
 
 
 @app.route("/photo/get/<path:blob_key>/", methods=["GET"])
