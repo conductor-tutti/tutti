@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
 from app import app, db, facebook, google
-from sqlalchemy import desc
-from app.models import User, Musician, Category, Location, UserRelationship
+from sqlalchemy import desc, asc
+from app.models import User, Musician, Category, Location, UserRelationship, Comment
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
 from google.appengine.api import images
