@@ -160,6 +160,7 @@ def musician_category():
         major = {"categories":[(x.id, x.name) for x in categories]}
         return jsonify(major)
 
+
 @app.route("/musician/classic_musician/", methods=["GET"])
 def classic_musician():
     index = {}
