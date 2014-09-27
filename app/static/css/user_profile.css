@@ -1,0 +1,15 @@
+#profile-box{
+    text-align: center;
+}
+.sorry{
+    background-color: rgb(188, 146, 127);
+    padding: 10px;
+    color: white;
+    text-shadow: 1px 1px 0px #4C4C4C;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.lobster{
+    font-family: 'Lobster', cursive;
+}
