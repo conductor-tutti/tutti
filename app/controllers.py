@@ -87,9 +87,7 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
-
     category = Category.query.all()
-
     location = Location.query.all()
     if session:
         user_id = session['user_id']
@@ -104,8 +102,10 @@ def musician_new():
 
 
         elif request.method == "POST":
+
             photo = request.files["profile_image"]
             header = photo.headers["Content-Type"]
+
             parsed_header = parse_options_header(header)
             blob_key = parsed_header[1]["blob-key"]
             User.query.get(user_id).is_musician = 1
@@ -113,7 +113,8 @@ def musician_new():
             musician = Musician(
                 user_id = user_id,
 
-                category_id = request.form.get("major"),
+                category_id = request.form.get("category"),
+                major_id = request.form.get("major"),
 
                 phrase = request.form.get("phrase"),
                 education = request.form.get("education"),
@@ -143,6 +144,7 @@ def musician_location():
 
 @app.route("/musician/musician_category/", methods=["GET","POST"])
 def musician_category():
+   
     if request.method == "POST":
         categoryid = request.form.get("category")
         categories = Category.query.filter(Category.upper_id==categoryid).all()
@@ -151,9 +153,17 @@ def musician_category():
 
 @app.route("/musician/classic_musician/", methods=["GET"])
 def classic_musician():
+    category_list = Category.query.all()
     index = {}
     index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 1).limit(4)
-    return render_template("musician/classic_musician.html", index=index, active_tab="index")
+    return render_template("musician/classic_musician.html", index=index, category_list=category_list, active_tab="index")
+
+@app.route("/musician/kukak_musician/", methods=["GET"])
+def kukak_musician():
+    category_list = Category.query.all()
+    index = {}
+    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 2).limit(4)
+    return render_template("musician/kukak_musician.html", index=index, category_list=category_list, active_tab="index")
 
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
