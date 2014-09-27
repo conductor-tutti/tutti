@@ -1,80 +1,16 @@
 body{
-<<<<<<< HEAD
-    background-color: #3F3F3F;
-=======
     /*background-color: #3F3F3F;*/
     background-image: url("../images/struckaxiom.png");
->>>>>>> a559d731992acec621ba035cd15029e83757a81d
     font-family: "Nanum Gothic", sans-serif;
 }
 
 
 /* tuttiblack: #3F3F3F */
-<<<<<<< HEAD
-
-.navbar .nav > li > a {
-    color:  #ffffff;
-}
-
-.navbar-default {
-    background-color: #3F3F3F;
-    border-color: #393939;
-}
-
-.navbar-default .navbar-toggle .icon-bar {
-    background-color: white;
-}
-
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
-    background-color: #D95D5F;
-}
-
-.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-    color: #FEF3D7;
-    background-color: transparent;
-}
-=======
->>>>>>> a559d731992acec621ba035cd15029e83757a81d
 
 .nav-container{
     background-color: #3F3F3F;
 }
 
-<<<<<<< HEAD
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-    color: white;
-    background-color: #4E4E4E;
-}
-
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: #FEF3D7;
-    background-color: transparent;
-}
-
-.navbar-default .navbar-brand {
-    width: 120px;
-    text-align: center;
-    font-family: "Lobster", cursive;
-    font-size: 2.5em;
-    letter-spacing: 4px;
-    color: white;
-}
-
-.navbar-fixed-bottom{
-    height: 80px;
-}
-
-.navbar-default .navbar-text{
-    font-size: ;
-    color: white;
-}
-
-.nav-menu{
-    color: white;
-}
-
-=======
->>>>>>> a559d731992acec621ba035cd15029e83757a81d
 .no-list {
     padding: 10px;
     text-align: center;

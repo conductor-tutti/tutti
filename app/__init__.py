@@ -3,19 +3,17 @@ from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager
 from flask_oauth import OAuth
-import settings
+from app import settings
 
+GOOGLE_CLIENT_ID = '446320683721-5682au4ts51jm1al7rhf3fmlp8l5btid.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = 'hWYMEa07SuVQ5WeLkAjCVwAU'
 
-
-# set these two values to match your account
-GOOGLE_CLIENT_ID = '695566589596-eov5uiidks7dqrm8oag7r50q5imr9rqs.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = '3yKervjM4HCwZPWS8Mu50L1v'
-
-SECRET_KEY = "ILOVETUTTISOMUCH"
+SECRET_KEY = 'YOUWILLNEVERKNOWTHISKEY'
 DEBUG = True
 
 app = Flask(__name__)
-app.config.from_object("app.settings.Production")
+# change app.config.from_object value when you want to user local DB like me!
+app.config.from_object("app.settings.Development")
 app.debug = DEBUG
 app.secret_key = SECRET_KEY
 

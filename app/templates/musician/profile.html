@@ -6,31 +6,6 @@
 
 <div class="box">
     <!-- 카테고리, 프로필, 뮤지션 이름 -->
-<<<<<<< HEAD
-    <div class="row">
-        <div class="col-md-9">
-            <!-- <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}"> -->
-            <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p200x200/10647021_357046034446039_4282164189832330896_n.jpg?oh=42fd2d615e0d69e65579855fd8b23945&oe=548B9567&__gda__=1422714586_1e3f570b5f6244fbe1985e5a041bb6d5">
-            <!-- username 앞에 호칭 ex) 피아니스트 --><h3>{{ username }}</h3>
-            <div id="category_major">
-                {% for category in category_list %}
-                {% if musician.category_id == category.id %}
-                {{ category.name }}
-                {% endif %}
-                {% endfor %}
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="row">
-        <div class="col-md-12 musician_phrase">
-            {{ musician.phrase }}
-        </div>
-    </div>
-    {% endblock %}
-=======
     <div class="col-sm-2 col-md-2 col-sm-offset-5 col-md-offset-5">
         <!-- <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}"> -->
         <img src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p200x200/10647021_357046034446039_4282164189832330896_n.jpg?oh=42fd2d615e0d69e65579855fd8b23945&oe=548B9567&__gda__=1422714586_1e3f570b5f6244fbe1985e5a041bb6d5" class="profile_image img-circle">
@@ -53,4 +28,3 @@
 
 </div>
 {% endblock %}
->>>>>>> a559d731992acec621ba035cd15029e83757a81d

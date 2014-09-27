@@ -55,17 +55,11 @@ hr{
     <div class="col-xs-12 col-sm-6 col-md-3 newest_musicians">
         <div class="newbie_box">
             <div class="newbie_name">{{ user.username }}</div>
-<<<<<<< HEAD
-                <form role="form" method="post">
-                    <a href="{{ url_for("friendship_request", user_id=user.id) }}" class="btn btn btn-default">친구요청</a>
-                </form>
-=======
                 {% if g.userdata != None %}
                 <form role="form" method="post">
                     <a href="{{ url_for("friendship_request", user_id=user.id) }}" class="btn btn btn-default">친구요청</a>
                 </form>
                 {% endif %}
->>>>>>> a559d731992acec621ba035cd15029e83757a81d
             </div>
         </div>
     {% endfor %}

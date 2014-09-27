@@ -3,10 +3,6 @@
 }
 
 .row{
-<<<<<<< HEAD
-    background: rgba(255, 255, 255, 0.95);
-=======
->>>>>>> a559d731992acec621ba035cd15029e83757a81d
 }
 
 .wide{
@@ -14,11 +10,7 @@
     height:350px;
     background-image:url('../images/Violinist_Diana_Yukawa_edited.jpg');
     background-size:cover;
-<<<<<<< HEAD
-    border-bottom: 1px solid #3D3D3D;
-=======
     box-shadow: 0px 0px 30px #BEBEBE;
->>>>>>> a559d731992acec621ba035cd15029e83757a81d
 }
 
 .wide img{
@@ -51,11 +43,7 @@
     font-family: "Lobster", cursive;
     text-align: center;
     letter-spacing: 2px;
-<<<<<<< HEAD
-    color: #E76454;
-=======
     color: #AE846C;
->>>>>>> a559d731992acec621ba035cd15029e83757a81d
     text-shadow: 2px 2px white;
 }
 
@@ -79,11 +67,8 @@ hr{
 }
 
 .thumbnail .caption{
-<<<<<<< HEAD
-=======
     max-height: 120px;
     padding: 15px;
->>>>>>> a559d731992acec621ba035cd15029e83757a81d
     background-color: white;
     border-top-left-radius: 15px;
     border-bottom-right-radius: 15px;
