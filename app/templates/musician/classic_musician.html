@@ -10,16 +10,15 @@
 		<p class="logo">Show others your talents!</p>
 	</div>
 </div>
-{% endblock %}
-{% block contents %}
+
 
 <div class="row">
 	<h1 class="newbies"><strong>Classic</strong></h1>
 	<div class="newbies_sub">클래식을 전공한 뮤지션들입니다.</div>
 
-	{% for m in musicans %}
-	{% if m.category_id == 1 %}
-	<div class="col-sm-6 col-md-3 classic_musicians">
+	{% if index.musician_list %}
+	{% for musician in index.musician_list %}
+	<div class="col-sm-6 col-md-3 classic_musician">
 		<div class="thumbnail">
 			<!-- <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}"> -->
 			<img data-src="holder.js/300x300" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p200x200/10647021_357046034446039_4282164189832330896_n.jpg?oh=42fd2d615e0d69e65579855fd8b23945&oe=548B9567&__gda__=1422714586_1e3f570b5f6244fbe1985e5a041bb6d5" class="img-thumbnail">
@@ -30,7 +29,10 @@
 		</div>
 	</div>
 
-	{% endif %}
 	{% endfor %}
+	{% endif %}
 
 </div>
+
+{% endblock %}
+
