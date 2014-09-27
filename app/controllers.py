@@ -114,6 +114,7 @@ def musician_new():
                 musician = Musician.query.filter(Musician.user_id == user_id)
                 profile_data = musician.first()
                 return render_template("/musician/musician_new.html", profile_data=profile_data, category=category, location=location)
+            logging.info('upload_uri' + upload_uri)
             return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, location=location, active_tab="musician_new")
 
         elif request.method == "POST":
