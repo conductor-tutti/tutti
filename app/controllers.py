@@ -163,9 +163,10 @@ def musician_category():
 
 @app.route("/musician/classic_musician/", methods=["GET"])
 def classic_musician():
+    category_list = Category.query.all()
     index = {}
     index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 1).limit(4)
-    return render_template("musician/classic_musician.html", index=index, active_tab="index")
+    return render_template("musician/classic_musician.html", index=index, category_list=category_list, active_tab="index")
 
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
