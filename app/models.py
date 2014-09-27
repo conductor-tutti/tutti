@@ -12,7 +12,7 @@ class User(db.Model):
     access_token = db.Column(db.String(255))
     facebook_id = db.Column(db.String(255))
     google_id = db.Column(db.String(255))
-
+    photo = db.Column(db.String(255))
     # just forget deleting accounts until 'real' launching
     ## is_out = db.Column(db.Integer, default=0)    
 
