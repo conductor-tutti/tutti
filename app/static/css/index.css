@@ -43,7 +43,7 @@
     font-family: "Lobster", cursive;
     text-align: center;
     letter-spacing: 2px;
-    color: #E76454;
+    color: #AE846C;
     text-shadow: 2px 2px white;
 }
 
@@ -67,6 +67,8 @@ hr{
 }
 
 .thumbnail .caption{
+    max-height: 120px;
+    padding: 15px;
     background-color: white;
     border-top-left-radius: 15px;
     border-bottom-right-radius: 15px;
