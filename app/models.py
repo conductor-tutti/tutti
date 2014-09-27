@@ -38,21 +38,11 @@ class Musician(db.Model):
 
     
 class Category(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
     
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
-
-# Soyoung will modify this part!
-# class Major(db.Model):
-#     id = db.Column(db.Integer, primary_key = True)
-#     name = db.Column(db.String(40))
-#     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
-#     category = db.relationship("Category", backref=db.backref("major", cascade="all, delete-orphan", lazy="dynamic"))
-
-#     created_on = db.Column(db.DateTime, default=db.func.now())
-#     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
 
 class UserRelationship(db.Model):
@@ -65,7 +55,31 @@ class UserRelationship(db.Model):
     user = db.relationship("User", foreign_keys=[user_id])
     related_user = db.relationship("User", foreign_keys=[related_user_id])
 
+
 class Location(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
     upper_id = db.Column(db.Integer)
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    musician = db.relationship("Musician",
+        backref=db.backref("comments", cascade="all, delete-orphan", lazy="dynamic"))
+    author_name = db.Column(db.String(255))
+    content = db.Column(db.Text())
+    is_out = db.Column(db.Integer, default=0)
+
+    created_on = db.Column(db.DateTime, default=db.func.now())
+
+class DeletedComments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    musician = db.relationship("Musician",
+        backref=db.backref("comments", cascade="all, delete-orphan", lazy="dynamic"))
+    author_name = db.Column(db.String(255))
+    content = db.Column(db.Text())
+
+    created_on = db.Column(db.DateTime, default=db.func.now())
+
