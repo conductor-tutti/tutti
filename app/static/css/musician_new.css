@@ -1,5 +1,5 @@
 #profile-box{
-    background-color: white;
+    background: rgba(255, 255, 255, 0.8);
     border-top-right-radius: 20px;
     border-bottom-left-radius: 20px;
 }
@@ -34,6 +34,10 @@
 #submit{
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.lobster{
+    font-family: 'Lobster', cursive;
 }
 /* Whipping File Inputs Into Shape
 http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
