@@ -51,7 +51,7 @@ def index():
     index = {}
     musicians = Musician.query.order_by(desc(Musician.created_on)).limit(4)
     for musician in musicians:
-        musician.profile_image = images.get_serving_url(musician.photo)
+        musician.photo_url = images.get_serving_url(musician.photo)
     index["musician_list"] = musicians
     return render_template("index.html", index=index, active_tab="index")
 
@@ -120,8 +120,10 @@ def musician_new():
             if g.userdata.is_musician == 1:
                 musician_query = Musician.query.filter(Musician.user_id == user_id)
                 musician = musician_query.first()
+                if musician.photo:
+                    musician.photo_url = images.get_serving_url(musician.photo) 
 
-            return render_template("/musician/musician_new.html", target_url=target_url, profile_data=musician, upload_uri=upload_uri, categories=categories, locations=locations, active_tab="musician_new")
+            return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, active_tab="musician_new")
 
         elif request.method == "POST":
             photo = request.files["profile_image"]
@@ -159,13 +161,13 @@ def musician_new():
                 if location_id != 'none':
                     musician.location_id = request.form.get("sigungu")
 
+                if blob_key != None:
+                    old_blob_key = musician.photo
+                    musician.photo = blob_key
+                    if old_blob_key != None:
+                        blobstore.delete(old_blob_key.photo)
 
-                # Delete old photo if photo has been updated
-                if (blob_key != None) and (musician.photo != blob_key):
-                    if musician.photo: # In case there is no photo
-                        blobstore.delete(musician.photo)
-
-                musician.photo = blob_key                
+             
                 flash(u"프로필이 잘 변경되었어요!", "success")
 
             db.session.commit()
