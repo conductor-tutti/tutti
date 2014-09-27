@@ -1,0 +1,101 @@
+{% extends "layout.html" %}
+{% block customhead %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/musician_new.css') }}">
+<style type="text/css">
+
+/* default colors */
+/* creamy brown: #BB8F76 */
+/* deep creamy brown: #AF866F */
+
+.main {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+}
+
+h3, .h3{
+    text-align: center;
+}
+
+.please-login{
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #BB8F76;
+}
+
+a {
+    color: #BB8F76;
+}
+
+a:hover, a:focus {
+    color: #AF866F;
+    text-decoration: none;
+}
+
+.help{
+    color: #BB8F76;
+    font-size: 0.9em;
+}
+
+.easy-signup {
+    position: relative;
+    font-size: 18px;
+    color: #aaa;
+    margin-top: 60px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.span-easy {
+    display: block;
+    position: absolute;
+    left: 45%;
+    top: -2px;
+    margin-left: -25px;
+    background-color: #fff;
+    width: 100px;
+    font-size: 0.7em;
+    text-align: center;
+}
+
+hr {
+    border-top: 1px dashed #e2e2e2;
+}
+
+
+.alert{
+    max-width: 420px;
+    margin: 0 auto 20px auto;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+</style>
+
+{% endblock %}
+
+{% block contents %}
+
+<div id="profile-box" class="col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3">
+    {% if g.userdata != None %}
+    <div class="row">
+        <span>이름 : </span>
+        {{ g.userdata.username }}
+    </div>
+    <div class="row">
+        <span>이메일 : </span>
+        {{ g.userdata.email}}
+    </div>    
+    {% endif %}
+</div>
+
+    {% endblock %}
+    {% block scripts %}
+
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
+    {% endblock %}

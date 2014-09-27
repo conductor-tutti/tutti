@@ -288,16 +288,11 @@ def get_access_token():
 
 @app.route('/search_name', methods = ['GET','POST'])
 def search_name():
-    if session:
-        index = {}
-        if request.method == "GET":
-            return render_template("search.html", active_tab="search_name")
-        else:
-            index['userdata'] = User.query.filter(User.username.contains(request.form.get("search-name"))).limit(4)
-            return render_template("show_friends.html", index=index, active_tab="index")
-    else:
-        flash(u"로그인 후 이용해 주세요~", "danger")
-        return redirect(url_for('index'))
+    index = {}
+    if request.method == "POST":
+        index['userdata'] = User.query.filter(User.username.contains(request.form.get("search-name"))).limit(4)
+        return render_template("show_friends.html", index=index, active_tab="index")
+    
 
 
 @app.route('/friendship_request/<int:user_id>', methods = ['GET', 'POST'])
@@ -352,3 +347,14 @@ def accept_friend_request(user_id):
         return redirect(url_for('my_friends'))
     elif request.method == "POST":
         return render_template("show_friends.html", index=index, active_tab="index")
+
+@app.route("/user_profile", methods=["GET", "POST"])
+def user_profile():
+    if session:
+        user_id = session['user_id']
+        if request.method == "GET":
+            return render_template("user_profile.html", active_tab="user_profile")
+
+    else:
+        flash(u"로그인 후 이용해 주세요~", "danger")
+        return redirect(url_for('index'))
