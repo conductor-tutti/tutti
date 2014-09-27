@@ -108,8 +108,8 @@ def musician_new():
     location = Location.query.all()
     if session:
         user_id = session['user_id']
-        upload_uri = blobstore.create_upload_url("/musician/musician_new/")
         if request.method == "GET":
+            upload_uri = blobstore.create_upload_url("/musician/musician_new/")
             if g.userdata.is_musician == 1:
                 musician = Musician.query.filter(Musician.user_id == user_id)
                 profile_data = musician.first()
