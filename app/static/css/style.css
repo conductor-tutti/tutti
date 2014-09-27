@@ -1,16 +1,18 @@
 body{
-    background-color: #EDEDED;
-    font-family: "Malgun Gothic", verdana;
+    background-color: #3F3F3F;
+    font-family: "Nanum Gothic", sans-serif;
 }
 
+
+/* tuttiblack: #3F3F3F */
 
 .navbar .nav > li > a {
     color:  #ffffff;
 }
 
 .navbar-default {
-    background-color: #CC575A;
-    border-color: black;
+    background-color: #3F3F3F;
+    border-color: #393939;
 }
 
 .navbar-default .navbar-toggle .icon-bar {
@@ -43,9 +45,9 @@ body{
 .navbar-default .navbar-brand {
     width: 120px;
     text-align: center;
-    font-family: "Fredoka One", cursive;
-    font-size: 2em;
-    letter-spacing: 2px;
+    font-family: "Lobster", cursive;
+    font-size: 2.5em;
+    letter-spacing: 4px;
     color: white;
 }
 

@@ -1,3 +1,4 @@
+// $(document).ready(function(){
  // $(document).ready(function(){
  //     var article_num = 0;
  //     var current_row = 2;

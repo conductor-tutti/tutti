@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container-fluid nav-container">
+    <div class="container nav-container">
         <!-- Brand and toggle get gouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#tutti-navbar-collapse">
@@ -23,35 +23,53 @@
 
             <ul class="nav navbar-nav navbar-right nav-menu">
 
-                {% if g.username == None %}
+                {% if g.userdata == None %}
                 <li {% if active_tab == "sign_in" %} class="active" {% endif %}>
                     <a href="{{ url_for('sign_in') }}">로그인</a>
                 </li>
                 {% endif %}
 
-                {% if g.username != None %}
+                {% if g.userdata != None %}
                 <li>
                     <a href="{{ url_for('logout') }}">로그아웃</a>
                 </li>
                 {% endif %}
 
-                {% if g.username == None %}
+                {% if g.userdata == None %}
                 <li {% if active_tab == "sign_up" %} class="active" {% endif %}>
                     <a href="{{ url_for('sign_up') }}">회원가입</a>
                 </li>
                 {% endif %}
 
-                {% if g.username != None %}
+                {% if g.userdata != None %}
+                {% if g.userdata.is_musician == 0 %}
                 <li {% if active_tab == "musician_new" %} class="active" {% endif %}>
                     <a href="{{ url_for('musician_new') }}">뮤지션 등록</a>
                 </li>
-                {% endif %}
-                
-                {% if g.username != None %}
-                <li {% if active_tab == "search_name" %} class="active" {% endif %}>
-                    <a href="{{ url_for('search_name') }}">친구 검색</a>
+
+                {% else %}
+                <li {% if active_tab == "musician_new" %} class="active" {% endif %}>
+                    <a href="{{ url_for('musician_new') }}">포트폴리오 수정</a>
                 </li>
                 {% endif %}
+                {% endif %}
+                
+                {% if g.userdata != None %}
+                <li {% if active_tab == "search_name" %} class="active" {% endif %}>
+                    <a href="{{ url_for('search_name') }}">유저 검색</a>
+                </li>
+                {% endif %}
+
+                {% if g.userdata != None %}
+                <li {% if active_tab == "my_friends" %} class="active" {% endif %}>
+                    <a href="{{ url_for('my_friends') }}">내 친구</a>
+                </li>
+                {% endif %}
+
+                {% if g.userdata != None %}
+                <li>{{ g.userdata.username }}</li>
+                {% endif %}
+
             </ul>
         </div>
     </div>

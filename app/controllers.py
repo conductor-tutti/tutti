@@ -1,131 +1,39 @@
 #-*-coding:utf-8-*-
 from app import app, db, facebook, google
 from sqlalchemy import desc
-
-from app.models import User, Musician, Category, Major, UserRelationship, Location
-
+from app.models import User, Musician, Category, Location, UserRelationship
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.forms import ArticleForm, CommentForm
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
 from google.appengine.api import images
-from werkzeug.http import parse_options_header
 from google.appengine.ext import blobstore
+from werkzeug.http import parse_options_header
+from datetime import timedelta
+import re
+import json
 import logging
+import sys
+reload(sys)
+
+sys.setdefaultencoding('UTF8')
 
 @app.before_request
 def before_request():
-    category_list = ["클래식", "국악"]
+    category_list = ["클래식", "국악", "재즈", "실용음악", "기타 "]
     if db.session.query(Category).count() == 0:
         for category in category_list:
             category_record = Category(name=category)
             db.session.add(category_record)
         db.session.commit()
     
-    g.username = None
-    if 'user_name' in session:
-        g.username = session["user_name"]
-        
+    g.userdata = None
+    if 'user_id' in session:
+        g.userdata = User.query.get(session["user_id"])
+
 @app.route('/', methods=["GET"])
 def index():
     index = {}
     index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).limit(4)
     return render_template("index.html", index=index, active_tab="index")
-
-@app.route("/total_article_num")
-def total_article_num():
-    article_num = db.session.query(Article).count()
-    return jsonify(article_num=article_num)
-
-@app.route("/more_article")
-def more_article():
-    current_row = int(request.args.get("current_row"))
-    article_num = int(request.args.get("article_num"))
-    more_article = db.session.query(Article).order_by(desc(Article.date_created))[current_row:current_row+1]
-    data = {}
-    data["article"] = []
-    temp = {}
-    for article in temp["title"]: 
-        temp["id"] = article.id
-        temp["title"] = article.title
-        temp["content"] = article.content
-        temp["author"] = article.author
-        temp["category"] = article.category
-        temp["date_created"] = article.date_created
-
-        data["article"].append(temp)
-        temp = {}
-    return jsonify(data)
-
-@app.route("/article/create/", methods=["GET", "POST"])
-def article_create():
-    form = ArticleForm()
-    if request.method == "GET":
-        return render_template("article/create.html", form=form, active_tab="article_create")
-    elif request.method == "POST":
-        if form.validate_on_submit():
-            article = Article(
-                title=form.title.data,
-                author=form.author.data,
-                category=form.category.data,
-                content=form.content.data
-            )
-            db.session.add(article)
-            db.session.commit()
-            flash(u"게시물이 작성되따능.", "success")
-            return redirect(url_for("index"))
-
-@app.route("/article/detail/<int:article_id>", methods=["GET"])
-def article_detail(article_id):
-    article = Article.query.get(article_id)
-    comments = article.comments.order_by(desc(Comment.date_created)).all()
-    return render_template("article/detail.html", article=article, comments=comments)
-
-
-@app.route("/comment/create/<int:article_id>", methods=["GET", "POST"])
-def comment_create(article_id):
-    form = CommentForm()
-    if request.method == "GET":
-        return render_template("article/create.html", form=form)
-    elif request.method == "POST":
-        if form.validate_on_submit():
-            comment = Comment(
-                author=form.author.data,
-                email=form.email.data,
-                content=form.content.data,
-                password=form.password.data,
-                article=Article.query.get(article_id)
-            )
-            db.session.add(comment)
-            db.session.commit()
-            flash(u"댓글 작성해따능.", "success")
-            return redirect(url_for("article_detail", id=article_id))
-        return render_template("article/create.html", form=form)
-
-@app.route("/article/update/<int:article_id>", methods=["GET", "POST"])
-def article_update(article_id):
-    article = Article.query.get(article_id)
-    form = ArticleForm(request.form, obj=article)
-    if request.method == "GET":
-        return render_template("article/update.html", form=form)
-    elif request.method == "POST":
-        if form.validate_on_submit():
-            form.populate_obj(article)
-            db.session.commit()
-            return redirect(url_for("article_detail", article_id=article_id))
-        return render_template("article/update.html", form=form)
-
-@app.route("/article/delete/<int:article_id>", methods=["GET", "POST"])
-def article_delete(article_id):
-    if request.method == "GET":
-        return render_template("article/delete.html", article_id=article_id)
-    elif request.method == "POST":
-        article_id = request.form["article_id"]
-        article = Article.query.get(article_id)
-        db.session.delete(article)
-        db.session.commit()
-
-        flash(u"게시글 지웠다능..ㅠㅠ", "success")
-        return redirect(url_for("index"))
 
 
 @app.route('/sign_up', methods = ['GET', 'POST'])
@@ -162,10 +70,7 @@ def sign_in():
         userdata = User.query.filter(User.email == request.form.get("user-email")).first()
         if userdata:
             if check_password_hash(userdata.password, request.form["user-pw"]):
-                flash(u"반갑습니다, %s 님!" % userdata.username)
                 session["user_id"] = userdata.id
-                session["user_email"] = userdata.email
-                session["user_name"] = userdata.username
                 return redirect(url_for("index"))
             else:
                 flash(u"비밀번호가 다릅니다.", "danger")
@@ -177,19 +82,22 @@ def sign_in():
 @app.route("/logout", methods=["GET"])
 def logout():
     session.clear()
-    flash(u"%s 님, 다음에 또 만나요!" % g.username)
+    flash(u"%s 님, 다음에 또 만나요!" % g.userdata.username)
     return redirect(url_for("index"))
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
+    category = Category.query.all()
+    location = Location.query.all()
     if session:
         user_id = session['user_id']
         upload_uri = blobstore.create_upload_url("/musician/musician_new/")
         if request.method == "GET":
-            category = Category.query.all()
-            major = Major.query.all()
-            location = Location.query.all()
-            return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, major=major, location=location, active_tab="musician_new")
+            if g.userdata.is_musician == 1:
+                musician = Musician.query.filter(Musician.user_id == user_id)
+                profile_data = musician.first()
+                return render_template("/musician/musician_new.html", profile_data=profile_data, category=category, location=location)
+            return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, location=location, active_tab="musician_new")
 
         elif request.method == "POST":
             photo = request.files["profile_image"]
@@ -200,9 +108,11 @@ def musician_new():
             
             musician = Musician(
                 user_id = user_id,
-                category_id = request.form.get("category"),
-                major_id = request.form.get("major"),
+                category_id = request.form.get("major"),
                 phrase = request.form.get("phrase"),
+                education = request.form.get("education"),
+                repertoire = request.form.get("repertoire"),
+                location_id = request.form.get("sigungu"),
                 photo = blob_key
                 )
             db.session.add(musician)
@@ -214,22 +124,30 @@ def musician_new():
         flash(u"로그인 후 이용해 주세요~", "danger")
         return redirect(url_for('index'))
 
+
 @app.route("/musician/musician_location/", methods=["GET","POST"])
 def musician_location():
-    
     if request.method == "POST":
-        
         locationsidoid = request.form.get("location")
         locations = Location.query.filter(Location.upper_id==locationsidoid).all()
         sigungu = {"locations":[(x.id, x.name) for x in locations]}
         return jsonify(sigungu)
 
 
+@app.route("/musician/musician_category/", methods=["GET","POST"])
+def musician_category():
+    if request.method == "POST":
+        categoryid = request.form.get("category")
+        categories = Category.query.filter(Category.upper_id==categoryid).all()
+        major = {"categories":[(x.id, x.name) for x in categories]}
+        return jsonify(major)
+
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):
     musician = Musician.query.get(musician_id)
     user = User.query.get(musician.user_id)
+    category_list = Category.query.all()
     username = user.username
     return render_template("musician/profile.html", username=username, musician=musician)
 
@@ -249,6 +167,7 @@ def get_photo(blob_key):
             response.headers["Content-Type"] = blob_info.content_type
             return response
 
+
 @app.route('/photo/resized/<path:blob_key>/', methods=['GET'])
 def get_resized_photo(blob_key):
     if blob_key:
@@ -264,7 +183,6 @@ def get_resized_photo(blob_key):
             response = make_response(thumbnail)
             response.headers['Content-Type'] = blob_info.content_type
             return response
-
 
 
 @app.route('/facebook_login')
@@ -304,9 +222,11 @@ def facebook_authorized(resp):
 
     return redirect(url_for('index'))
 
+
 @facebook.tokengetter
 def get_facebook_oauth_token():
     return session.get('oauth_token')
+
 
 # This is login using google account
 @app.route('/google_login')
@@ -346,7 +266,6 @@ def google_login():
             )
         db.session.add(user)
         db.session.commit()
-
         userdata = User.query.filter(User.google_id == google_userinfo['id']).first()
         session["user_email"] = userdata.email
         session["user_name"] = userdata.username
@@ -356,7 +275,7 @@ def google_login():
     return redirect(url_for('index'))
     # return str(session['access_token'][0])
 
- 
+
 @app.route('/login_go')
 def login_go():
     callback = url_for('authorized', _external=True)
@@ -375,6 +294,7 @@ def authorized(resp):
 def get_access_token():
     return session.get('access_token')
 
+
 @app.route('/search_name', methods = ['GET','POST'])
 def search_name():
     if session:
@@ -387,13 +307,13 @@ def search_name():
     else:
         flash(u"로그인 후 이용해 주세요~", "danger")
         return redirect(url_for('index'))
-        
+
 
 @app.route('/friendship_request/<int:user_id>', methods = ['GET', 'POST'])
 def friendship_request(user_id):
     if request.method == "GET":
         userrelationship = UserRelationship(
-            relateduserid = user_id,
+            related_user = User.query.get(user_id),
             user = User.query.get(session["user_id"])
             )
         db.session.add(userrelationship)
@@ -403,29 +323,41 @@ def friendship_request(user_id):
     elif request.method == "POST":
         return render_template("show_friends.html", index=index, active_tab="index")
 
-# @app.route('/friendship_request/<int:user_id>', methods = ['GET', 'POST'])
-# def friendship_request(user_id):
-#     if request.method == "GET":
-#         userrelationship = UserRelationship(
-#             relateduserid = user_id,
-#             user = User.query.get(session["user_id"])
-#             )
-#         db.session.add(userrelationship)
-#         db.session.commit()
-#         flash(u"친구요청 되었습니다.", "success")
-#         return redirect(url_for('index'))
-#     elif request.method == "POST":
-#         return render_template("show_friends.html", index=index, active_tab="index")
 
-#     index = {}
-#     index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).limit(4)
-#     if request.method == "GET":
-#         return render_template("search.html", active_tab="search_name")
-#     else:
-#         # index['userdata'] = User.query.filter(User.username == request.form.get("search-name")).limit(4)
-#         index['userdata'] = User.query.filter(User.username.contains(request.form.get("search-name"))).limit(4)
-#         return render_template("show_friends.html", index=index, active_tab="index")
+@app.route('/my_friends', methods = ['GET','POST'])
+def my_friends():
+    index = {}
+    index['friends_request'] = []
+    index['friends'] = []
+    index['request_friends'] = []
+    friends_request = UserRelationship.query.filter(UserRelationship.type == 0, UserRelationship.user_id == session["user_id"]).all()
+    friends = UserRelationship.query.filter(UserRelationship.type == 1, UserRelationship.user_id == session["user_id"]).all()
+    request_friends = UserRelationship.query.filter(UserRelationship.type == 0, UserRelationship.related_user_id == session["user_id"]).all()
+    for row in friends_request:
+        user = User.query.get(row.related_user_id)
+        index['friends_request'].append(user)
+    for row in friends:
+        user = User.query.get(row.related_user_id)
+        index['friends'].append(user)
+    for row in request_friends:
+        user = User.query.get(row.user_id)
+        index['request_friends'].append(user)
+    return render_template("my_friends.html", index=index, active_tab="friend")
 
 
-# 지금 이 부분을 포스트 방식으로 넘겨야 하는데 show_friends에서 post 방식으로 넘겨도 안되가지고
-# get 방식으로 넘겻습니다 물어봐서 해결해야합니
+@app.route('/accept_friend_request/<int:user_id>', methods = ['GET', 'POST'])
+def accept_friend_request(user_id):
+    if request.method == "GET":
+        userrelationship = UserRelationship(
+            related_user = User.query.get(user_id),
+            user = User.query.get(session["user_id"]),
+            type = 1
+             )
+        existing_row = UserRelationship.query.filter(UserRelationship.user_id == user_id, UserRelationship.related_user_id == session["user_id"]).first()
+        existing_row.type = 1
+        db.session.add(userrelationship)
+        db.session.commit()
+        flash(u"친구가 되었습니다.", "success")
+        return redirect(url_for('my_friends'))
+    elif request.method == "POST":
+        return render_template("show_friends.html", index=index, active_tab="index")

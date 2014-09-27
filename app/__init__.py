@@ -2,24 +2,26 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.script import Manager
-from flask_oauth import  OAuth
+from flask_oauth import OAuth
 import settings
 
+
+
 # set these two values to match your account
-GOOGLE_CLIENT_ID = '695566589596-9i3crjfqvflrq4dt6793gndh9jf1dpqp.apps.googleusercontent.com'
-GOOGLE_CLIENT_SECRET = 'MMCXtJtgCDpzKwRYsbPKdUzp'
+GOOGLE_CLIENT_ID = '695566589596-eov5uiidks7dqrm8oag7r50q5imr9rqs.apps.googleusercontent.com'
+GOOGLE_CLIENT_SECRET = '3yKervjM4HCwZPWS8Mu50L1v'
 
 SECRET_KEY = "ILOVETUTTISOMUCH"
 DEBUG = True
 
 app = Flask(__name__)
 app.config.from_object("app.settings.Development")
-# app.debug = DEBUG
-# app.secret_key = SECRET_KEY
- 
+app.debug = DEBUG
+app.secret_key = SECRET_KEY
+
 oauth = OAuth()
- 
-google = oauth.remote_app('google',
+
+google = oauth.remote_app('google', 
     base_url='https://www.google.com/accounts/',
     authorize_url='https://accounts.google.com/o/oauth2/auth',
     request_token_url=None,

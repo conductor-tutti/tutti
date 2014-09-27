@@ -1,23 +1,9 @@
-Element.prototype.remove = function() {
-    this.parentElement.removeChild(this);
-}
-NodeList.prototype.remove = HTMLCollection.prototype.remove = function() {
-    for(var i = 0, len = this.length; i < len; i++) {
-        if(this[i] && this[i].parentElement) {
-            this[i].parentElement.removeChild(this[i]);
-        }
-    }
-}
-
-Array.prototype.remove = function(idx) {
-    return (idx<0 || idx>this.length) ? this : this.slice(0, idx).concat(this.slice(idx+1, this.length));
-};
-
 
 $(document).ready(function(){
     console.log("I'm ready!");
     $('#sido').change(function() {
         console.log("I'm changed!");
+
         $.ajax({
             url:'/musician/musician_location/',
             type: 'POST',
@@ -26,15 +12,17 @@ $(document).ready(function(){
                 location:$('#sido').val()
             },
             success: function(data) {
-                $('.sublocation').remove();
-                $(this).children("select").remove();
+                
+                sigungu = "<option value='none'>선택하세요</option>";
+
                 console.log("success!");
                 for (var i = 0; i < data.locations.length; i++) {
                     sigungu += '<option class="sublocation" value=' + data.locations[i][0] + '>' + data.locations[i][1] + '</option>';
                 }
-                    
-                $("#sigungu").append(sigungu);
-                    
+                console.log($('.sublocation'))
+                
+                $("#sigungu").html(sigungu);
+                
             },
             error: function(e) {
                 console.log('Server error!!');
@@ -43,6 +31,38 @@ $(document).ready(function(){
     });
 });
 
+
+$(document).ready(function(){
+    console.log("I'm ready!");
+    $('#category').change(function() {
+        console.log("I'm changed!");
+
+        $.ajax({
+            url:'/musician/musician_category/',
+            type: 'POST',
+            dataType: 'JSON',
+            data:{
+                category:$('#category').val()
+            },
+            success: function(data) {
+                
+                major = "<option value='none'>선택하세요</option>";
+
+                console.log("success!");
+                for (var i = 0; i < data.categories.length; i++) {
+                    major += '<option class="major" value=' + data.categories[i][0] + '>' + data.categories[i][1] + '</option>';
+                }
+                console.log($('.major'))
+                
+                $("#major").html(major);
+                
+            },
+            error: function(e) {
+                console.log('Server error!!');
+            }
+        });
+    });
+});
 
 
 
