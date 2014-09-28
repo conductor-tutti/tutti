@@ -13,47 +13,71 @@
     <h2 id="username"><strong>{{ g.userdata.username }}</strong>님의 프로필 수정</h2>
     {% endif %}
     
-    <form role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
+    <form id="profile_form"  role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
 
-        <h4 id="essential_fields"><i class="fa fa-star"></i> <strong>필수 입력사항</strong></h4>
+        <h3 id="essential_fields"><i class="fa fa-star"></i> 필수 입력사항</h3>
         <hr>
 
         <div class="row">
             <div class="form-group col-xs-12 col-sm-4 col-md-6 col-sm-offset-4 col-md-offset-3 fileinput fileinput-new" data-provides="fileinput">
                 <label for="inputImage">프로필 사진</label>
-                <div id="inputImage" class="fileinput-new thumbnail">
-                    <span id="thumbnail-help">200 x 200 (px)</span>
+                <div id="inputImage" class="fileinput-new thumbnail">                    
+                    {% if musician.photo %}
+                        <img src="{{ musician.photo_url}}" class="thumbnail">
+                    {% else %}
+                        <span id="thumbnail-help">200 x 200 (px)</span>
+                    {% endif %}
                 </div>
 
-                <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                <div class="fileinput-preview fileinput-exists thumbnail"></div>                  
 
                 <div>
                     <span class="btn btn-default btn-file">
                         <span class="fileinput-new">Select image</span>
                         <span class="fileinput-exists">Change</span>
-                        <input type="file" name="profile_image">
+                        <input type="file" name="profile_image" id="profile_image">
                     </span>
                     <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputLocation">지역</label>
-                <select class="form-control" name="location" id="sido">
+                <label for="inputCategory">전공분야</label>
+                <select class="form-control input-sm" name="category" id="category">
                     <option value="none">선택하세요</option>
-                    {% for m in location %}
-                    {% if m.upper_id == 0 %}
-                    <option class="state" value="{{ m.id }}">{{ m.name }}</option>
+                    {% for c in categories %}
+                    {% if c.upper_id == 0 %}
+                    <option class="category" value="{{ c.id }}">{{ c.name }}</option> <!-- selected -->
                     {% endif %}
                     {% endfor %}
                 </select>
             </div>
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputLocation"></label>
-                <select class="form-control" name="sigungu" id="sigungu">
+                <label for="inputMajor">세부전공</label>
+                <select class="form-control input-sm" name="major" id="major">
+                    <option value="none">선택하세요</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                <label for="inputLocation">거주지역</label>
+                <select class="form-control input-sm" name="location" id="sido">
+                    <option value="none">선택하세요</option>
+                    {% for l in locations %}
+                    {% if l.upper_id == 0 %}
+                    <option class="state" value="{{ l.id }}">{{ l.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group col-xs-12 col-sm-6 col-md-6">
+                <label for="inputLocation">시, 군, 구</label>
+                <select class="form-control input-sm" name="sigungu" id="sigungu">
                     <option value="none">선택하세요</option>      
                 </select>
             </div>
@@ -65,33 +89,9 @@
                 {% if g.userdata.is_musician == 0 %}
                 <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" placeholder="나를 표현하는 인상적인 50자 메시지">
                 {% else %}
-                <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" value="{{ profile_data.phrase }}">
+                <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" value="{{ musician.phrase }}">
                 {% endif %}
             </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputCategory">전공분야</label>
-                <select class="form-control" name="category" id="category">
-                    <option value="none">선택하세요</option>
-                    {% for m in category %}
-                    {% if m.upper_id == 0 %}
-                    <option class="category" value="{{ m.id }}">{{ m.name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputMajor">세부전공</label>
-                <select class="form-control" name="major" id="major">
-                    <option value="none">선택하세요</option>      
-                </select>
-            </div>
-            
-
-
         </div>
 
         <div class="row">
@@ -100,12 +100,12 @@
                 {% if g.userdata.is_musician == 0 %}
                 <input type="text" name="education" id="inputEducation" class="form-control input-sm" placeholder="ex) 한양대학교">
                 {% else %}
-                <input type="text" name="education" id="inputEducation" class="form-control input-sm" value="{{ profile_data.education }}">
+                <input type="text" name="education" id="inputEducation" class="form-control input-sm" value="{{ musician.education }}">
                 {% endif %}
             </div>
         </div>
 
-        <h4 id="additional_fields"><i class="fa fa-star-o"></i> <strong>추가 입력사항</strong></h4>
+        <h3 id="additional_fields"><i class="fa fa-star-o"></i> 추가 입력사항</h3>
         <hr>
 
         <div class="row">
@@ -115,10 +115,23 @@
                 <div class="help-message">지금까지 연주해온 곡들을 자유롭게 추가할 수 있습니다.</div>
                 <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" placeholder="ex) F.Chopin - Nocturne No.2 Op.9">
                 {% else %}
-                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" value="{{ profile_data.repertoire }}">
+                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" value="{{ musician.repertoire }}">
                 {% endif %}
             </div>
         </div>
+
+        <div class="row">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                <label for="inputRepertoire">연주 영상</label>
+                {% if g.userdata.is_musician == 0 %}
+                <div class="help-message">멋진 연주 동영상이 있나요? 동영상의 주소를 추가해 보세요.</div>
+                <input type="text" name="#" id="inputVideo" class="form-control input-sm" placeholder="ex) YouTube 주소, Vimeo 주소 등">
+                {% else %}
+                <input type="text" name="#" id="inputVideo" class="form-control input-sm" value="#">
+                {% endif %}
+            </div>
+        </div>
+
 
         {% if g.userdata.is_musician == 0 %}
         <button type="submit" id="submit" class="btn btn-default pull-right">프로필 등록</button>
@@ -129,6 +142,20 @@
     </form>
 
 </div>
+
+<script>
+$("#profile_form").submit(function() {
+    if ($('#profile_image').val()) { 
+        console.log('file exists');    
+    } else {
+        console.log('no file');
+        console.log($(this));
+        $(this).attr('action', '{{ target_url }}');               
+       
+    }
+     return true;
+});
+</script>
 
 {% endblock %}
 {% block scripts %}

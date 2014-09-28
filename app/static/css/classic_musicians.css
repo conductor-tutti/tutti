@@ -1,0 +1,24 @@
+body{
+    background-image: url("../images/xv.png");
+}
+
+.lobster{
+    padding-top: 20px;
+    text-align: center;
+    font-family: "Lobster", cursive;
+    font-size: 4em;
+    color: #BB8F76;
+    text-shadow: 2px 2px white;
+}
+
+.tag_list{
+    text-align: center;
+    margin: 15px 0px 15px 0px;
+}
+
+.tags{
+    background: rgba(255, 255, 255, 0.5);
+    padding: 5px;
+    magin: 8px;
+    display: inline-block;
+}

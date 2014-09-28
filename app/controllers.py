@@ -11,28 +11,48 @@ from datetime import timedelta
 import re
 import json
 import logging
+import os.path
 import sys
 reload(sys)
 
 sys.setdefaultencoding('UTF8')
 
+DB_INITIAL_DIRECTORY = './initial_data'
+
 @app.before_request
 def before_request():
-    category_list = ["클래식", "국악", "재즈", "실용음악", "기타 "]
+    #category_list = ["클래식", "국악", "재즈", "실용음악", "기타 "]
     if db.session.query(Category).count() == 0:
-        for category in category_list:
-            category_record = Category(name=category)
+        f = open(os.path.dirname(__file__) + DB_INITIAL_DIRECTORY + '/' + 'category_v1.csv')
+        for line in f.readlines():
+            logging.info(line)
+            fields = line.split(',')
+            category_record = Category(name=fields[1], upper_id=fields[2]) # Should not run twice because of auto increment id field
             db.session.add(category_record)
+        f.close()
         db.session.commit()
+
+    if db.session.query(Location).count() == 0:
+        f = open(os.path.dirname(__file__) + DB_INITIAL_DIRECTORY + '/' + 'location_v1.csv')
+        for line in f.readlines():
+            fields = line.split(',')
+            location_record = Location(name=fields[1], upper_id=fields[2]) # Should not run twice because of auto increment id field
+            db.session.add(location_record)
+        f.close()
+        db.session.commit()
+
     
     g.userdata = None
     if 'user_id' in session:
-        g.userdata = User.query.get(session["user_id"])
+        g.userdata = User.query.get(session["user_id"]) # FIX: It should be cached later on for prevention of unnecessary overhead on DB 
 
 @app.route('/', methods=["GET"])
 def index():
     index = {}
-    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    musicians = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    for musician in musicians:
+        musician.photo_url = images.get_serving_url(musician.photo)
+    index["musician_list"] = musicians
     return render_template("index.html", index=index, active_tab="index")
 
 
@@ -87,17 +107,26 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
-    category = Category.query.all()
-    location = Location.query.all()
+
+    categories = Category.query.all()
+    locations = Location.query.all()
+
     if session:
         user_id = session['user_id']
-        upload_uri = blobstore.create_upload_url("/musician/musician_new/")
+
+        target_url = "/musician/musician_new/"
         if request.method == "GET":
+
+            upload_uri = blobstore.create_upload_url(target_url)
+
+            musician = {}
             if g.userdata.is_musician == 1:
-                musician = Musician.query.filter(Musician.user_id == user_id)
-                profile_data = musician.first()
-                return render_template("/musician/musician_new.html", profile_data=profile_data, category=category, location=location)
-            return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, location=location, active_tab="musician_new")
+                musician_query = Musician.query.filter(Musician.user_id == user_id)
+                musician = musician_query.first()
+                if musician.photo:
+                    musician.photo_url = images.get_serving_url(musician.photo) 
+
+            return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, active_tab="musician_new")
 
         elif request.method == "POST":
 
@@ -105,25 +134,49 @@ def musician_new():
             header = photo.headers["Content-Type"]
 
             parsed_header = parse_options_header(header)
-            blob_key = parsed_header[1]["blob-key"]
-            User.query.get(user_id).is_musician = 1
-            
-            musician = Musician(
-                user_id = user_id,
 
+            blob_key = None
+            if(parsed_header[1].has_key("blob-key")):
+                blob_key = parsed_header[1]["blob-key"]  
 
-                category_id = request.form.get("category"),
-                major_id = request.form.get("major"),
+            #User.query.get(user_id)
+            if g.userdata.is_musician == 0: # New musicion   
+                musician = Musician(
+                    user_id = user_id,
+                    category_id = request.form.get("major"),
+                    phrase = request.form.get("phrase"),
+                    education = request.form.get("education"),
+                    repertoire = request.form.get("repertoire"),
+                    location_id = request.form.get("sigungu"),
+                    photo = blob_key
+                    )
+                db.session.add(musician)
+                flash(u"프로필이 잘 등록되었어요!", "success")
+            else:
+                musician_query = Musician.query.filter(Musician.user_id == user_id)
+                musician = musician_query.first()
 
-                phrase = request.form.get("phrase"),
-                education = request.form.get("education"),
-                repertoire = request.form.get("repertoire"),
-                location_id = request.form.get("sigungu"),
-                photo = blob_key
-                )
-            db.session.add(musician)
+                category_id = request.form.get("major")
+                if category_id != 'none':
+                    musician.category_id = category_id 
+                musician.phrase = request.form.get("phrase")
+                musician.education = request.form.get("education")
+                musician.repertoire = request.form.get("repertoire")
+
+                location_id = request.form.get("location")
+                if location_id != 'none':
+                    musician.location_id = request.form.get("sigungu")
+
+                if blob_key != None:
+                    old_blob_key = musician.photo
+                    musician.photo = blob_key
+                    if old_blob_key != None:
+                        blobstore.delete(old_blob_key.photo)
+
+             
+                flash(u"프로필이 잘 변경되었어요!", "success")
+
             db.session.commit()
-            flash(u"프로필이 잘 등록되었어요!", "success")
         return redirect(url_for("index"))
 
     else:
@@ -156,6 +209,7 @@ def classic_musician():
     index = {}
     index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 1).limit(4)
     return render_template("musician/classic_musician.html", index=index, category_list=category_list, active_tab="index")
+
 
 @app.route("/musician/kukak_musician/", methods=["GET"])
 def kukak_musician():
