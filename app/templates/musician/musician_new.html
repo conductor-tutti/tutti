@@ -21,11 +21,15 @@
         <div class="row">
             <div class="form-group col-xs-12 col-sm-4 col-md-6 col-sm-offset-4 col-md-offset-3 fileinput fileinput-new" data-provides="fileinput">
                 <label for="inputImage">프로필 사진</label>
-                <div id="inputImage" class="fileinput-new thumbnail">
-                    <span id="thumbnail-help">200 x 200 (px)</span>
+                <div id="inputImage" class="fileinput-new thumbnail">                    
+                    {% if musician.photo %}
+                        <img src="{{ musician.photo_url}}" class="thumbnail">
+                    {% else %}
+                        <span id="thumbnail-help">200 x 200 (px)</span>
+                    {% endif %}
                 </div>
 
-                <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                <div class="fileinput-preview fileinput-exists thumbnail"></div>                  
 
                 <div>
                     <span class="btn btn-default btn-file">
@@ -37,7 +41,6 @@
                 </div>
             </div>
         </div>
-        
         <div class="row">
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
                 <label for="inputCategory">전공분야</label>
@@ -86,7 +89,7 @@
                 {% if g.userdata.is_musician == 0 %}
                 <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" placeholder="나를 표현하는 인상적인 50자 메시지">
                 {% else %}
-                <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" value="{{ profile_data.phrase }}">
+                <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" value="{{ musician.phrase }}">
                 {% endif %}
             </div>
         </div>
@@ -97,7 +100,7 @@
                 {% if g.userdata.is_musician == 0 %}
                 <input type="text" name="education" id="inputEducation" class="form-control input-sm" placeholder="ex) 한양대학교">
                 {% else %}
-                <input type="text" name="education" id="inputEducation" class="form-control input-sm" value="{{ profile_data.education }}">
+                <input type="text" name="education" id="inputEducation" class="form-control input-sm" value="{{ musician.education }}">
                 {% endif %}
             </div>
         </div>
@@ -112,7 +115,7 @@
                 <div class="help-message">지금까지 연주해온 곡들을 자유롭게 추가할 수 있습니다.</div>
                 <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" placeholder="ex) F.Chopin - Nocturne No.2 Op.9">
                 {% else %}
-                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" value="{{ profile_data.repertoire }}">
+                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" value="{{ musician.repertoire }}">
                 {% endif %}
             </div>
         </div>

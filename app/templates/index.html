@@ -21,7 +21,7 @@
     {% for musician in index.musician_list %}
     <div class="col-sm-6 col-md-3 newest_musicians">
         <div class="thumbnail">
-            <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}">
+            <img src="{{ musician.photo_url }}">
             <div class="caption">
                 <div class="newbie_name"><a href="#" class="view_profile">{{ musician.user.username }}</a>  <span class="newbie_category">{{ musician.category.name }} | (세부전공명)</span></div>
                 <div class="newbie_phrase">"{{ musician.phrase }}"</div>
