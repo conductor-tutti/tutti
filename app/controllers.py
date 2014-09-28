@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
 from app import app, db, facebook, google
-from sqlalchemy import desc
-from app.models import User, Musician, Category, Location, UserRelationship
+from sqlalchemy import desc, asc
+from app.models import User, Musician, Category, Location, UserRelationship, Comment
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
 from google.appengine.api import images
@@ -96,10 +96,8 @@ def musician_new():
             if g.userdata.is_musician == 1:
                 musician = Musician.query.filter(Musician.user_id == user_id)
                 profile_data = musician.first()
-
                 return render_template("/musician/musician_new.html", profile_data=profile_data, category=category, location=location)
             return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, location=location, active_tab="musician_new")
-
 
         elif request.method == "POST":
 
@@ -112,6 +110,7 @@ def musician_new():
             
             musician = Musician(
                 user_id = user_id,
+
 
                 category_id = request.form.get("category"),
                 major_id = request.form.get("major"),
@@ -141,7 +140,6 @@ def musician_location():
         return jsonify(sigungu)
 
 
-
 @app.route("/musician/musician_category/", methods=["GET","POST"])
 def musician_category():
    
@@ -150,6 +148,7 @@ def musician_category():
         categories = Category.query.filter(Category.upper_id==categoryid).all()
         major = {"categories":[(x.id, x.name) for x in categories]}
         return jsonify(major)
+
 
 @app.route("/musician/classic_musician/", methods=["GET"])
 def classic_musician():
@@ -172,7 +171,8 @@ def musician_profile(musician_id):
     user = User.query.get(musician.user_id)
     category_list = Category.query.all()
     username = user.username
-    return render_template("musician/profile.html", username=username, musician=musician)
+    comments = musician.comments.order_by(asc(Comment.created_on)).all()
+    return render_template("musician/profile.html", username=username, musician=musician, comments=comments)
 
 
 @app.route("/photo/get/<path:blob_key>/", methods=["GET"])
@@ -394,4 +394,19 @@ def user_profile():
     else:
         flash(u"로그인 후 이용해 주세요~", "danger")
         return redirect(url_for('index'))
+
+@app.route("/comment_create", methods=["GET", "POST"])
+def comment_create():
+    if request.method == "POST":
+        musician_id = request.form.get("musician_id_data")
+        comment = Comment(
+            author_name=g.userdata.username,
+            content=request.form.get("comment_data"),
+            musician=Musician.query.get(musician_id),
+            user=User.query.get(session["user_id"])
+        )
+        db.session.add(comment)
+        db.session.commit()
+        data={"comment_data":request.form.get("comment_data"),"author_name":g.userdata.username,"success" : True}
+        return jsonify(data)
 
