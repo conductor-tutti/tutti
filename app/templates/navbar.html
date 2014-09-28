@@ -19,9 +19,13 @@
                     <ul class="dropdown-menu" role="menu">
                         <li class="dropdown-header">카테고리별 뮤지션</li>
                         <li><a href="{{ url_for('classic_musician') }}">클래식</a></li>
-                        <li><a href="#">국악</a></li>
+
+                        <li><a href="{{ url_for('kukak_musician') }}">국악</a></li>
+
+                        
                         <li class="divider"></li>
                         <li class="dropdown-header">이하 공사중!</li>
+
                         <li><a href="#">재즈</a></li>
                         <li><a href="#">실용음악</a></li>
                         <li><a href="#">자유포럼</a></li>
@@ -77,7 +81,9 @@
                 <ul class="nav navbar-nav navbar-right nav-menu">
                     {% endif %}
 
-                    <form class="navbar-form navbar-right" role="search" method="POST" action="{{ url_for('search_name') }}">
+
+                    <form class="navbar-form navbar-right" role="search" method="POST" action="{{url_for('search_name')}}">
+
                         <div class="form-group">
                             <input type="text" class="form-control input-sm" name="search-name" placeholder="뮤지션 검색">
                         </div>
