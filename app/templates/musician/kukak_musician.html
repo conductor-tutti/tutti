@@ -7,8 +7,8 @@
 
 
 <div class="row">
-	<h1 class="newbies"><strong>클래식</strong></h1>
-	<div class="newbies_sub">클래식을 전공한 뮤지션들입니다.</div>
+	<h1 class="newbies"><strong>국악</strong></h1>
+	<div class="newbies_sub">국악을 전공한 뮤지션들입니다.</div>
 
 	{% if index.musician_list %}
 	{% for musician in index.musician_list %}
@@ -17,7 +17,7 @@
 			<img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}">
 			<!-- <img data-src="holder.js/300x300" src="https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xpa1/v/t1.0-1/p200x200/10647021_357046034446039_4282164189832330896_n.jpg?oh=42fd2d615e0d69e65579855fd8b23945&oe=548B9567&__gda__=1422714586_1e3f570b5f6244fbe1985e5a041bb6d5" class="img-thumbnail"> -->
 			<div class="caption">
-				<div class="newbie_name"><a href="#" class="view_profile">{{ musician.user.username }}</a>  <span class="newbie_category"> 클래식 | 
+				<div class="newbie_name"><a href="#" class="view_profile">{{ musician.user.username }}</a>  <span class="newbie_category"> 국악 | 
 					{% for category in category_list %}
 					{% if musician.major_id == category.id %}
 					{{ category.name }}
