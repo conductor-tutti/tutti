@@ -52,7 +52,8 @@ def index():
     musicians_query = Musician.query.order_by(desc(Musician.created_on)).limit(4)
     musicians = musicians_query.all() # Launching query
     for musician in musicians:
-        musician.photo_url = images.get_serving_url(musician.photo)
+        if musician.photo:
+            musician.photo_url = images.get_serving_url(musician.photo)
     index["musician_list"] = musicians
     logging.info(musicians)
     return render_template("index.html", index=index, active_tab="index")
