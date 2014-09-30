@@ -21,7 +21,7 @@
     {% for musician in index.musician_list %}
     <div class="col-sm-6 col-md-3 newest_musicians">
         <div class="thumbnail">
-            <img src="{{ musician.photo_url }}">
+            <img src="{{ musician.photo_url }}" class="img-thumbnail">
             <div class="caption">
                 <div class="newbie_name"><a href="#" class="view_profile">{{ musician.user.username }}</a>  <span class="newbie_category">{{ musician.category.name }} | (세부전공명)</span></div>
                 <div class="newbie_phrase">"{{ musician.phrase }}"</div>
@@ -29,7 +29,7 @@
         </div>
     </div>
     {% else %}
-    <h1 id="nobody">I CAN'T BELIEVE IT! NOBODY'S HERE!</h1>
+    <h1 id="nobody">NOBODY HERE!</h1>
     {% endfor %}
     {% endif %}
 

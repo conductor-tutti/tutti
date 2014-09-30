@@ -4,8 +4,8 @@ from sqlalchemy import desc, asc
 from app.models import User, Musician, Category, Location, UserRelationship, Comment
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
-from google.appengine.api import images
-from google.appengine.ext import blobstore
+# from google.appengine.api import images
+# from google.appengine.ext import blobstore
 from werkzeug.http import parse_options_header
 from datetime import timedelta
 import re
@@ -49,10 +49,12 @@ def before_request():
 @app.route('/', methods=["GET"])
 def index():
     index = {}
-    musicians = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    musicians_query = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    musicians = musicians_query.all() # Launching query
     for musician in musicians:
         musician.photo_url = images.get_serving_url(musician.photo)
     index["musician_list"] = musicians
+    logging.info(musicians)
     return render_template("index.html", index=index, active_tab="index")
 
 
