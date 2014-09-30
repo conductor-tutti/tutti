@@ -11,19 +11,17 @@ from datetime import timedelta
 import re
 import json
 import logging
-import os.path
+import os
 import sys
 reload(sys)
 
 sys.setdefaultencoding('UTF8')
 
-DB_INITIAL_DIRECTORY = './initial_data'
-
 @app.before_request
 def before_request():
-    #category_list = ["클래식", "국악", "재즈", "실용음악", "기타 "]
+    logging.info(os.getcwd())
     if db.session.query(Category).count() == 0:
-        f = open(os.path.dirname(__file__) + DB_INITIAL_DIRECTORY + '/' + 'category_v1.csv')
+        f = open('./initial_category_v1.csv')
         for line in f.readlines():
             logging.info(line)
             fields = line.split(',')
@@ -33,7 +31,7 @@ def before_request():
         db.session.commit()
 
     if db.session.query(Location).count() == 0:
-        f = open(os.path.dirname(__file__) + DB_INITIAL_DIRECTORY + '/' + 'location_v1.csv')
+        f = open('./initial_location_v1.csv')
         for line in f.readlines():
             fields = line.split(',')
             location_record = Location(name=fields[1], upper_id=fields[2]) # Should not run twice because of auto increment id field
@@ -225,6 +223,7 @@ def kukak_musician():
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):
     musician = Musician.query.get(musician_id)
+    musician.photo_url = images.get_serving_url(musician.photo)
     user = User.query.get(musician.user_id)
     category_list = Category.query.all()
     username = user.username
