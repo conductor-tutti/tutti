@@ -37,6 +37,7 @@
 - RIGHT: app.config.from_object("app.settings.Development") 
 - WRONG: app.config.from_object("app.settings.Production")
 - You can use code below for the above confusion
+
 ```
 if os.environ['SERVER_SOFTWARE'].startswith('Development'):
     app.config.from_object("app.settings.Development")
