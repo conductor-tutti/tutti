@@ -1,5 +1,3 @@
-***** Tutti project tutorial *****
-
 # Prerequisite
 - Git with Github account
 - Google App Engine Launcher

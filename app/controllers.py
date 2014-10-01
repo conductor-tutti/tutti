@@ -168,6 +168,7 @@ def musician_new():
                     location_id = request.form.get("sigungu"),
                     photo = blob_key
                     )
+                g.userdata.is_musician = 1
                 db.session.add(musician)
                 flash(u"프로필이 잘 등록되었어요!", "success")
             else:
