@@ -190,7 +190,7 @@ def musician_new():
                     old_blob_key = musician.photo
                     musician.photo = blob_key
                     if old_blob_key != None:
-                        blobstore.delete(old_blob_key.photo)
+                        blobstore.delete(old_blob_key)
 
              
                 flash(u"프로필이 잘 변경되었어요!", "success")
