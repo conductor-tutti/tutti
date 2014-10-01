@@ -19,7 +19,7 @@ sys.setdefaultencoding('UTF8')
 
 @app.before_request
 def before_request():
-    logging.info(os.getcwd())
+    #logging.info(os.getcwd())
     if db.session.query(Category).count() == 0:
         f = open('./initial_category_v1.csv')
         for line in f.readlines():
@@ -53,7 +53,7 @@ def index():
         if musician.photo:
             musician.photo_url = images.get_serving_url(musician.photo)
     index["musician_list"] = musicians
-    logging.info(musicians)
+    #logging.info(musicians)
     return render_template("index.html", index=index, active_tab="index")
 
 
@@ -119,13 +119,30 @@ def musician_new():
         if request.method == "GET":
 
             upload_uri = blobstore.create_upload_url(target_url)
-
             musician = {}
             if g.userdata.is_musician == 1:
+
+                # Get photo url
                 musician_query = Musician.query.filter(Musician.user_id == user_id)
                 musician = musician_query.first()
                 if musician.photo:
                     musician.photo_url = images.get_serving_url(musician.photo) 
+
+                # Get category id (upper)
+                category_query = Category.query.filter(Category.id == musician.category_id)
+                category = category_query.first()
+                category_upper_query = Category.query.filter(Category.id == category.upper_id)
+                category_upper = category_upper_query.first()
+                musician.category_upper_id = category_upper.id
+                logging.info('category upper id: ' + str(category_upper.id))
+
+                # Get location id (upper)
+                location_query = Location.query.filter(Location.id == musician.location_id)
+                location = location_query.first()
+                location_upper_query = Location.query.filter(Location.id == location.upper_id)
+                location_upper = location_upper_query.first()
+                musician.location_upper_id = location_upper.id
+                logging.info('location upper id: ' + str(location_upper.id))
 
             return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, active_tab="musician_new")
 

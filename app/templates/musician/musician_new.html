@@ -47,17 +47,26 @@
                 <select class="form-control input-sm" name="category" id="category">
                     <option value="none">선택하세요</option>
                     {% for c in categories %}
-                    {% if c.upper_id == 0 %}
-                    <option class="category" value="{{ c.id }}">{{ c.name }}</option> <!-- selected -->
+                    {% if c.upper_id == 0 %}                    
+                        <option class="category" value="{{ c.id }}" {% if c.id == musician.category_upper_id %}selected{% endif %}>{{ c.name }}</option>                        
                     {% endif %}
                     {% endfor %}
                 </select>
             </div>
 
+
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
                 <label for="inputMajor">세부전공</label>
                 <select class="form-control input-sm" name="major" id="major">
-                    <option value="none">선택하세요</option>
+                    {% if musician.category_id %}
+                    {% for c in categories %}
+                        {% if c.upper_id == musician.category_upper_id %}                    
+                            <option class="major" value="{{ c.id }}" {% if c.id == musician.category_id %}selected{% endif %}>{{ c.name }}</option>                        
+                        {% endif %}
+                        {% endfor %}
+                    {% else %}
+                    <option class="major" value="none">선택하세요</option>
+                    {% endif %}
                 </select>
             </div>
         </div>
@@ -69,7 +78,7 @@
                     <option value="none">선택하세요</option>
                     {% for l in locations %}
                     {% if l.upper_id == 0 %}
-                    <option class="state" value="{{ l.id }}">{{ l.name }}</option>
+                    <option class="state" value="{{ l.id }}" {% if l.id == musician.location_upper_id %}selected{% endif %}>{{ l.name }}</option>
                     {% endif %}
                     {% endfor %}
                 </select>
@@ -78,7 +87,15 @@
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
                 <label for="inputLocation">시, 군, 구</label>
                 <select class="form-control input-sm" name="sigungu" id="sigungu">
-                    <option value="none">선택하세요</option>      
+                    {% if musician.location_id %}
+                    {% for l in locations %}
+                        {% if l.upper_id == musician.location_upper_id %}                    
+                            <option class="sublocation" value="{{ l.id }}" {% if l.id == musician.location_id %}selected{% endif %}>{{ l.name }}</option>                        
+                        {% endif %}
+                        {% endfor %}
+                    {% else %}
+                    <option class="sublocation" value="none">선택하세요</option>
+                    {% endif %}     
                 </select>
             </div>
         </div>
