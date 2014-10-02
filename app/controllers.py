@@ -11,18 +11,20 @@ from datetime import timedelta
 import re
 import json
 import logging
-import os.path
+import os
 import sys
 reload(sys)
 
 sys.setdefaultencoding('UTF8')
 
-DB_INITIAL_DIRECTORY = './initial_data'
-
 @app.before_request
 def before_request():
+<<<<<<< HEAD
+=======
+    #logging.info(os.getcwd())
+>>>>>>> 319db56f47c537402466c0af26a9f58e5a263231
     if db.session.query(Category).count() == 0:
-        f = open(os.path.dirname(__file__) + DB_INITIAL_DIRECTORY + '/' + 'category_v1.csv')
+        f = open('./initial_category_v1.csv')
         for line in f.readlines():
             logging.info(line)
             fields = line.split(',')
@@ -32,7 +34,7 @@ def before_request():
         db.session.commit()
 
     if db.session.query(Location).count() == 0:
-        f = open(os.path.dirname(__file__) + DB_INITIAL_DIRECTORY + '/' + 'location_v1.csv')
+        f = open('./initial_location_v1.csv')
         for line in f.readlines():
             fields = line.split(',')
             location_record = Location(name=fields[1], upper_id=fields[2]) # Should not run twice because of auto increment id field
@@ -53,7 +55,7 @@ def index():
         if musician.photo:
             musician.photo_url = images.get_serving_url(musician.photo)
     index["musician_list"] = musicians
-    logging.info(musicians)
+    #logging.info(musicians)
     return render_template("index.html", index=index, active_tab="index")
 
 
@@ -119,13 +121,30 @@ def musician_new():
         if request.method == "GET":
 
             upload_uri = blobstore.create_upload_url(target_url)
-
             musician = {}
             if g.userdata.is_musician == 1:
+
+                # Get photo url
                 musician_query = Musician.query.filter(Musician.user_id == user_id)
                 musician = musician_query.first()
                 if musician.photo:
                     musician.photo_url = images.get_serving_url(musician.photo) 
+
+                # Get category id (upper)
+                category_query = Category.query.filter(Category.id == musician.category_id)
+                category = category_query.first()
+                category_upper_query = Category.query.filter(Category.id == category.upper_id)
+                category_upper = category_upper_query.first()
+                musician.category_upper_id = category_upper.id
+                logging.info('category upper id: ' + str(category_upper.id))
+
+                # Get location id (upper)
+                location_query = Location.query.filter(Location.id == musician.location_id)
+                location = location_query.first()
+                location_upper_query = Location.query.filter(Location.id == location.upper_id)
+                location_upper = location_upper_query.first()
+                musician.location_upper_id = location_upper.id
+                logging.info('location upper id: ' + str(location_upper.id))
 
             return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, active_tab="musician_new")
 
@@ -151,6 +170,7 @@ def musician_new():
                     location_id = request.form.get("sigungu"),
                     photo = blob_key
                     )
+                g.userdata.is_musician = 1
                 db.session.add(musician)
                 flash(u"프로필이 잘 등록되었어요!", "success")
             else:
@@ -172,7 +192,7 @@ def musician_new():
                     old_blob_key = musician.photo
                     musician.photo = blob_key
                     if old_blob_key != None:
-                        blobstore.delete(old_blob_key.photo)
+                        blobstore.delete(old_blob_key)
 
              
                 flash(u"프로필이 잘 변경되었어요!", "success")
@@ -223,6 +243,7 @@ def kukak_musician():
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):
     musician = Musician.query.get(musician_id)
+    musician.photo_url = images.get_serving_url(musician.photo)
     user = User.query.get(musician.user_id)
     category_list = Category.query.all()
     comments = musician.comments.order_by(asc(Comment.created_on)).all()
