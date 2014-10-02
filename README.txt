@@ -36,3 +36,10 @@
 1. Make sure that the code is written as below in '[ROOT]\app\__init__.py' unless you can destroy running tutti application on production
 - RIGHT: app.config.from_object("app.settings.Development") 
 - WRONG: app.config.from_object("app.settings.Production")
+- You can use code below for the above confusion
+```
+if os.environ['SERVER_SOFTWARE'].startswith('Development'):
+    app.config.from_object("app.settings.Development")
+else:
+    app.config.from_object("app.settings.Production")
+```

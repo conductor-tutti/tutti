@@ -25,6 +25,8 @@ class Musician(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
     category = db.relationship("Category", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
 
+    major_id = db.Column(db.Integer)
+    
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     location = db.relationship("Location", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
 

@@ -49,7 +49,13 @@ def before_request():
 @app.route('/', methods=["GET"])
 def index():
     index = {}
-    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    musicians_query = Musician.query.order_by(desc(Musician.created_on)).limit(4)
+    musicians = musicians_query.all() # Launching query
+    for musician in musicians:
+        if musician.photo:
+            musician.photo_url = images.get_serving_url(musician.photo)
+    index["musician_list"] = musicians
+    logging.info(musicians)
     return render_template("index.html", index=index, active_tab="index")
 
 
@@ -104,38 +110,76 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
-    category = Category.query.all()
-    location = Location.query.all()
+
+    categories = Category.query.all()
+    locations = Location.query.all()
+
     if session:
         user_id = session['user_id']
+
+        target_url = "/musician/musician_new/"
         if request.method == "GET":
-            upload_uri = blobstore.create_upload_url("/musician/musician_new/")
+
+            upload_uri = blobstore.create_upload_url(target_url)
+
+            musician = {}
             if g.userdata.is_musician == 1:
-                musician = Musician.query.filter(Musician.user_id == user_id)
-                profile_data = musician.first()
-                return render_template("/musician/musician_new.html", profile_data=profile_data, category=category, location=location)
-            logging.info('upload_uri' + upload_uri)
-            return render_template("/musician/musician_new.html", upload_uri=upload_uri, category=category, location=location, active_tab="musician_new")
+                musician_query = Musician.query.filter(Musician.user_id == user_id)
+                musician = musician_query.first()
+                if musician.photo:
+                    musician.photo_url = images.get_serving_url(musician.photo) 
+
+            return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, active_tab="musician_new")
 
         elif request.method == "POST":
+
             photo = request.files["profile_image"]
             header = photo.headers["Content-Type"]
+
             parsed_header = parse_options_header(header)
-            blob_key = parsed_header[1]["blob-key"]
-            User.query.get(user_id).is_musician = 1
-            
-            musician = Musician(
-                user_id = user_id,
-                category_id = request.form.get("major"),
-                phrase = request.form.get("phrase"),
-                education = request.form.get("education"),
-                repertoire = request.form.get("repertoire"),
-                location_id = request.form.get("sigungu"),
-                photo = blob_key
-                )
-            db.session.add(musician)
+
+            blob_key = None
+            if(parsed_header[1].has_key("blob-key")):
+                blob_key = parsed_header[1]["blob-key"]  
+
+            #User.query.get(user_id)
+            if g.userdata.is_musician == 0: # New musicion   
+                musician = Musician(
+                    user_id = user_id,
+                    category_id = request.form.get("major"),
+                    phrase = request.form.get("phrase"),
+                    education = request.form.get("education"),
+                    repertoire = request.form.get("repertoire"),
+                    location_id = request.form.get("sigungu"),
+                    photo = blob_key
+                    )
+                db.session.add(musician)
+                flash(u"프로필이 잘 등록되었어요!", "success")
+            else:
+                musician_query = Musician.query.filter(Musician.user_id == user_id)
+                musician = musician_query.first()
+
+                category_id = request.form.get("major")
+                if category_id != 'none':
+                    musician.category_id = category_id 
+                musician.phrase = request.form.get("phrase")
+                musician.education = request.form.get("education")
+                musician.repertoire = request.form.get("repertoire")
+
+                location_id = request.form.get("location")
+                if location_id != 'none':
+                    musician.location_id = request.form.get("sigungu")
+
+                if blob_key != None:
+                    old_blob_key = musician.photo
+                    musician.photo = blob_key
+                    if old_blob_key != None:
+                        blobstore.delete(old_blob_key.photo)
+
+             
+                flash(u"프로필이 잘 변경되었어요!", "success")
+
             db.session.commit()
-            flash(u"프로필이 잘 등록되었어요!", "success")
         return redirect(url_for("index"))
 
     else:
@@ -154,6 +198,7 @@ def musician_location():
 
 @app.route("/musician/musician_category/", methods=["GET","POST"])
 def musician_category():
+   
     if request.method == "POST":
         categoryid = request.form.get("category")
         categories = Category.query.filter(Category.upper_id==categoryid).all()
@@ -163,9 +208,18 @@ def musician_category():
 
 @app.route("/musician/classic_musician/", methods=["GET"])
 def classic_musician():
+    category_list = Category.query.all()
     index = {}
     index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 1).limit(4)
-    return render_template("musician/classic_musician.html", index=index, active_tab="index")
+    return render_template("musician/classic_musician.html", index=index, category_list=category_list, active_tab="index")
+
+
+@app.route("/musician/kukak_musician/", methods=["GET"])
+def kukak_musician():
+    category_list = Category.query.all()
+    index = {}
+    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 2).limit(4)
+    return render_template("musician/kukak_musician.html", index=index, category_list=category_list, active_tab="index")
 
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
