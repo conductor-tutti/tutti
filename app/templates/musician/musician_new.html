@@ -87,7 +87,7 @@
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
                 <label for="inputLocation">시, 군, 구</label>
-                <select class="form-control input-sm" name="sigungu" id="sigungu">
+                <select class="form-control input-sm" name="location_detail" id="location_detail">
                     {% if musician.location_id %}
                     {% for l in locations %}
                         {% if l.upper_id == musician.location_upper_id %}                    
