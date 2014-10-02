@@ -75,11 +75,12 @@
         <div class="row">
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
                 <label for="inputLocation">거주지역</label>
-                <select class="form-control input-sm" name="location" id="sido">
+                <select class="form-control input-sm" name="location" id="location">
                     <option value="none">선택하세요</option>
                     {% for l in locations %}
                     {% if l.upper_id == 0 %}
-                    <option class="state" value="{{ l.id }}" {% if l.id == musician.location_upper_id %}selected{% endif %}>{{ l.name }}</option>
+                    <option class="state" value="{{ l.id }}" {% if l.id == musician.location_upper_id %} selected {% endif %}>
+                        {{ l.name }} </option>
                     {% endif %}
                     {% endfor %}
                 </select>
