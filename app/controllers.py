@@ -143,7 +143,7 @@ def musician_new():
                 blob_key = parsed_header[1]["blob-key"]  
 
             #User.query.get(user_id)
-            if g.userdata.is_musician == 0: # New musicion   
+            if g.userdata.is_musician == 0: # New musician   
                 musician = Musician(
                     user_id = user_id,
                     category_id = request.form.get("major"),
