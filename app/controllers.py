@@ -4,8 +4,8 @@ from sqlalchemy import desc, asc
 from app.models import User, Musician, Category, Location, UserRelationship, Comment
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
-from google.appengine.api import images
-from google.appengine.ext import blobstore
+# from google.appengine.api import images
+# from google.appengine.ext import blobstore
 from werkzeug.http import parse_options_header
 from datetime import timedelta
 import re
@@ -14,15 +14,11 @@ import logging
 import os
 import sys
 reload(sys)
-
 sys.setdefaultencoding('UTF8')
 
 @app.before_request
 def before_request():
-<<<<<<< HEAD
-=======
     #logging.info(os.getcwd())
->>>>>>> 319db56f47c537402466c0af26a9f58e5a263231
     if db.session.query(Category).count() == 0:
         f = open('./initial_category_v1.csv')
         for line in f.readlines():
@@ -51,12 +47,13 @@ def index():
     index = {}
     musicians_query = Musician.query.order_by(desc(Musician.created_on)).limit(4)
     musicians = musicians_query.all() # Launching query
+    category_list = Category.query.all()
     for musician in musicians:
         if musician.photo:
             musician.photo_url = images.get_serving_url(musician.photo)
     index["musician_list"] = musicians
     #logging.info(musicians)
-    return render_template("index.html", index=index, active_tab="index")
+    return render_template("index.html", index=index, category_list=category_list, active_tab="index")
 
 
 @app.route('/sign_up', methods = ['GET', 'POST'])
@@ -131,20 +128,21 @@ def musician_new():
                     musician.photo_url = images.get_serving_url(musician.photo) 
 
                 # Get category id (upper)
-                category_query = Category.query.filter(Category.id == musician.category_id)
-                category = category_query.first()
-                category_upper_query = Category.query.filter(Category.id == category.upper_id)
-                category_upper = category_upper_query.first()
-                musician.category_upper_id = category_upper.id
-                logging.info('category upper id: ' + str(category_upper.id))
+                # we don't need to send query twice to get upper id. Musician got them now.
+                # category_query = Category.query.filter(Category.id == musician.category_id)
+                # category = category_query.first()
+                # category_upper_query = Category.query.filter(Category.id == category.upper_id)
+                # category_upper = category_upper_query.first()
+                # musician.category_upper_id = category_upper.id
+                # logging.info('category upper id: ' + str(category_upper.id))
 
-                # Get location id (upper)
-                location_query = Location.query.filter(Location.id == musician.location_id)
-                location = location_query.first()
-                location_upper_query = Location.query.filter(Location.id == location.upper_id)
-                location_upper = location_upper_query.first()
-                musician.location_upper_id = location_upper.id
-                logging.info('location upper id: ' + str(location_upper.id))
+                # # Get location id (upper)
+                # location_query = Location.query.filter(Location.id == musician.location_id)
+                # location = location_query.first()
+                # location_upper_query = Location.query.filter(Location.id == location.upper_id)
+                # location_upper = location_upper_query.first()
+                # musician.location_upper_id = location_upper.id
+                # logging.info('location upper id: ' + str(location_upper.id))
 
             return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, active_tab="musician_new")
 
@@ -160,14 +158,16 @@ def musician_new():
                 blob_key = parsed_header[1]["blob-key"]  
 
             #User.query.get(user_id)
-            if g.userdata.is_musician == 0: # New musician   
+            if g.userdata.is_musician == 0: # New musician
                 musician = Musician(
                     user_id = user_id,
+                    category_upper_id = request.form.get("category"),
                     category_id = request.form.get("major"),
+                    location_upper_id = reqest.form.get("location"),
+                    location_id = request.form.get("location_detail"),
                     phrase = request.form.get("phrase"),
                     education = request.form.get("education"),
                     repertoire = request.form.get("repertoire"),
-                    location_id = request.form.get("sigungu"),
                     photo = blob_key
                     )
                 g.userdata.is_musician = 1
