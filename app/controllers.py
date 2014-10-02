@@ -21,7 +21,6 @@ DB_INITIAL_DIRECTORY = './initial_data'
 
 @app.before_request
 def before_request():
-    #category_list = ["클래식", "국악", "재즈", "실용음악", "기타 "]
     if db.session.query(Category).count() == 0:
         f = open(os.path.dirname(__file__) + DB_INITIAL_DIRECTORY + '/' + 'category_v1.csv')
         for line in f.readlines():
@@ -41,7 +40,6 @@ def before_request():
         f.close()
         db.session.commit()
 
-    
     g.userdata = None
     if 'user_id' in session:
         g.userdata = User.query.get(session["user_id"]) # FIX: It should be cached later on for prevention of unnecessary overhead on DB 
@@ -466,4 +464,3 @@ def comment_create():
         db.session.commit()
         data={"comment_data":request.form.get("comment_data"),"author_name":g.userdata.username,"success" : True}
         return jsonify(data)
-
