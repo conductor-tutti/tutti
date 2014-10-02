@@ -12,7 +12,6 @@ deploy.py
 LICENSE
 main.py
 manager.py
-README.md
 requirements.txt
 *.pyc
 *.db
