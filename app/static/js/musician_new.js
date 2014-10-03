@@ -1,7 +1,7 @@
 
 $(document).ready(function(){
     console.log("I'm ready!");
-    $('#sido').change(function() {
+    $('#location').change(function() {
         console.log("I'm changed!");
 
         $.ajax({
@@ -9,7 +9,7 @@ $(document).ready(function(){
             type: 'POST',
             dataType: 'JSON',
             data:{
-                location:$('#sido').val()
+                location:$('#location').val()
             },
             success: function(data) {
                 
@@ -21,7 +21,7 @@ $(document).ready(function(){
                 }
                 console.log($('.sublocation'))
                 
-                $("#sigungu").html(sigungu);
+                $("#location_detail").html(sigungu);
                 
             },
             error: function(e) {
