@@ -23,13 +23,13 @@ class Musician(db.Model):
     user = db.relationship("User",
         backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
     
-    category_upper_id = db.Column(db.Integer, db.ForeignKey("category.upper_id")) # big class level 
+    category_upper_id = db.Column(db.Integer, db.ForeignKey("category.id")) # big class level 
     category_id = db.Column(db.Integer, db.ForeignKey("category.id")) # smaller class level
-    category = db.relationship("Category", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
+    category = db.relationship("Category", foreign_keys=[category_id], backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
     
-    location_upper_id = db.Column(db.Integer, db.ForeignKey("location.upper_id"))
+    location_upper_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
-    location = db.relationship("Location", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
+    location = db.relationship("Location", foreign_keys=[location_id], backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
     
     phrase = db.Column(db.String(255))
     education = db.Column(db.String(255))
