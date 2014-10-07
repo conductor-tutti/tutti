@@ -61,19 +61,14 @@ hr{
     text-align: center;
 }
 
-.thumbnail{
-    background: rgba(255, 255, 255, 0);
-    border: none;
+.thumbnail > img{
+    border: 1px solid #CACACA;
 }
 
 .thumbnail .caption{
     max-height: 120px;
     padding: 15px;
     background-color: white;
-    border-top-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    margin-top: -15px;
-    box-shadow: 3px 3px 0px #CCCCCC;
 }
 
 #profile_image{
