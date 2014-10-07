@@ -12,6 +12,9 @@
 
 <div class="box">
     <!-- 카테고리, 프로필, 뮤지션 이름 -->
+    <!-- Facebook share button (the data to share should be placed in meta tag starting with og) -->
+    <div class="fb-share-button" data-href="{{ url_for('musician_profile', musician_id=musician.id, _external=True)}}"></div>
+    
     <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 image_box">
         <img src="{{ musician.photo_url }}" class="profile_image">
     </div>
@@ -73,9 +76,7 @@
     </div>
 
     <!-- Embed youtube video -->
-    <iframe width="560" height="315" src="//www.youtube.com/embed/ukFm8y47rPU" frameborder="0" allowfullscreen></iframe>
+    <!-- <iframe src="//www.youtube.com/embed/ukFm8y47rPU" id="video" frameborder="0" allowfullscreen></iframe> -->
 
-    <!-- Facebook share button (the data to share should be placed in meta tag starting with og) -->
-    <div class="fb-share-button" data-href="{{ url_for('musician_profile', musician_id=musician.id, _external=True)}}"></div>
 </div>
 {% endblock %}
