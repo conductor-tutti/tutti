@@ -4,8 +4,8 @@ from sqlalchemy import desc, asc
 from app.models import User, Musician, Category, Location, UserRelationship, Comment
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
-# from google.appengine.api import images
-# from google.appengine.ext import blobstore
+from google.appengine.api import images
+from google.appengine.ext import blobstore
 from werkzeug.http import parse_options_header
 from datetime import timedelta
 import re
@@ -163,7 +163,7 @@ def musician_new():
                     user_id = user_id,
                     category_upper_id = request.form.get("category"),
                     category_id = request.form.get("major"),
-                    location_upper_id = reqest.form.get("location"),
+                    location_upper_id = request.form.get("location"),
                     location_id = request.form.get("location_detail"),
                     phrase = request.form.get("phrase"),
                     education = request.form.get("education"),
@@ -186,7 +186,7 @@ def musician_new():
 
                 location_id = request.form.get("location")
                 if location_id != 'none':
-                    musician.location_id = request.form.get("sigungu")
+                    musician.location_id = request.form.get("location_detail")
 
                 if blob_key != None:
                     old_blob_key = musician.photo
@@ -248,7 +248,7 @@ def musician_profile(musician_id):
     category_list = Category.query.all()
     comments = musician.comments.order_by(asc(Comment.created_on)).all()
     username = user.username
-    return render_template("musician/profile.html", username=username, category_list=category_list, musician=musician, comments=comments)
+    return render_template("musician/musician_profile.html", username=username, category_list=category_list, musician=musician, comments=comments)
 
 
 @app.route("/photo/get/<path:blob_key>/", methods=["GET"])
