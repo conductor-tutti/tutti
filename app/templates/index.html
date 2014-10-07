@@ -23,20 +23,24 @@
         <div class="thumbnail">
             <img src="{{ musician.photo_url }}">
             <div class="caption">
-                <div class="newbie_name"><a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile">{{ musician.user.username }}</a>  <span class="newbie_category">{{ musician.category.name }} | {% for category in category_list %}
-                    {% if musician.major_id == category.id %}
-                    {{ category.name }}
-                    {% endif %}
-                    {% endfor %}</span></div>
-                    <div class="newbie_phrase">"{{ musician.phrase }}"</div>
+                <div class="newbie_name">
+                    <a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile">{{ musician.user.username }}</a>
+                    <span class="newbie_category">
+                        {{ musician.category.name }} | {% for category in category_list %}
+                        {% if musician.category_upper_id == category.id %}
+                        {{ category.name }}
+                        {% endif %}
+                        {% endfor %}
+                    </span>
                 </div>
+                <div class="newbie_phrase">"{{ musician.phrase }}"</div>
             </div>
         </div>
-        {% else %}
-        <h1 id="nobody">아직 등록된 뮤지션이 없네요. 첫 번째 뮤지션이 되어보세요.</h1>
-        {% endfor %}
-        {% endif %}
-
     </div>
+    {% else %}
+    <h1 id="nobody">아직 등록된 뮤지션이 없네요. 첫 번째 뮤지션이 되어보세요.</h1>
+    {% endfor %}
+    {% endif %}
+
 </div>
 {% endblock %}
