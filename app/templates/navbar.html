@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default navbar-static-top" role="navigation">
-    <div class="container-fluid nav-container">
+    <div class="container nav-container">
         <!-- Brand and toggle get gouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#tutti-navbar-collapse">
@@ -14,51 +14,160 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="tutti-navbar-collapse">
             <ul class="nav navbar-nav nav-menu">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">뮤지션 모아보기<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class="dropdown-header">카테고리별 뮤지션</li>
+                        <li><a href="{{ url_for('classic_musician') }}">클래식</a></li>
 
-                <li {% if active_tab == "index" %} class="active" {% endif %}>
-                    <a href="{{ url_for("index") }}">뮤지션</a>
+                        <li><a href="{{ url_for('kukak_musician') }}">국악</a></li>
+
+                        
+                        <li class="divider"></li>
+                        <li class="dropdown-header">이하 공사중!</li>
+
+                        <li><a href="#">재즈</a></li>
+                        <li><a href="#">실용음악</a></li>
+                        <li><a href="#">자유포럼</a></li>
+                    </ul>
                 </li>
-
             </ul>
 
             <ul class="nav navbar-nav navbar-right nav-menu">
 
-                {% if g.username == None %}
+                {% if g.userdata == None %}
                 <li {% if active_tab == "sign_in" %} class="active" {% endif %}>
                     <a href="{{ url_for('sign_in') }}">로그인</a>
                 </li>
                 {% endif %}
 
-                {% if g.username != None %}
-                <li>
-                    <a href="{{ url_for('logout') }}">로그아웃</a>
-                </li>
-                {% endif %}
-
-                {% if g.username == None %}
+                {% if g.userdata == None %}
                 <li {% if active_tab == "sign_up" %} class="active" {% endif %}>
                     <a href="{{ url_for('sign_up') }}">회원가입</a>
                 </li>
                 {% endif %}
 
-                {% if g.username != None %}
+                {% if g.userdata != None %}
+                {% if g.userdata.is_musician == 0 %}
                 <li {% if active_tab == "musician_new" %} class="active" {% endif %}>
                     <a href="{{ url_for('musician_new') }}">뮤지션 등록</a>
                 </li>
+
+                {% else %}
+                <li {% if active_tab == "musician_new" %} class="active" {% endif %}>
+                    <a href="{{ url_for('musician_new') }}">프로필 수정</a>
+                </li>
                 {% endif %}
-                
-                {% if g.username != None %}
-                <li {% if active_tab == "search_name" %} class="active" {% endif %}>
-                    <a href="{{ url_for('search_name') }}">친구 검색</a>
+                {% endif %}
+
+                {% if g.userdata != None %}
+                <li {% if active_tab == "my_friends" %} class="active" {% endif %}>
+                    <a href="{{ url_for('my_friends') }}">인맥 관리</a>
                 </li>
                 {% endif %}
 
-                {% if g.username != None %}
-                <li {% if active_tab == "my_friends" %} class="active" {% endif %}>
-                    <a href="{{ url_for('my_friends') }}">My Friends</a>
-                </li>
-                {% endif %}
-            </ul>
+                {% if g.userdata != None %}
+                <ul class="nav navbar-nav nav-menu">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-lg"></i>  {{ g.userdata.username }}<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/user_profile">내 계정</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{{ url_for('logout')}}">로그아웃</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right nav-menu">
+                    {% endif %}
+
+
+                    <form class="navbar-form navbar-right" role="search" method="POST" action="{{url_for('search_name')}}">
+
+                        <div class="form-group">
+                            <input type="text" class="form-control input-sm" name="search-name" placeholder="뮤지션 검색">
+                        </div>
+                        <div class="btn-group btn-group-sm">
+                            <button type="submit" class="btn btn-default">찾기</button>
+                        </div>
+                    </form>
+                </ul>
+            </div>
         </div>
     </div>
+</nav>
+
+<style type="text/css">
+
+.navbar .nav > li > a {
+    color:  #ffffff;
+}
+
+.navbar-default {
+    background-color: #3F3F3F;
+    border-color: #3F3F3F;
+    /*box-shadow: 0px 1px 25px rgb(81, 81, 81);*/
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: white;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
+    background-color: #D95D5F;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    color: #FEF3D7;
+    background-color: transparent;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: white;
+    background-color: #4E4E4E;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #FEF3D7;
+    background-color: transparent;
+}
+
+.navbar-default .navbar-brand {
+    width: 120px;
+    text-align: center;
+    font-family: "Lobster", cursive;
+    font-size: 2.5em;
+    letter-spacing: 4px;
+    color: white;
+}
+
+.navbar-fixed-bottom{
+    height: 80px;
+}
+
+.navbar-default .navbar-text{
+    font-size: ;
+    color: white;
+}
+
+.nav-menu{
+    color: white;
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+    color: white;
+    background-color: #4E4E4E;
+}
+
+
+#dropdownMusician{
+    background-color: #3F3F3F;
+    border-color: #3F3F3F;
+}
+
+#profile_pic{
+    width: 30px;
+    height: 30px;
+}
+</style>
 </nav>

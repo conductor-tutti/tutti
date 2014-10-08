@@ -7,15 +7,22 @@
 /* creamy brown: #BB8F76 */
 /* deep creamy brown: #AF866F */
 
+body{
+    background-image: url("../static/images/sign_in_pianist.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+}
+
 .main {
-    background-color: white;
+    background: rgba(255, 255, 255, 0.8);
     max-width: 420px;
     padding: 20px;
     border-radius: 20px;
     margin: 0 auto;
 }
 
-h3, .h3{
+h2, .h2{
+    font-family: 'Lobster', cursive;
     text-align: center;
 }
 
@@ -24,15 +31,15 @@ h3, .h3{
     margin-bottom: 10px;
     text-align: center;
     font-size: 0.9em;
-    color: #BB8F76;
+    color: #black;
 }
 
-a {
-    color: #BB8F76;
+a{
+    color: black;
 }
 
 a:hover, a:focus {
-    color: #AF866F;
+    color: #BB8F76;
     text-decoration: none;
 }
 
@@ -43,7 +50,7 @@ a:hover, a:focus {
 .login-or {
     position: relative;
     font-size: 18px;
-    color: #aaa;
+    color: black;
     margin-top: 20px;
     margin-bottom: 10px;
     padding-top: 10px;
@@ -56,13 +63,13 @@ a:hover, a:focus {
     left: 45%;
     top: -2px;
     margin-left: -25px;
-    background-color: #fff;
     width: 100px;
     font-size: 0.7em;
     text-align: center;
 }
 
 .hr-or {
+    display: none;
     background-color: #cdcdcd;
     height: 1px;
     margin-top: 0px !important;
@@ -87,7 +94,7 @@ a:hover, a:focus {
 
 <div class="row">
     <div class="main">
-        <h3>로그인</h3>
+        <h2>LOGIN</h2>
         <a href="{{ url_for('sign_up') }}"><span class="please-register">아직 회원이 아니시라면? 가입부터 하기!</span></a>
 
         <form role="form" method="POST">
@@ -121,13 +128,13 @@ a:hover, a:focus {
 
         <div class="row">
             <div class="col-xs-6 col-sm-6 col-md-6">
-                <a class="btn btn-block btn-social btn-sm btn-facebook" href="{{ url_for('facebook_login')}}">
+                <a class="btn btn-block btn-social btn-sm btn-facebook" href="{{ url_for('facebook_login') }}">
                     <i class="fa fa-facebook"></i>페이스북 연동
                 </a>
             </div>
 
             <div class="col-xs-6 col-sm-6 col-md-6">
-                <a class="btn btn-block btn-social btn-sm btn-google-plus" href="{{ url_for('google_login')}}">
+                <a class="btn btn-block btn-social btn-sm btn-google-plus" href="{{ url_for('google_login') }}">
                     <i class="fa fa-google-plus"></i>구글플러스 연동
                 </a>
             </div>

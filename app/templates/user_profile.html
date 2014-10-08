@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block customhead %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/user_profile.css') }}">
+{% endblock %}
+
+{% block contents %}
+
+<div id="profile-box" class="col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3">
+    {% if g.userdata != None %}
+    {% if g.userdata.password %}
+    <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}">
+    {% else%}
+    <img src="{{ g.userdata.photo }}">
+    {% endif %}
+    <div class="row">
+        <span>이름 : </span>
+        {{ g.userdata.username }}
+    </div>
+    <div class="row">
+        <span>이메일 : </span>
+        {{ g.userdata.email}}
+    </div>    
+    {% endif %}
+</div>
+
+    {% endblock %}
+    {% block scripts %}
+
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
+    {% endblock %}

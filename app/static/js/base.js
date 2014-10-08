@@ -1,67 +1,175 @@
 $(document).ready(function(){
-    var article_num = 0;
-    var current_row = 2;
-
-    $("#bt_calculate").bind("click", function(){
-
+    $("#comment_create").click(function(){
         $.ajax({
-            url: "/test",
-            type: "POST", // type: default is "GET"
-            data: { input_first: $('input[name="input_first"]').val(),
-            input_second: $('input[name="input_second"]').val() },
-            dataType: "JSON",
-            success: function(data) {
-                $("#result").text(data.result);
-                console.log("#result")
-            }
-        });
-        return false;
-    });
-
-    $.ajax({
-        url: "/total_article_num",
-        dataType: "JSON",
-        success: function(data) {
-            if(data.article_num){
-                article_num = data.article_num;
-                $("#total_article_num").append(article_num.toString() + "개의 게시물이 있으심");
-            }
-            else{
-                console.log("You have no total article number data at all")
-            }
-        },
-        error: function(data) {
-            console.log("No data at all!!!!");
-        }
-    });
-
-    $("#more_btn").click(function(){
-        $.ajax({
-            url: "/more_article",
-            dataType: "JSON",
-            data: {
-                current_row: current_row,
-                article_num: article_num
+            url:'/comment_create',
+            type: 'POST',
+            datatype: "JSON",
+            data:{
+                comment_data: $('#comment').val(),
+                musician_id_data: $('#comment').attr("data-musician-id") 
             },
             success: function(data){
-                current_row += 1;
-                called_articles = data.data;
-                for(var i in called_articles){
-                    article = called_articles[i];
-                    string = "<div class='well' id='article_"+article.id+"'>
-                    <h1><a href='article/detail/"+article.id"'>"+article.title+"</a></h1><h3>"
-                    +article.author+"</h3><h6>"+article.content+"</h6></div>";
-                    console.log(string)
-                    $("#called_articles_list").append(string);
-
-                    if("#called_articles_list" != 1){
-                        $("#more_btn").hide();
-                        $("#called_articles_list").append("글 엄씀 이제");
-                    }
-                },
-                error: function(data){
-                    console.log("invalid data")
+                if (data.success){
+                    $('#comment_row').append("<div class='comment'>"+data.author_name+ ":"+data.comment_data+"</div>")
+                    $('#comment').val("");
+                    console.log('send msg success!');
                 }
+                else{
+                    console.log('send msg fail!');
+                }
+            },
+            error: function(data){
+                console.log("Server error!");
+            }
+        });
+    });
+    $("#edu_create").click(function(){
+        $.ajax({
+            url:'/education_create',
+            type: 'POST',
+            datatype: "JSON",
+            data:{
+                edu_data: $('#edu_data').val(),
+                data_musician_id: $('#edu_data').attr("data_musician_id") 
+            },
+            success: function(data){
+                if (data.success){
+                    $('.education').append("<div id='edu_"+
+                        data.edu_id+"'>"+data.edu_data+
+                        "<button id='edu_delete' type='button' data_education_id='"
+                        +data.edu_id+"'>삭제</button><button id='edu_update' type='button' data_education_id='"
+                        +data.edu_id+"'>수정</button>")
+                    $('#edu_data').val("");
+                    console.log('send msg success!');
+                }
+                else{
+                    console.log('send msg fail!');
+                }
+            },
+            error: function(data){
+                console.log("Server error!");
+            }
+        });
+    });
+    $("#edu_delete").click(function(){
+        $.ajax({
+            url:'/education_delete',
+            type: 'POST',
+            datatype: "JSON",
+            data:{
+                data_education_id: $('#edu_delete').attr("data_education_id") 
+            },
+            success: function(data){
+                if (data.success){
+                    $("#edu_"+data.edu_id+"").remove()
+                    console.log('send msg success!');
+                }
+                else{
+                    console.log('send msg fail!');
+                }
+            },
+            error: function(data){
+                console.log("Server error!");
+            }
+        });
+    });
+    $("#repertoire_create").click(function(){
+        $.ajax({
+            url:'/repertoire_create',
+            type: 'POST',
+            datatype: "JSON",
+            data:{
+                repertoire_data: $('#repertoire_data').val(),
+                data_musician_id: $('#repertoire_data').attr("data_musician_id") 
+            },
+            success: function(data){
+                if (data.success){
+                    $('.repertoire').append("<div id='repertoire_"+
+                        data.repertoire_id+"'>"+data.repertoire_data+
+                        "<button id='repertoire_delete' type='button' data_repertoire_id='"
+                        +data.repertoire_id+"'>삭제</button><button id='repertoire_update' type='button' data_repertoire_id='"
+                        +data.repertoire_id+"'>수정</button>")
+                    $('#repertoire_data').val("");
+                    console.log('send msg success!');
+                }
+                else{
+                    console.log('send msg fail!');
+                }
+            },
+            error: function(data){
+                console.log("Server error!");
+            }
+        });
+    });
+    $("#repertoire_delete").click(function(){
+        $.ajax({
+            url:'/repertoire_delete',
+            type: 'POST',
+            datatype: "JSON",
+            data:{
+                data_repertoire_id: $('#repertoire_delete').attr("data_repertoire_id") 
+            },
+            success: function(data){
+                if (data.success){
+                    $("#repertoire_"+data.repertoire_id+"").remove()
+                    console.log('send msg success!');
+                }
+                else{
+                    console.log('send msg fail!');
+                }
+            },
+            error: function(data){
+                console.log("Server error!");
+            }
+        });
+    });
+    $("#video_create").click(function(){
+        $.ajax({
+            url:'/video_create',
+            type: 'POST',
+            datatype: "JSON",
+            data:{
+                video_data: $('#video_data').val(),
+                data_musician_id: $('#video_data').attr("data_musician_id") 
+            },
+            success: function(data){
+                if (data.success){
+                    $('.video').append("<div id='video_"+
+                        data.video_id+"'>"+data.video_data+
+                        "<button id='video_delete' type='button' data_video_id='"
+                        +data.video_id+"'>삭제</button><button id='video_update' type='button' data_video_id='"
+                        +data.video_id+"'>수정</button>")
+                    $('#video_data').val("");
+                    console.log('send msg success!');
+                }
+                else{
+                    console.log('send msg fail!');
+                }
+            },
+            error: function(data){
+                console.log("Server error!");
+            }
+        });
+    });
+    $("#video_delete").click(function(){
+        $.ajax({
+            url:'/video_delete',
+            type: 'POST',
+            datatype: "JSON",
+            data:{
+                data_video_id: $('#video_delete').attr("data_video_id") 
+            },
+            success: function(data){
+                if (data.success){
+                    $("#video_"+data.video_id+"").remove()
+                    console.log('send msg success!');
+                }
+                else{
+                    console.log('send msg fail!');
+                }
+            },
+            error: function(data){
+                console.log("Server error!");
             }
         });
     });

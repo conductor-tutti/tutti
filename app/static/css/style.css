@@ -1,65 +1,14 @@
 body{
-    background-color: #EDEDED;
-    font-family: "Malgun Gothic", verdana;
+    /*background-color: #3F3F3F;*/
+    background-image: url("../images/struckaxiom.png");
+    font-family: "Nanum Gothic", sans-serif;
 }
 
 
-.navbar .nav > li > a {
-    color:  #ffffff;
-}
-
-.navbar-default {
-    background-color: #CC575A;
-    border-color: black;
-}
-
-.navbar-default .navbar-toggle .icon-bar {
-    background-color: white;
-}
-
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
-    background-color: #D95D5F;
-}
-
-.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-    color: #FEF3D7;
-    background-color: transparent;
-}
+/* tuttiblack: #3F3F3F */
 
 .nav-container{
     background-color: #3F3F3F;
-}
-
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-    color: white;
-    background-color: #4E4E4E;
-}
-
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: #FEF3D7;
-    background-color: transparent;
-}
-
-.navbar-default .navbar-brand {
-    width: 120px;
-    text-align: center;
-    font-family: "Fredoka One", cursive;
-    font-size: 2em;
-    letter-spacing: 2px;
-    color: white;
-}
-
-.navbar-fixed-bottom{
-    height: 80px;
-}
-
-.navbar-default .navbar-text{
-    font-size: ;
-    color: white;
-}
-
-.nav-menu{
-    color: white;
 }
 
 .no-list {

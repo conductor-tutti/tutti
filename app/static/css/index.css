@@ -1,0 +1,122 @@
+.navbar-default{
+    margin-bottom: 0px;
+}
+
+.row{
+}
+
+.wide{
+    width:100%;
+    height:350px;
+    background-image:url('../images/Violinist_Diana_Yukawa_edited.jpg');
+    background-size:cover;
+    box-shadow: 0px 0px 30px #BEBEBE;
+}
+
+.wide img{
+    width:100%;
+}
+
+.catchphrase{
+    padding-top: 90px;
+    text-align: center;
+    font-family: "Lobster", cursive;
+    font-size: 4em;
+    color: white;
+    text-shadow: black 0px 0px 5px;
+}
+
+.logo{
+    text-align: center;
+    font-family: "Lobster", cursive;
+    font-size: 2.3em;
+    letter-spacing: 1px;
+    text-shadow: black 0px 0px 7px;
+    color: white;
+}
+
+.musician{
+    background-color: white;
+}
+
+.newbies{
+    font-family: "Lobster", cursive;
+    text-align: center;
+    letter-spacing: 2px;
+    color: #AE846C;
+    text-shadow: 2px 2px white;
+}
+
+.newbies_sub{
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+hr{
+    border-top: 1px dashed #CCCCCC;
+}
+
+.newest_musicians{
+    text-align: center;
+}
+
+.thumbnail{
+    background: rgba(255, 255, 255, 0);
+    border: none;
+}
+
+.thumbnail .caption{
+    max-height: 120px;
+    padding: 15px;
+    background-color: white;
+    border-top-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    margin-top: -15px;
+    box-shadow: 3px 3px 0px #CCCCCC;
+}
+
+#profile_image{
+    width: 100%;
+    height: 200px;
+}
+
+.newbie_name{
+    margin-top: 5px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.newbie_category{
+    font-size: 0.6em;
+    color: #E56D6D;
+}
+
+.newbie_major{
+    font-size: 0.9em;
+}
+
+.newbie_phrase{
+    text-align: center;
+    word-break: break-all;
+}
+
+.view_profile{
+    color: #BB8F76;
+}
+
+#nobody{
+    text-align: center;
+    font-family: "Lobster", cursive;
+    letter-spacing: 2px;
+    color: #D04E4E;
+    text-shadow: 2px 2px white;
+}
+
+.view_profile{
+    color: black;
+}
+
+a:hover, a:focus{
+    color: #E76454;
+}
