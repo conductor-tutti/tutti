@@ -11,10 +11,9 @@
 {% block contents %}
 
 <div class="box">
-    <!-- 카테고리, 프로필, 뮤지션 이름 -->
     <!-- Facebook share button (the data to share should be placed in meta tag starting with og) -->
     <div class="fb-share-button" data-href="{{ url_for('musician_profile', musician_id=musician.id, _external=True)}}"></div>
-    
+
     <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 image_box">
         <img src="{{ musician.photo_url }}" class="profile_image">
     </div>
@@ -40,10 +39,19 @@
 
     <div class="row education">
         <div class="col-sm-2 col-md-2 col-sm-offset-2 col-md-offset-2 graduation-cap">
-            <i class="fa fa-graduation-cap fa-5x"></i><br>
+            <i class="fa fa-graduation-cap fa-4x"></i><br>
         </div>
         <div class="col-sm-6 col-md-6 education-list">
             {{ musician.education }}
+        </div>
+    </div>
+
+    <div class="row repertoire">
+        <div class="col-sm-2 col-md-2 col-sm-offset-2 col-md-offset-2 graduation-cap">
+            <i class="fa fa-book fa-4x"></i><br>
+        </div>
+        <div class="col-sm-6 col-md-6 repertoire-list">
+            {{ musician.repertoire }}
         </div>
     </div>
 
