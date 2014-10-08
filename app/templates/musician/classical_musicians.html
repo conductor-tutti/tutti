@@ -21,27 +21,25 @@
 </div>
 {% endblock %}
 {% block contents %}
-<div class="row">
-	{% if contents.musician_list %}
+{% if contents.musician_list %}
+<div class="row musician_list">
 	{% for musician in contents.musician_list %}
-	<div class="col-sm-6 col-md-3 classical_musicians">
-		<div class="thumbnail">
-			<img src="{{ musician.photo_url }}">
-			<div class="caption">
-				<div class="newbie_name">
-					<a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile">{{ musician.user.username }}</a>
-					<span class="newbie_category">
-						{{ musician.category.name }}
-					</span>
-				</div>
-				<div class="newbie_phrase">"{{ musician.phrase }}"</div>
-			</div>
+	<div class="col-sm-4 col-md-2">
+		<img src="{{ musician.photo_url }}" class="profile_picture img-thumbnail">
+		<div class="musician_name"><a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile">{{ musician.user.username }}</a></div>
+	</div>
+	<div class="col-sm-8 col-md-4 profile_detail">
+		<div class="musician_category">{{ musician.category.name }}</div>
+		<div class="musician_education">{{ musician.education }}</div>
+		<div class="musician_phrase">" {{ musician.phrase }} "</div>
+		<div>
+			<a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile pull-right">프로필 보기</a>
 		</div>
 	</div>
+	{% endfor %}
 </div>
-
-{% endfor %}
 {% endif %}
+
 
 </div>
 

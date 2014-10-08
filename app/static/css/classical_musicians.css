@@ -1,5 +1,4 @@
 body{
-    background-image: url("../images/xv.png");
 }
 
 .navbar-default{
@@ -43,4 +42,51 @@ body{
     padding: 5px;
     margin-top: 3px;
     display: inline-block;
+}
+
+.musician_list{
+    /*background-color: rgba(255, 255, 255, 0.8);*/
+    margin: 10px 0px 10px 0px;
+    padding: 10px 0px 10px 0px;
+    /*border-radius: 10px;*/
+}
+
+.each_musician{
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.profile_picture{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.musician_name{
+    position: absolute;
+    bottom: 0%;
+    padding: 5px;
+    border: 1px solid #CBCBCB;
+    background-color: rgba(255, 255, 255, 0.7);
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.musician_category{
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.musician_education{
+    font-weight: bold;
+}
+
+.musician_phrase{
+    margin: 10px 0px 10px 0px;
+}
+
+.view_profile{
+    color: #B4806A;
+}
+
+a:hover, a:focus{
+    color: #D9997D;
 }
