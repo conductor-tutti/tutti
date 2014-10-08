@@ -26,7 +26,9 @@
 	{% for musician in contents.musician_list %}
 	<div class="col-sm-4 col-md-2">
 		<img src="{{ musician.photo_url }}" class="profile_picture img-thumbnail">
-		<div class="musician_name"><a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile">{{ musician.user.username }}</a></div>
+		<div class="musician_name">
+			<a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile">{{ musician.user.username }}</a>
+		</div>
 	</div>
 	<div class="col-sm-8 col-md-4 profile_detail">
 		<div class="musician_category">{{ musician.category.name }}</div>
