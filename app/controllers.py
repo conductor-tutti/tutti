@@ -1,7 +1,7 @@
 #-*-coding:utf-8-*-
 from app import app, db, facebook, google
 from sqlalchemy import desc, asc
-from app.models import User, Musician, Category, Location, UserRelationship, Comment
+from app.models import User, Musician, Category, Location, UserRelationship, Comment, Education, Repertoire, Video
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
 from google.appengine.api import images
@@ -106,25 +106,120 @@ def logout():
     flash(u"%s 님, 다음에 또 만나요!" % g.userdata.username)
     return redirect(url_for("index"))
 
+# @app.route("/musician/musician_new/", methods=["GET", "POST"])
+# def musician_new():
+
+#     categories = Category.query.all()
+#     locations = Location.query.all()
+
+#     if session:
+#         user_id = session['user_id']
+
+#         target_url = "/musician/musician_new/"
+#         if request.method == "GET":
+
+#             upload_uri = blobstore.create_upload_url(target_url)
+#             musician = {}
+#             if g.userdata.is_musician == 1:
+
+#                 # Get photo url
+#                 musician_query = Musician.query.filter(Musician.user_id == user_id)
+#                 musician = musician_query.first()
+#                 if musician.photo:
+#                     musician.photo_url = images.get_serving_url(musician.photo) 
+
+#                 # Get category id (upper)
+#                 category_query = Category.query.filter(Category.id == musician.category_id)
+#                 category = category_query.first()
+#                 category_upper_query = Category.query.filter(Category.id == category.upper_id)
+#                 category_upper = category_upper_query.first()
+#                 musician.category_upper_id = category_upper.id
+#                 logging.info('category upper id: ' + str(category_upper.id))
+
+#                 # Get location id (upper)
+#                 location_query = Location.query.filter(Location.id == musician.location_id)
+#                 location = location_query.first()
+#                 location_upper_query = Location.query.filter(Location.id == location.upper_id)
+#                 location_upper = location_upper_query.first()
+#                 musician.location_upper_id = location_upper.id
+#                 logging.info('location upper id: ' + str(location_upper.id))
+
+#             return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, active_tab="musician_new")
+
+#         elif request.method == "POST":
+
+#             photo = request.files["profile_image"]
+#             header = photo.headers["Content-Type"]
+
+#             parsed_header = parse_options_header(header)
+
+#             blob_key = None
+#             if(parsed_header[1].has_key("blob-key")):
+#                 blob_key = parsed_header[1]["blob-key"]  
+
+#             #User.query.get(user_id)
+#             if g.userdata.is_musician == 0: # New musicion   
+#                 musician = Musician(
+#                     user_id = user_id,
+#                     category_id = request.form.get("major"),
+#                     location_id = request.form.get("sigungu"),
+#                     phrase = request.form.get("phrase"),
+#                     photo = blob_key
+#                     )
+#                 g.userdata.is_musician = 1
+#                 db.session.add(musician)
+#                 flash(u"프로필이 잘 등록되었어요!", "success")
+#             else:
+#                 musician_query = Musician.query.filter(Musician.user_id == user_id)
+#                 musician = musician_query.first()
+
+#                 category_id = request.form.get("major")
+#                 if category_id != 'none':
+#                     musician.category_id = category_id 
+#                 musician.phrase = request.form.get("phrase")
+#                 musician.education = request.form.get("education")
+#                 musician.repertoire = request.form.get("repertoire")
+
+#                 location_id = request.form.get("location")
+#                 if location_id != 'none':
+#                     musician.location_id = request.form.get("sigungu")
+
+#                 if blob_key != None:
+#                     old_blob_key = musician.photo
+#                     musician.photo = blob_key
+#                     if old_blob_key != None:
+#                         blobstore.delete(old_blob_key)
+
+             
+#                 flash(u"프로필이 잘 변경되었어요!", "success")
+
+#             db.session.commit()
+#         return redirect(url_for("index"))
+
+#     else:
+#         flash(u"로그인 후 이용해 주세요~", "danger")
+#         return redirect(url_for('index'))
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
-
     categories = Category.query.all()
     locations = Location.query.all()
-
+    
     if session:
         user_id = session['user_id']
-
         target_url = "/musician/musician_new/"
         if request.method == "GET":
-
             upload_uri = blobstore.create_upload_url(target_url)
-            musician = {}
-            if g.userdata.is_musician == 1:
-
+            if g.userdata.is_musician == 0:
+                musician = Musician(
+                    user_id = user_id
+                    )
+                g.userdata.is_musician = 1
+                db.session.add(musician)
+                db.session.commit()
+                musician_id = musician.id
+            else:
+                musician = Musician.query.filter(Musician.user_id == user_id).first()
                 # Get photo url
-                musician_query = Musician.query.filter(Musician.user_id == user_id)
-                musician = musician_query.first()
                 if musician.photo:
                     musician.photo_url = images.get_serving_url(musician.photo) 
 
@@ -135,7 +230,7 @@ def musician_new():
                 category_upper = category_upper_query.first()
                 musician.category_upper_id = category_upper.id
                 logging.info('category upper id: ' + str(category_upper.id))
-
+                logging.info(category_query)
                 # Get location id (upper)
                 location_query = Location.query.filter(Location.id == musician.location_id)
                 location = location_query.first()
@@ -144,8 +239,11 @@ def musician_new():
                 musician.location_upper_id = location_upper.id
                 logging.info('location upper id: ' + str(location_upper.id))
 
-            return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, active_tab="musician_new")
-
+                # Get additional info
+            education_data = musician.educations.order_by(asc(Education.created_on)).all()
+            repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
+            video_data = musician.videos.order_by(asc(Video.created_on)).all()
+            return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, education_data=education_data, repertoire_data =repertoire_data, video_data=video_data, active_tab="musician_new")
         elif request.method == "POST":
 
             photo = request.files["profile_image"]
@@ -155,49 +253,27 @@ def musician_new():
 
             blob_key = None
             if(parsed_header[1].has_key("blob-key")):
-                blob_key = parsed_header[1]["blob-key"]  
+                blob_key = parsed_header[1]["blob-key"]
+            musician = Musician.query.filter(Musician.user_id == user_id).first()
 
-            #User.query.get(user_id)
-            if g.userdata.is_musician == 0: # New musicion   
-                musician = Musician(
-                    user_id = user_id,
-                    category_id = request.form.get("major"),
-                    phrase = request.form.get("phrase"),
-                    education = request.form.get("education"),
-                    repertoire = request.form.get("repertoire"),
-                    location_id = request.form.get("sigungu"),
-                    photo = blob_key
-                    )
-                g.userdata.is_musician = 1
-                db.session.add(musician)
-                flash(u"프로필이 잘 등록되었어요!", "success")
-            else:
-                musician_query = Musician.query.filter(Musician.user_id == user_id)
-                musician = musician_query.first()
+            category_id = request.form.get("major")
+            if category_id != 'none':
+                musician.category_id = category_id 
+            musician.phrase = request.form.get("phrase")
+            location_id = request.form.get("location")
+            if location_id != 'none':
+                musician.location_id = request.form.get("sigungu")
 
-                category_id = request.form.get("major")
-                if category_id != 'none':
-                    musician.category_id = category_id 
-                musician.phrase = request.form.get("phrase")
-                musician.education = request.form.get("education")
-                musician.repertoire = request.form.get("repertoire")
+            if blob_key != None:
+                old_blob_key = musician.photo
+                musician.photo = blob_key
+                if old_blob_key != None:
+                    blobstore.delete(old_blob_key)
 
-                location_id = request.form.get("location")
-                if location_id != 'none':
-                    musician.location_id = request.form.get("sigungu")
-
-                if blob_key != None:
-                    old_blob_key = musician.photo
-                    musician.photo = blob_key
-                    if old_blob_key != None:
-                        blobstore.delete(old_blob_key)
-
-             
-                flash(u"프로필이 잘 변경되었어요!", "success")
-
+         
+            flash(u"프로필이 잘 변경되었어요!", "success")
             db.session.commit()
-        return redirect(url_for("index"))
-
+            return redirect(url_for("index"))
     else:
         flash(u"로그인 후 이용해 주세요~", "danger")
         return redirect(url_for('index'))
@@ -483,4 +559,82 @@ def comment_create():
         db.session.commit()
         data={"comment_data":request.form.get("comment_data"),"author_name":g.userdata.username,"success" : True}
         return jsonify(data)
+
+@app.route("/education_create", methods=["GET", "POST"])
+def education_create():
+    if request.method == "POST":
+        musician_id = request.form.get("data_musician_id")
+        education = Education(
+            education_data=request.form.get("edu_data"),
+            musician=Musician.query.get(musician_id)
+        )
+        db.session.add(education)
+        db.session.commit()
+        edu_id=education.id
+        edu_data=education.education_data
+        data={"success" : True, "edu_data":edu_data, "edu_id":edu_id}
+        return jsonify(data)
+
+@app.route("/education_delete", methods=["GET", "POST"])
+def education_delete():
+    if request.method == "POST":
+        edu_id = request.form.get("data_education_id")
+        education = Education.query.get(edu_id)
+        db.session.delete(education)
+        db.session.commit()
+        data={"success" : True, "edu_id":edu_id}
+        return jsonify(data)
+        
+@app.route("/repertoire_create", methods=["GET", "POST"])
+def repertoire_create():
+    if request.method == "POST":
+        musician_id = request.form.get("data_musician_id")
+        repertoire = Repertoire(
+            repertoire_data=request.form.get("repertoire_data"),
+            musician=Musician.query.get(musician_id)
+        )
+        db.session.add(repertoire)
+        db.session.commit()
+        repertoire_id=repertoire.id
+        repertoire_data=repertoire.repertoire_data
+        data={"success" : True, "repertoire_data":repertoire_data, "repertoire_id":repertoire_id}
+        return jsonify(data)
+
+@app.route("/repertoire_delete", methods=["GET", "POST"])
+def repertoire_delete():
+    if request.method == "POST":
+        repertoire_id = request.form.get("data_repertoire_id")
+        repertoire = Repertoire.query.get(repertoire_id)
+        db.session.delete(repertoire)
+        db.session.commit()
+        data={"success" : True, "repertoire_id":repertoire_id}
+        return jsonify(data)
+        
+
+
+@app.route("/video_create", methods=["GET", "POST"])
+def video_create():
+    if request.method == "POST":
+        musician_id = request.form.get("data_musician_id")
+        video = Video(
+            video_data=request.form.get("video_data"),
+            musician=Musician.query.get(musician_id)
+        )
+        db.session.add(video)
+        db.session.commit()
+        video_id=video.id
+        video_data=video.video_data
+        data={"success" : True, "video_data":video_data, "video_id":video_id}
+        return jsonify(data)
+
+@app.route("/video_delete", methods=["GET", "POST"])
+def video_delete():
+    if request.method == "POST":
+        video_id = request.form.get("data_video_id")
+        video = Video.query.get(video_id)
+        db.session.delete(video)
+        db.session.commit()
+        data={"success" : True, "video_id":video_id}
+        return jsonify(data)
+
 
