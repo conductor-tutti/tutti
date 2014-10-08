@@ -224,12 +224,12 @@ def musician_category():
         return jsonify(major)
 
 
-@app.route("/musician/classic_musician/", methods=["GET"])
-def classic_musician():
+@app.route("/musician/classical_musicians/", methods=["GET"])
+def classical_musicians():
     category_list = Category.query.all()
-    index = {}
-    index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 1).limit(4)
-    return render_template("musician/classic_musician.html", index=index, category_list=category_list, active_tab="index")
+    contents = {}
+    contents["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_upper_id == 1).all()
+    return render_template("musician/classical_musicians.html", contents=contents, category_list=category_list, active_tab="index")
 
 
 @app.route("/musician/kukak_musician/", methods=["GET"])
