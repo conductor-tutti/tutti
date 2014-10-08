@@ -21,7 +21,7 @@
     {% for musician in index.musician_list %}
     <div class="col-sm-6 col-md-3 newest_musicians">
         <div class="thumbnail">
-            <img src="{{ musician.photo_url }}">
+            <img src="{{ musician.photo_url }}" class="img-thumbnail">
             <div class="caption">
                 <div class="newbie_name">
                     <a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile">{{ musician.user.username }}</a>
