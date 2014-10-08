@@ -226,9 +226,14 @@ def musician_category():
 
 @app.route("/musician/classical_musicians/", methods=["GET"])
 def classical_musicians():
+    musicians_query = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_upper_id == 1)
+    musicians = musicians_query.all() # Launching query
     category_list = Category.query.all()
+    for musician in musicians:
+        if musician.photo:
+            musician.photo_url = images.get_serving_url(musician.photo)
     contents = {}
-    contents["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_upper_id == 1).all()
+    contents["musician_list"] = musicians
     return render_template("musician/classical_musicians.html", contents=contents, category_list=category_list, active_tab="index")
 
 
