@@ -12,10 +12,17 @@
 }
 
 .profile_image{
+<<<<<<< HEAD
     width: 250px;
     height: 250px;
     border: 5px solid white;
     box-shadow: 0px 2px 3px #CBCBCB;
+=======
+    width: 160px;
+    height: 160px;
+    border: 5px solid white;
+    box-shadow: 0px 2px 9px #CBCBCB;
+>>>>>>> 92ce70e5e79fea3f98b7edf78a5d2db9e8e5013a
 }
 
 #username{
@@ -37,7 +44,10 @@
 }
 
 #phrase{
+<<<<<<< HEAD
     padding: 10px;
+=======
+>>>>>>> 92ce70e5e79fea3f98b7edf78a5d2db9e8e5013a
     text-align: center;
     font-style: italic;
 }
@@ -73,7 +83,10 @@
     margin-left: 20px;
     color: #C9C9C9;
 }
+<<<<<<< HEAD
 
 .video{
     max-width: 100%;
 }
+=======
+>>>>>>> 92ce70e5e79fea3f98b7edf78a5d2db9e8e5013a

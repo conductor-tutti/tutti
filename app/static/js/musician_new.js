@@ -19,10 +19,8 @@ $(document).ready(function(){
                 for (var i = 0; i < data.locations.length; i++) {
                     sigungu += '<option class="sublocation" value=' + data.locations[i][0] + '>' + data.locations[i][1] + '</option>';
                 }
-                console.log($('.sublocation'))
-                
+                console.log($('.sublocation'))                
                 $("#location_detail").html(sigungu);
-                
             },
             error: function(e) {
                 console.log('Server error!!');

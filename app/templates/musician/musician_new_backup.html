@@ -23,9 +23,9 @@
                 <label for="inputImage">프로필 사진</label>
                 <div id="inputImage" class="fileinput-new thumbnail">                    
                     {% if musician.photo %}
-                    <img src="{{ musician.photo_url}}" class="thumbnail">
+                        <img src="{{ musician.photo_url}}" class="thumbnail">
                     {% else %}
-                    <span id="thumbnail-help">200 x 200 (px)</span>
+                        <span id="thumbnail-help">200 x 200 (px)</span>
                     {% endif %}
                 </div>
 
@@ -48,7 +48,7 @@
                     <option value="none">선택하세요</option>
                     {% for c in categories %}
                     {% if c.upper_id == 0 %}                    
-                    <option class="category" value="{{ c.id }}" {% if c.id == musician.category_upper_id %}selected{% endif %}>{{ c.name }}</option>                        
+                        <option class="category" value="{{ c.id }}" {% if c.id == musician.category_upper_id %}selected{% endif %}>{{ c.name }}</option>                        
                     {% endif %}
                     {% endfor %}
                 </select>
@@ -60,10 +60,10 @@
                 <select class="form-control input-sm" name="major" id="major">
                     {% if musician.category_id %}
                     {% for c in categories %}
-                    {% if c.upper_id == musician.category_upper_id %}                    
-                    <option class="major" value="{{ c.id }}" {% if c.id == musician.category_id %}selected{% endif %}>{{ c.name }}</option>                        
-                    {% endif %}
-                    {% endfor %}
+                        {% if c.upper_id == musician.category_upper_id %}                    
+                            <option class="major" value="{{ c.id }}" {% if c.id == musician.category_id %}selected{% endif %}>{{ c.name }}</option>                        
+                        {% endif %}
+                        {% endfor %}
                     {% else %}
                     <option class="major" value="none">선택하세요</option>
                     {% endif %}
@@ -89,10 +89,10 @@
                 <select class="form-control input-sm" name="sigungu" id="sigungu">
                     {% if musician.location_id %}
                     {% for l in locations %}
-                    {% if l.upper_id == musician.location_upper_id %}                    
-                    <option class="sublocation" value="{{ l.id }}" {% if l.id == musician.location_id %}selected{% endif %}>{{ l.name }}</option>                        
-                    {% endif %}
-                    {% endfor %}
+                        {% if l.upper_id == musician.location_upper_id %}                    
+                            <option class="sublocation" value="{{ l.id }}" {% if l.id == musician.location_id %}selected{% endif %}>{{ l.name }}</option>                        
+                        {% endif %}
+                        {% endfor %}
                     {% else %}
                     <option class="sublocation" value="none">선택하세요</option>
                     {% endif %}     
@@ -112,27 +112,13 @@
         </div>
 
         <div class="row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12 education">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12">
                 <label for="inputEducation">학력</label>
-                {% if education_data %}
-                {% for education in education_data %}
-                <div id="edu_{{education.id}}">
-                    {{ education.education_data }}
-                    <button id="edu_delete" type="button" data_education_id="{{ education.id }}">삭제</button>
-                    <button id="edu_update" type="button" data_education_id="{{ education.id }}">수정</button>
-                </div>
-                {% endfor %}
+                {% if g.userdata.is_musician == 0 %}
+                <input type="text" name="education" id="inputEducation" class="form-control input-sm" placeholder="ex) 한양대학교">
+                {% else %}
+                <input type="text" name="education" id="inputEducation" class="form-control input-sm" value="{{ musician.education }}">
                 {% endif %}
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="edu_data" data_musician_id="{{ musician.id }}">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" id="edu_create"type="button">등록</button>
-                        </span>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -140,54 +126,29 @@
         <hr>
 
         <div class="row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12 repertoire">
+            <div class="form-group col-xs-12 col-sm-12 col-md-12">
                 <label for="inputRepertoire">레퍼토리</label>
-                {% if repertoire_data %}
-                {% for repertoire in repertoire_data %}
-                <div id="repertoire_{{repertoire.id}}">
-                    {{ repertoire.repertoire_data }}
-                    <button id="repertoire_delete" type="button" data_repertoire_id="{{ repertoire.id }}">삭제</button>
-                    <button id="repertoire_update" type="button" data_repertoire_id="{{ repertoire.id }}">수정</button>
-                </div>
-                {% endfor %}
+                {% if g.userdata.is_musician == 0 %}
+                <div class="help-message">지금까지 연주해온 곡들을 자유롭게 추가할 수 있습니다.</div>
+                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" placeholder="ex) F.Chopin - Nocturne No.2 Op.9">
+                {% else %}
+                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" value="{{ musician.repertoire }}">
                 {% endif %}
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="repertoire_data" data_musician_id="{{ musician.id }}">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" id="repertoire_create"type="button">등록</button>
-                        </span>
-                    </div>
-                </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12 video">
-                <label for="inputVideo">연주 영상</label>
-                {% if video_data %}
-                {% for video in video_data %}
-                <div id="video_{{video.id}}">
-                    {{ video.video_data }}
-                    <button id="video_delete" type="button" data_video_id="{{ video.id }}">삭제</button>
-                    <button id="video_update" type="button" data_video_id="{{ video.id }}">수정</button>
-                </div>
-                {% endfor %}
+            <div class="form-group col-xs-12 col-sm-12 col-md-12">
+                <label for="inputRepertoire">연주 영상</label>
+                {% if g.userdata.is_musician == 0 %}
+                <div class="help-message">멋진 연주 동영상이 있나요? 동영상의 주소를 추가해 보세요.</div>
+                <input type="text" name="#" id="inputVideo" class="form-control input-sm" placeholder="ex) YouTube 주소, Vimeo 주소 등">
+                {% else %}
+                <input type="text" name="#" id="inputVideo" class="form-control input-sm" value="#">
                 {% endif %}
             </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="video_data" data_musician_id="{{ musician.id }}">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" id="video_create"type="button">등록</button>
-                        </span>
-                    </div>
-                </div>
-            </div>
         </div>
+
 
         {% if g.userdata.is_musician == 0 %}
         <button type="submit" id="submit" class="btn btn-default pull-right">프로필 등록</button>
@@ -207,6 +168,7 @@ $("#profile_form").submit(function() {
         console.log('no file');
         console.log($(this));
         $(this).attr('action', '{{ target_url }}');               
+       
     }
      return true;
 });

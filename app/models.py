@@ -32,8 +32,6 @@ class Musician(db.Model):
     location = db.relationship("Location", foreign_keys=[location_id], backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
     
     phrase = db.Column(db.String(255))
-    education = db.Column(db.String(255))
-    repertoire = db.Column(db.String(255))
     photo = db.Column(db.String(255)) # blob key lives in here
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
@@ -43,6 +41,36 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
     upper_id = db.Column(db.Integer)
+
+
+class Education(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    musician = db.relationship("Musician",
+        backref=db.backref("educations", cascade="all, delete-orphan", lazy="dynamic"))
+    education_data = db.Column(db.String(255))
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+
+class Repertoire(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    musician = db.relationship("Musician",
+        backref=db.backref("repertoires", cascade="all, delete-orphan", lazy="dynamic"))
+    repertoire_data = db.Column(db.String(255))
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+
+class Video(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    musician = db.relationship("Musician",
+        backref=db.backref("videos", cascade="all, delete-orphan", lazy="dynamic"))
+    video_data = db.Column(db.String(255))
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
 
 class UserRelationship(db.Model):
