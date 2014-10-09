@@ -24,32 +24,8 @@ $(document).ready(function(){
         });
     });
     $("#edu_create").click(function(){
-        $.ajax({
-            url:'/education_create',
-            type: 'POST',
-            datatype: "JSON",
-            data:{
-                edu_data: $('#edu_data').val(),
-                data_musician_id: $('#edu_data').attr("data_musician_id") 
-            },
-            success: function(data){
-                if (data.success){
-                    $('.education').append("<div id='edu_"+
-                        data.edu_id+"'>"+data.edu_data+
-                        "<button id='edu_delete' type='button' data_education_id='"
-                        +data.edu_id+"'>삭제</button><button id='edu_update' type='button' data_education_id='"
-                        +data.edu_id+"'>수정</button>")
-                    $('#edu_data').val("");
-                    console.log('send msg success!');
-                }
-                else{
-                    console.log('send msg fail!');
-                }
-            },
-            error: function(data){
-                console.log("Server error!");
-            }
-        });
+        $('.education').append("<div><input type='text' name='education_data'></div>")
+        // $('#edu_data').val("");
     });
     $("#edu_delete").click(function(){
         $.ajax({
