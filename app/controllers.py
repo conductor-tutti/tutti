@@ -116,31 +116,16 @@ def musician_new():
         target_url = "/musician/musician_new/"
         if request.method == "GET":
             upload_uri = blobstore.create_upload_url(target_url)
-            musician = {}
-            education_data = {}
-            repertoire_data = {}
-            video_data = {}
-            if g.userdata.is_musician == 1:
+            # musician = {}
+            # education_data = {}
+            # repertoire_data = {}
+            # video_data = {}
+            if g.userdata.is_musician == 1: # if the use is a musician
                 musician = Musician.query.filter(Musician.user_id == user_id).first()
                 # Get photo url
                 if musician.photo:
-                    musician.photo_url = images.get_serving_url(musician.photo) 
-                # Get category id (upper)
-                category_query = Category.query.filter(Category.id == musician.category_id)
-                category = category_query.first()
-                category_upper_query = Category.query.filter(Category.upper_id == musician.category_upper_id)
-                category_upper = category_upper_query.first()
-                logging.info('category upper id: ' + str(category_upper.id))
-                logging.info(category_query)
-                # Get location id (upper)
-                location_query = Location.query.filter(Location.id == musician.location_id)
-                location = location_query.first()
-                location_upper_query = Location.query.filter(Location.upper_id == musician.location_upper_id)
-                location_upper = location_upper_query.first()
-                musician.location_upper_id = location_upper.id
-                logging.info('location upper id: ' + str(location_upper.id))
-
-                # Get additional info
+                    musician.photo_url = images.get_serving_url(musician.photo)
+                # Get additional information from seperated tables
                 education_data = musician.educations.order_by(asc(Education.created_on)).all()
                 repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
                 video_data = musician.videos.order_by(asc(Video.created_on)).all()
