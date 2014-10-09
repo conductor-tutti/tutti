@@ -116,32 +116,24 @@ def musician_new():
         target_url = "/musician/musician_new/"
         if request.method == "GET":
             upload_uri = blobstore.create_upload_url(target_url)
-            if g.userdata.is_musician == 0:
-                musician = Musician(
-                    user_id = user_id
-                    )
-                g.userdata.is_musician = 1
-                db.session.add(musician)
-                db.session.commit()
-                musician_id = musician.id
-            else:
-                musician = Musician.query.filter(Musician.user_id == user_id).first()
+            musician = {}
+            if g.userdata.is_musician == 1:
+                musician_query = Musician.query.filter(Musician.user_id == user_id)
+                musician = musician_query.first()
                 # Get photo url
                 if musician.photo:
                     musician.photo_url = images.get_serving_url(musician.photo) 
-
                 # Get category id (upper)
                 category_query = Category.query.filter(Category.id == musician.category_id)
                 category = category_query.first()
-                category_upper_query = Category.query.filter(Category.id == musician.category_upper_id)
+                category_upper_query = Category.query.filter(Category.upper_id == musician.category_upper_id)
                 category_upper = category_upper_query.first()
-                musician.category_upper_id = category_upper.id
                 logging.info('category upper id: ' + str(category_upper.id))
                 logging.info(category_query)
                 # Get location id (upper)
                 location_query = Location.query.filter(Location.id == musician.location_id)
                 location = location_query.first()
-                location_upper_query = Location.query.filter(Location.id == musician.location_upper_id)
+                location_upper_query = Location.query.filter(Location.upper_id == musician.location_upper_id)
                 location_upper = location_upper_query.first()
                 musician.location_upper_id = location_upper.id
                 logging.info('location upper id: ' + str(location_upper.id))
@@ -153,7 +145,6 @@ def musician_new():
             return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, education_data=education_data, repertoire_data =repertoire_data, video_data=video_data, active_tab="musician_new")
 
         elif request.method == "POST":
-
             photo = request.files["profile_image"]
             header = photo.headers["Content-Type"]
 
@@ -164,20 +155,17 @@ def musician_new():
                 blob_key = parsed_header[1]["blob-key"]
             musician = Musician.query.filter(Musician.user_id == user_id).first()
 
+            category_upper_id = request.form.get("category")
             category_id = request.form.get("major")
-            if category_id != 'none':
-                musician.category_id = category_id 
             musician.phrase = request.form.get("phrase")
-            location_id = request.form.get("location")
-            if location_id != 'none':
-                musician.location_id = request.form.get("sigungu")
+            location_upper_id = request.form.get("location")
+            location_id = request.form.get("location_detail")
 
             if blob_key != None:
                 old_blob_key = musician.photo
                 musician.photo = blob_key
                 if old_blob_key != None:
                     blobstore.delete(old_blob_key)
-
          
             flash(u"프로필이 잘 변경되었어요!", "success")
             db.session.commit()
@@ -198,12 +186,12 @@ def musician_location():
 
 @app.route("/musician/musician_category/", methods=["GET","POST"])
 def musician_category():
-   
     if request.method == "POST":
         categoryid = request.form.get("category")
         categories = Category.query.filter(Category.upper_id==categoryid).all()
         major = {"categories":[(x.id, x.name) for x in categories]}
         return jsonify(major)
+
 
 @app.route("/musician/classical_musicians/", methods=["GET"])
 def classical_musicians():
