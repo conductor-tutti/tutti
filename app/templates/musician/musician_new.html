@@ -118,21 +118,14 @@
                 {% for education in education_data %}
                 <div id="edu_{{education.id}}">
                     {{ education.education_data }}
-                    <button id="edu_delete" type="button" data_education_id="{{ education.id }}">삭제</button>
-                    <button id="edu_update" type="button" data_education_id="{{ education.id }}">수정</button>
+                    <button id="edu_delete" type="button" data_education_id={{ education.id }}>삭제</button>
                 </div>
                 {% endfor %}
                 {% endif %}
             </div>
+
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="edu_data" data_musician_id="{{ musician.id }}">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" id="edu_create"type="button">등록</button>
-                        </span>
-                    </div>
-                </div>
+                <button class="btn btn-default" id="edu_create" type="button">등록</button>
             </div>
         </div>
 

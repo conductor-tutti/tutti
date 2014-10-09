@@ -3,11 +3,12 @@ from app import app, db, facebook, google
 from sqlalchemy import desc, asc
 from app.models import User, Musician, Category, Location, UserRelationship, Comment, Education, Repertoire, Video
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
+from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g, Flask
 from google.appengine.api import images
 from google.appengine.ext import blobstore
 from werkzeug.http import parse_options_header
 from datetime import timedelta
+# import cgi
 import re
 import json
 import logging
@@ -15,7 +16,7 @@ import os
 import sys
 reload(sys)
 sys.setdefaultencoding('UTF8')
-
+# app = Flask(__name__)
 @app.before_request
 def before_request():
     #logging.info(os.getcwd())
@@ -117,9 +118,11 @@ def musician_new():
         if request.method == "GET":
             upload_uri = blobstore.create_upload_url(target_url)
             musician = {}
+            education_data = {}
+            repertoire_data = {}
+            video_data = {}
             if g.userdata.is_musician == 1:
-                musician_query = Musician.query.filter(Musician.user_id == user_id)
-                musician = musician_query.first()
+                musician = Musician.query.filter(Musician.user_id == user_id).first()
                 # Get photo url
                 if musician.photo:
                     musician.photo_url = images.get_serving_url(musician.photo) 
@@ -139,12 +142,32 @@ def musician_new():
                 logging.info('location upper id: ' + str(location_upper.id))
 
                 # Get additional info
-            education_data = musician.educations.order_by(asc(Education.created_on)).all()
-            repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
-            video_data = musician.videos.order_by(asc(Video.created_on)).all()
+                education_data = musician.educations.order_by(asc(Education.created_on)).all()
+                repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
+                video_data = musician.videos.order_by(asc(Video.created_on)).all()
             return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, education_data=education_data, repertoire_data =repertoire_data, video_data=video_data, active_tab="musician_new")
 
         elif request.method == "POST":
+            if g.userdata.is_musician == 0:
+                musician = Musician(
+                        user_id = user_id
+                        )
+                g.userdata.is_musician = 1
+                db.session.add(musician)
+                db.session.commit()
+            else:
+                musician = Musician.query.filter(Musician.user_id == user_id).first()
+
+            if request.form.get("education_data"):
+                flash(u"education!", "success")
+                edu_data = request.form.getlist("education_data")
+                for data in edu_data:
+                    education = Education(
+                        education_data=data,
+                        musician=musician
+                        )
+                    db.session.add(education)
+
             photo = request.files["profile_image"]
             header = photo.headers["Content-Type"]
 
@@ -153,7 +176,6 @@ def musician_new():
             blob_key = None
             if(parsed_header[1].has_key("blob-key")):
                 blob_key = parsed_header[1]["blob-key"]
-            musician = Musician.query.filter(Musician.user_id == user_id).first()
 
             category_upper_id = request.form.get("category")
             category_id = request.form.get("major")
@@ -170,9 +192,11 @@ def musician_new():
             flash(u"프로필이 잘 변경되었어요!", "success")
             db.session.commit()
             return redirect(url_for("index"))
+            
     else:
         flash(u"로그인 후 이용해 주세요~", "danger")
-        return redirect(url_for('index'))
+        # return redirect(url_for('index'))
+        return str(edu_data)
 
 
 @app.route("/musician/musician_location/", methods=["GET","POST"])
