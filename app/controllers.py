@@ -109,9 +109,8 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
-    categories = Category.query.all()
-    locations = Location.query.all()
-
+    category_list = Category.query.all()
+    location_list = Location.query.all()
     if session:
         user_id = session['user_id']
         target_url = "/musician/musician_new/"
@@ -145,7 +144,7 @@ def musician_new():
                 education_data = musician.educations.order_by(asc(Education.created_on)).all()
                 repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
                 video_data = musician.videos.order_by(asc(Video.created_on)).all()
-            return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, education_data=education_data, repertoire_data =repertoire_data, video_data=video_data, active_tab="musician_new")
+            return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, category_list=category_list, location_list=location_list, education_data=education_data, repertoire_data =repertoire_data, video_data=video_data, active_tab="musician_new")
 
         elif request.method == "POST":
             if g.userdata.is_musician == 0:
@@ -212,8 +211,8 @@ def musician_location():
 def musician_category():
     if request.method == "POST":
         categoryid = request.form.get("category")
-        categories = Category.query.filter(Category.upper_id==categoryid).all()
-        major = {"categories":[(x.id, x.name) for x in categories]}
+        category_list = Category.query.filter(Category.upper_id==categoryid).all()
+        major = {"categories":[(x.id, x.name) for x in category_list]}
         return jsonify(major)
 
 
