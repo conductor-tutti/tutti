@@ -125,7 +125,7 @@
             </div>
 
             <div class="row">
-                <button class="btn btn-default" id="edu_create" type="button">등록</button>
+                <button class="btn btn-default" id="edu_create" type="button">추가</button>
             </div>
         </div>
 
@@ -140,20 +140,12 @@
                 <div id="repertoire_{{repertoire.id}}">
                     {{ repertoire.repertoire_data }}
                     <button id="repertoire_delete" type="button" data_repertoire_id="{{ repertoire.id }}">삭제</button>
-                    <button id="repertoire_update" type="button" data_repertoire_id="{{ repertoire.id }}">수정</button>
                 </div>
                 {% endfor %}
                 {% endif %}
             </div>
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="repertoire_data" data_musician_id="{{ musician.id }}">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" id="repertoire_create"type="button">등록</button>
-                        </span>
-                    </div>
-                </div>
+                <button class="btn btn-default" id="repertoire_create" type="button">추가</button>
             </div>
         </div>
 
@@ -165,20 +157,12 @@
                 <div id="video_{{video.id}}">
                     {{ video.video_data }}
                     <button id="video_delete" type="button" data_video_id="{{ video.id }}">삭제</button>
-                    <button id="video_update" type="button" data_video_id="{{ video.id }}">수정</button>
                 </div>
                 {% endfor %}
                 {% endif %}
             </div>
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="video_data" data_musician_id="{{ musician.id }}">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" id="video_create"type="button">등록</button>
-                        </span>
-                    </div>
-                </div>
+                <button class="btn btn-default" id="video_create" type="button">추가</button>
             </div>
         </div>
 

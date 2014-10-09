@@ -163,7 +163,6 @@ def musician_new():
                 musician = Musician.query.filter(Musician.user_id == user_id).first()
 
             if request.form.get("education_data"):
-                flash(u"education!", "success")
                 edu_data = request.form.getlist("education_data")
                 for data in edu_data:
                     flash(u"education!!!!!!!!", "success")
@@ -172,7 +171,24 @@ def musician_new():
                         musician=musician
                         )
                     db.session.add(education)
-                
+
+            if request.form.get("repertoire_data"):
+                rep_data = request.form.getlist("repertoire_data")
+                for data in rep_data:
+                    repertoire = Repertoire(
+                        repertoire_data=data,
+                        musician=musician
+                        )
+                    db.session.add(repertoire)
+            
+            if request.form.get("video_data"):
+                video_data = request.form.getlist("video_data")
+                for data in video_data:
+                    video = Video(
+                        video_data=data,
+                        musician=musician
+                        )
+                    db.session.add(video)
 
             photo = request.files["profile_image"]
             header = photo.headers["Content-Type"]
@@ -489,20 +505,6 @@ def comment_create():
         data={"comment_data":request.form.get("comment_data"),"author_name":g.userdata.username,"success" : True}
         return jsonify(data)
 
-@app.route("/education_create", methods=["GET", "POST"])
-def education_create():
-    if request.method == "POST":
-        musician_id = request.form.get("data_musician_id")
-        education = Education(
-            education_data=request.form.get("edu_data"),
-            musician=Musician.query.get(musician_id)
-        )
-        db.session.add(education)
-        db.session.commit()
-        edu_id=education.id
-        edu_data=education.education_data
-        data={"success" : True, "edu_data":edu_data, "edu_id":edu_id}
-        return jsonify(data)
 
 @app.route("/education_delete", methods=["GET", "POST"])
 def education_delete():
@@ -513,21 +515,6 @@ def education_delete():
         db.session.commit()
         data={"success" : True, "edu_id":edu_id}
         return jsonify(data)
-        
-@app.route("/repertoire_create", methods=["GET", "POST"])
-def repertoire_create():
-    if request.method == "POST":
-        musician_id = request.form.get("data_musician_id")
-        repertoire = Repertoire(
-            repertoire_data=request.form.get("repertoire_data"),
-            musician=Musician.query.get(musician_id)
-        )
-        db.session.add(repertoire)
-        db.session.commit()
-        repertoire_id=repertoire.id
-        repertoire_data=repertoire.repertoire_data
-        data={"success" : True, "repertoire_data":repertoire_data, "repertoire_id":repertoire_id}
-        return jsonify(data)
 
 @app.route("/repertoire_delete", methods=["GET", "POST"])
 def repertoire_delete():
@@ -537,24 +524,7 @@ def repertoire_delete():
         db.session.delete(repertoire)
         db.session.commit()
         data={"success" : True, "repertoire_id":repertoire_id}
-        return jsonify(data)
-        
-
-
-@app.route("/video_create", methods=["GET", "POST"])
-def video_create():
-    if request.method == "POST":
-        musician_id = request.form.get("data_musician_id")
-        video = Video(
-            video_data=request.form.get("video_data"),
-            musician=Musician.query.get(musician_id)
-        )
-        db.session.add(video)
-        db.session.commit()
-        video_id=video.id
-        video_data=video.video_data
-        data={"success" : True, "video_data":video_data, "video_id":video_id}
-        return jsonify(data)
+        return jsonify(data)        
 
 @app.route("/video_delete", methods=["GET", "POST"])
 def video_delete():
