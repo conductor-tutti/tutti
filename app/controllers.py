@@ -164,16 +164,16 @@ def musician_new():
 
             if request.form.get("education_data"):
                 flash(u"education!", "success")
-                
-                edu_data = cgi.FieldStorage().getlist("education_data")
-                
-                # for data in edu_data:
-                    # flash(u"education!!!!!!!!", "success")
-                education = Education(
-                    education_data=request.form.get("education_data"),
-                    musician=musician
-                    )
-                db.session.add(education)
+                form = cgi.Fieldstorage()
+                edu_data = form.getlist("education_data")
+
+                for data in edu_data:
+                    flash(u"education!!!!!!!!", "success")
+                    education = Education(
+                        education_data=request.form.get("education_data"),
+                        musician=musician
+                        )
+                    db.session.add(education)
                 
 
             photo = request.files["profile_image"]
