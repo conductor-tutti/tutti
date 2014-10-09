@@ -25,7 +25,7 @@ $(document).ready(function(){
     });
     $("#edu_create").click(function(){
         $('.education').append("<div><input type='text' name='education_data'></div>")
-        // $('#edu_data').val("");
+        
     });
     $("#edu_delete").click(function(){
         $.ajax({

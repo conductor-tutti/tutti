@@ -3,12 +3,12 @@ from app import app, db, facebook, google
 from sqlalchemy import desc, asc
 from app.models import User, Musician, Category, Location, UserRelationship, Comment, Education, Repertoire, Video
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
+from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g, Flask
 from google.appengine.api import images
 from google.appengine.ext import blobstore
 from werkzeug.http import parse_options_header
 from datetime import timedelta
-import cgi
+# import cgi
 import re
 import json
 import logging
@@ -17,7 +17,7 @@ import sys
 reload(sys)
 
 sys.setdefaultencoding('UTF8')
-
+# app = Flask(__name__)
 @app.before_request
 def before_request():
     #logging.info(os.getcwd())
@@ -164,13 +164,11 @@ def musician_new():
 
             if request.form.get("education_data"):
                 flash(u"education!", "success")
-                form = cgi.Fieldstorage()
-                edu_data = form.getlist("education_data")
-
+                edu_data = request.form.getlist("education_data")
                 for data in edu_data:
                     flash(u"education!!!!!!!!", "success")
                     education = Education(
-                        education_data=request.form.get("education_data"),
+                        education_data=data,
                         musician=musician
                         )
                     db.session.add(education)
@@ -184,7 +182,6 @@ def musician_new():
             blob_key = None
             if(parsed_header[1].has_key("blob-key")):
                 blob_key = parsed_header[1]["blob-key"]
-            # musician = Musician.query.filter(Musician.user_id == user_id).first()
 
             category_id = request.form.get("major")
             if category_id != 'none':
@@ -204,7 +201,7 @@ def musician_new():
             flash(u"프로필이 잘 변경되었어요!", "success")
             db.session.commit()
             return redirect(url_for("index"))
-            # return str(edu_data)
+            
     else:
         flash(u"로그인 후 이용해 주세요~", "danger")
         # return redirect(url_for('index'))

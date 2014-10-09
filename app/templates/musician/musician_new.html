@@ -118,7 +118,7 @@
                 {% for education in education_data %}
                 <div id="edu_{{education.id}}">
                     {{ education.education_data }}
-                    <button id="edu_delete" type="button">삭제</button>
+                    <button id="edu_delete" type="button" data_education_id={{ education.id }}>삭제</button>
                 </div>
                 {% endfor %}
                 {% endif %}
