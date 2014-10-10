@@ -7,9 +7,9 @@ body{
 
 /* tuttiblack: #3F3F3F */
 
-.nav-container{
+/*.nav-container{
     background-color: #3F3F3F;
-}
+}*/
 
 .no-list {
     padding: 10px;
@@ -24,7 +24,7 @@ body{
 
 /* buttons */
 
-.btn-default {
+/*.btn-default {
     color: white;
     background-color: #AE846C;
     border-color: #A77F68;
@@ -34,4 +34,4 @@ body{
     color: #FFFFFF;
     background-color: #BB8F76;
     border-color: #AF866F;
-}
+}*/

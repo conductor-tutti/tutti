@@ -13,7 +13,7 @@
     <h2 id="username"><strong>{{ g.userdata.username }}</strong>님의 프로필 수정</h2>
     {% endif %}
     
-    <form id="profile_form"  role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
+    <form id="profile_form" role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
 
         <h3 id="essential_fields"><i class="fa fa-star"></i> 필수 입력사항</h3>
         <hr>
@@ -111,21 +111,25 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12 education">
+        <div class="row education">
+            <div class="col-xs-12 col-sm-12 col-md-12">
                 <label for="inputEducation">학력</label>
+                <div class="help-message">추가 버튼을 눌러 원하는 만큼 입력할 수 있습니다. <button class="btn btn-default btn-xs" id="edu_create" type="button">추가</button>
+                </div>
+                <div class="old_education"></div>
                 {% if education_data %}
                 {% for education in education_data %}
-                <div id="edu_{{education.id}}">
-                    {{ education.education_data }}
-                    <button id="edu_delete" type="button" data_education_id={{ education.id }}>삭제</button>
+                <div class="form-group">
+                    <div class="input-group">
+                        <span class="input-group-btn">
+                            <button id="edu_delete" type="button" class="btn btn-danger btn-sm" data_education_id="{{ education.id }}">삭제</button>
+                        </span>
+                        <input id="edu_{{education.id}}" class="form-control input-sm" placeholder="{{ education.education_data }}" disabled="disabled">
+                    </div>
                 </div>
                 {% endfor %}
                 {% endif %}
-            </div>
 
-            <div class="row">
-                <button class="btn btn-default" id="edu_create" type="button">등록</button>
             </div>
         </div>
 
@@ -201,7 +205,7 @@ $("#profile_form").submit(function() {
         console.log($(this));
         $(this).attr('action', '{{ target_url }}');               
     }
-     return true;
+    return true;
 });
 </script>
 

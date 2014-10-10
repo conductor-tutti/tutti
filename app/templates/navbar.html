@@ -73,14 +73,14 @@
                         </ul>
                     </li>
                 </ul>
+                {% endif %}
 
                 <ul class="nav navbar-nav navbar-right nav-menu">
-                    {% endif %}
                     <form class="navbar-form navbar-right" role="search" method="POST" action="{{url_for('search_name')}}">
                         <div class="form-group">
-                            <input type="text" class="form-control input-sm" name="search-name" placeholder="뮤지션 검색">
+                            <input type="text" class="form-control" name="search-name" placeholder="뮤지션 검색">
                         </div>
-                        <div class="btn-group btn-group-sm">
+                        <div class="btn-group">
                             <button type="submit" class="btn btn-default">찾기</button>
                         </div>
                     </form>
@@ -91,7 +91,7 @@
 </nav>
 
 <style type="text/css">
-
+/*
 .navbar .nav > li > a {
     color:  #ffffff;
 }
@@ -124,6 +124,7 @@
     color: #FEF3D7;
     background-color: transparent;
 }
+*/
 
 .navbar-default .navbar-brand {
     width: 120px;
@@ -131,9 +132,10 @@
     font-family: "Lobster", cursive;
     font-size: 2.5em;
     letter-spacing: 4px;
-    color: white;
+    color: black;
 }
 
+/*
 .navbar-fixed-bottom{
     height: 80px;
 }
@@ -162,5 +164,6 @@
     width: 30px;
     height: 30px;
 }
+*/
 </style>
 </nav>

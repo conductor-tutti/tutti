@@ -21,7 +21,13 @@ $(document).ready(function(){
         });
     });
     $("#edu_create").click(function(){
-        $('.education').append("<div><input type='text' name='education_data'></div>")
+        $('.old_education').append(
+            "<div class='form-group'>"+
+            "<div class='input-group'>"+
+            "<span class='input-group-addon'>"+"+"+"</span>"+
+            "<input type='text' class='form-control input-sm' name='education_data' placeholder='추가 학력사항'>"+
+            "</div>"+"</div>"
+            );
         
     });
     $("#edu_delete").click(function(){
