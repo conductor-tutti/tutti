@@ -16,7 +16,8 @@ import os
 import sys
 reload(sys)
 sys.setdefaultencoding('UTF8')
-# app = Flask(__name__)
+
+
 @app.before_request
 def before_request():
     #logging.info(os.getcwd())
@@ -42,6 +43,7 @@ def before_request():
     g.userdata = None
     if 'user_id' in session:
         g.userdata = User.query.get(session["user_id"]) # FIX: It should be cached later on for prevention of unnecessary overhead on DB 
+
 
 @app.route('/', methods=["GET"])
 def index():
@@ -99,7 +101,8 @@ def sign_in():
         else:
             flash(u"존재하지 않는 이메일입니다. 정확히 입력하셨나요?", "danger")
             return redirect(url_for("sign_in"))
-    
+
+
 @app.route("/logout", methods=["GET"])
 def logout():
     session.clear()
@@ -109,25 +112,31 @@ def logout():
 
 @app.route("/musician/musician_new/", methods=["GET", "POST"])
 def musician_new():
-    category_list = Category.query.all()
-    location_list = Location.query.all()
+    categories = Category.query.all()
+    locations = Location.query.all()
+    
     if session:
         user_id = session['user_id']
         target_url = "/musician/musician_new/"
         if request.method == "GET":
-            template_data = {}
-            template_data[upload_uri] = blobstore.create_upload_url(target_url)
-            if g.userdata.is_musician == 1: # if the use is a musician
-                template_data[musician] = Musician.query.filter(Musician.user_id == user_id).first()
+            upload_uri = blobstore.create_upload_url(target_url)
+            musician = {}
+            education_data = {}
+            repertoire_data = {}
+            video_data = {}
+            if g.userdata.is_musician == 1:
+                musician = Musician.query.filter(Musician.user_id == user_id).first()
                 # Get photo url
                 if musician.photo:
-                    template_data[photo_url] = images.get_serving_url(musician.photo)
-                # Get additional information from seperated tables
-                template_data[education_data] = musician.educations.order_by(asc(Education.created_on)).all()
-                template_data[repertoire_data] = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
-                template_data[video_data] = musician.videos.order_by(asc(Video.created_on)).all()
-            return render_template("/musician/musician_new.html", template_data=template_data)
+                    musician.photo_url = images.get_serving_url(musician.photo) 
+                education_data = musician.educations.order_by(asc(Education.created_on)).all()
+                repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
+                video_data = musician.videos.order_by(asc(Video.created_on)).all()
+            return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, education_data=education_data, repertoire_data =repertoire_data, video_data=video_data, active_tab="musician_new")
+        elif request.method == "POST":
+            
             if g.userdata.is_musician == 0:
+
                 musician = Musician(
                         user_id = user_id
                         )
@@ -138,14 +147,32 @@ def musician_new():
                 musician = Musician.query.filter(Musician.user_id == user_id).first()
 
             if request.form.get("education_data"):
-                flash(u"education!", "success")
                 edu_data = request.form.getlist("education_data")
                 for data in edu_data:
+                    flash(u"education!!!!!!!!", "success")
                     education = Education(
                         education_data=data,
                         musician=musician
                         )
                     db.session.add(education)
+
+            if request.form.get("repertoire_data"):
+                rep_data = request.form.getlist("repertoire_data")
+                for data in rep_data:
+                    repertoire = Repertoire(
+                        repertoire_data=data,
+                        musician=musician
+                        )
+                    db.session.add(repertoire)
+            
+            if request.form.get("video_data"):
+                video_data = request.form.getlist("video_data")
+                for data in video_data:
+                    video = Video(
+                        video_data=data,
+                        musician=musician
+                        )
+                    db.session.add(video)
 
             photo = request.files["profile_image"]
             header = photo.headers["Content-Type"]
@@ -156,17 +183,20 @@ def musician_new():
             if(parsed_header[1].has_key("blob-key")):
                 blob_key = parsed_header[1]["blob-key"]
 
-            category_upper_id = request.form.get("category")
             category_id = request.form.get("major")
+            if category_id != 'none':
+                musician.category_id = category_id 
             musician.phrase = request.form.get("phrase")
-            location_upper_id = request.form.get("location")
-            location_id = request.form.get("location_detail")
+            location_id = request.form.get("location")
+            if location_id != 'none':
+                musician.location_id = request.form.get("sigungu")
 
             if blob_key != None:
                 old_blob_key = musician.photo
                 musician.photo = blob_key
                 if old_blob_key != None:
                     blobstore.delete(old_blob_key)
+
          
             flash(u"프로필이 잘 변경되었어요!", "success")
             db.session.commit()
@@ -266,6 +296,7 @@ def facebook_login():
     return facebook.authorize(callback = url_for('facebook_authorized',
         next = request.args.get('next') or request.referrer or None,
         _external = True))
+
 
 @app.route('/login/authorized')
 @facebook.authorized_handler
@@ -448,6 +479,7 @@ def user_profile():
         flash(u"로그인 후 이용해 주세요~", "danger")
         return redirect(url_for('index'))
 
+
 @app.route("/comment_create", methods=["GET", "POST"])
 def comment_create():
     if request.method == "POST":
@@ -464,21 +496,6 @@ def comment_create():
         return jsonify(data)
 
 
-@app.route("/education_create", methods=["GET", "POST"])
-def education_create():
-    if request.method == "POST":
-        musician_id = request.form.get("data_musician_id")
-        education = Education(
-            education_data=request.form.get("edu_data"),
-            musician=Musician.query.get(musician_id)
-        )
-        db.session.add(education)
-        db.session.commit()
-        edu_id=education.id
-        edu_data=education.education_data
-        data={"success" : True, "edu_data":edu_data, "edu_id":edu_id}
-        return jsonify(data)
-
 @app.route("/education_delete", methods=["GET", "POST"])
 def education_delete():
     if request.method == "POST":
@@ -488,21 +505,7 @@ def education_delete():
         db.session.commit()
         data={"success" : True, "edu_id":edu_id}
         return jsonify(data)
-        
-@app.route("/repertoire_create", methods=["GET", "POST"])
-def repertoire_create():
-    if request.method == "POST":
-        musician_id = request.form.get("data_musician_id")
-        repertoire = Repertoire(
-            repertoire_data=request.form.get("repertoire_data"),
-            musician=Musician.query.get(musician_id)
-        )
-        db.session.add(repertoire)
-        db.session.commit()
-        repertoire_id=repertoire.id
-        repertoire_data=repertoire.repertoire_data
-        data={"success" : True, "repertoire_data":repertoire_data, "repertoire_id":repertoire_id}
-        return jsonify(data)
+
 
 @app.route("/repertoire_delete", methods=["GET", "POST"])
 def repertoire_delete():
@@ -512,24 +515,8 @@ def repertoire_delete():
         db.session.delete(repertoire)
         db.session.commit()
         data={"success" : True, "repertoire_id":repertoire_id}
-        return jsonify(data)
-        
+        return jsonify(data)        
 
-
-@app.route("/video_create", methods=["GET", "POST"])
-def video_create():
-    if request.method == "POST":
-        musician_id = request.form.get("data_musician_id")
-        video = Video(
-            video_data=request.form.get("video_data"),
-            musician=Musician.query.get(musician_id)
-        )
-        db.session.add(video)
-        db.session.commit()
-        video_id=video.id
-        video_data=video.video_data
-        data={"success" : True, "video_data":video_data, "video_id":video_id}
-        return jsonify(data)
 
 @app.route("/video_delete", methods=["GET", "POST"])
 def video_delete():

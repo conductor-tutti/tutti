@@ -47,32 +47,7 @@ $(document).ready(function(){
         });
     });
     $("#repertoire_create").click(function(){
-        $.ajax({
-            url:'/repertoire_create',
-            type: 'POST',
-            datatype: "JSON",
-            data:{
-                repertoire_data: $('#repertoire_data').val(),
-                data_musician_id: $('#repertoire_data').attr("data_musician_id") 
-            },
-            success: function(data){
-                if (data.success){
-                    $('.repertoire').append("<div id='repertoire_"+
-                        data.repertoire_id+"'>"+data.repertoire_data+
-                        "<button id='repertoire_delete' type='button' data_repertoire_id='"
-                        +data.repertoire_id+"'>삭제</button><button id='repertoire_update' type='button' data_repertoire_id='"
-                        +data.repertoire_id+"'>수정</button>")
-                    $('#repertoire_data').val("");
-                    console.log('send msg success!');
-                }
-                else{
-                    console.log('send msg fail!');
-                }
-            },
-            error: function(data){
-                console.log("Server error!");
-            }
-        });
+        $('.repertoire').append("<div><input type='text' name='repertoire_data'></div>")
     });
     $("#repertoire_delete").click(function(){
         $.ajax({
@@ -97,32 +72,7 @@ $(document).ready(function(){
         });
     });
     $("#video_create").click(function(){
-        $.ajax({
-            url:'/video_create',
-            type: 'POST',
-            datatype: "JSON",
-            data:{
-                video_data: $('#video_data').val(),
-                data_musician_id: $('#video_data').attr("data_musician_id") 
-            },
-            success: function(data){
-                if (data.success){
-                    $('.video').append("<div id='video_"+
-                        data.video_id+"'>"+data.video_data+
-                        "<button id='video_delete' type='button' data_video_id='"
-                        +data.video_id+"'>삭제</button><button id='video_update' type='button' data_video_id='"
-                        +data.video_id+"'>수정</button>")
-                    $('#video_data').val("");
-                    console.log('send msg success!');
-                }
-                else{
-                    console.log('send msg fail!');
-                }
-            },
-            error: function(data){
-                console.log("Server error!");
-            }
-        });
+        $('.video').append("<div><input type='text' name='video_data'></div>")
     });
     $("#video_delete").click(function(){
         $.ajax({
