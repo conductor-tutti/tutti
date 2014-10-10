@@ -115,23 +115,18 @@ def musician_new():
         user_id = session['user_id']
         target_url = "/musician/musician_new/"
         if request.method == "GET":
-            upload_uri = blobstore.create_upload_url(target_url)
-            # musician = {}
-            # education_data = {}
-            # repertoire_data = {}
-            # video_data = {}
+            template_data = {}
+            template_data[upload_uri] = blobstore.create_upload_url(target_url)
             if g.userdata.is_musician == 1: # if the use is a musician
-                musician = Musician.query.filter(Musician.user_id == user_id).first()
+                template_data[musician] = Musician.query.filter(Musician.user_id == user_id).first()
                 # Get photo url
                 if musician.photo:
-                    musician.photo_url = images.get_serving_url(musician.photo)
+                    template_data[photo_url] = images.get_serving_url(musician.photo)
                 # Get additional information from seperated tables
-                education_data = musician.educations.order_by(asc(Education.created_on)).all()
-                repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
-                video_data = musician.videos.order_by(asc(Video.created_on)).all()
-            return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, category_list=category_list, location_list=location_list, education_data=education_data, repertoire_data =repertoire_data, video_data=video_data, active_tab="musician_new")
-
-        elif request.method == "POST":
+                template_data[education_data] = musician.educations.order_by(asc(Education.created_on)).all()
+                template_data[repertoire_data] = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
+                template_data[video_data] = musician.videos.order_by(asc(Video.created_on)).all()
+            return render_template("/musician/musician_new.html", template_data=template_data)
             if g.userdata.is_musician == 0:
                 musician = Musician(
                         user_id = user_id
