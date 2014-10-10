@@ -211,10 +211,10 @@ def musician_new():
 @app.route("/musician/musician_location/", methods=["GET","POST"])
 def musician_location():
     if request.method == "POST":
-        locationsidoid = request.form.get("location")
-        locations = Location.query.filter(Location.upper_id==locationsidoid).all()
-        sigungu = {"locations":[(x.id, x.name) for x in locations]}
-        return jsonify(sigungu)
+        location_upper_id = request.form.get("location_upper_id")
+        sublocation_list = Location.query.filter(Location.upper_id==location_upper_id).all()
+        sublocations = {"sublocations":[(x.id, x.name) for x in sublocation_list]}
+        return jsonify(sublocations)
 
 
 @app.route("/musician/musician_category/", methods=["GET","POST"])

@@ -30,8 +30,8 @@ $(document).ready(function(){
             }
         });
     });
-    
-    $('#location').change(function() {
+
+    $('#upperLocation').change(function() {
         console.log("I'm changed!");
 
         $.ajax({
@@ -39,21 +39,20 @@ $(document).ready(function(){
             type: 'POST',
             dataType: 'JSON',
             data:{
-                location:$('#location').val()
+                location_upper_id :$('#upperLocation').val()
             },
             success: function(data) {
+                console.log("succeeded!")
 
-                sigungu = "<option value='none'>선택하세요</option>";
-
-                console.log("success!");
-                for (var i = 0; i < data.locations.length; i++) {
-                    sigungu += '<option class="sublocation" value=' + data.locations[i][0] + '>' + data.locations[i][1] + '</option>';
+                sublocation_option = "<option value='none'>선택하세요</option>";
+                for (var i = 0; i < data.sublocations.length; i++) {
+                    sublocation_option += '<option class="sublocation" value=' + data.sublocations[i][0] + '>' + data.sublocations[i][1] + '</option>';
                 }
                 console.log($('.sublocation'))                
-                $("#location_detail").html(sigungu);
+                $("#subLocation").html(sublocation_option);
             },
             error: function(e) {
-                console.log('Server error!!');
+                console.log('something was wrong :(');
             }
         });
     });
