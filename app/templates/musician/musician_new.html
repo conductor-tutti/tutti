@@ -110,12 +110,17 @@
             <div class="col-md-6 col-md-offset-3">
                 <i class="fa fa-graduation-cap fa-3"></i>
                 ACADEMIC HISTORY
-                <button class="btn btn-default btn-sm pull-right" id="edu_create" type="button">추가</button>
             </div>
         </div>
         
         <div class="row educationRow">
             <div class="form-group col-md-6 col-md-offset-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="예) 한양대학교 음악대학 피아노과 학사(2003년)">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="edu_create" type="button">&#43;</button>
+                    </span>
+                </div>
                 <div class="old_education"></div>
                 {% if education_data %}
                 {% for education in education_data %}
@@ -130,7 +135,72 @@
             </div>
         </div>
 
+        <div class="row repertoireRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-book fa-3"></i>
+                REPERTOIRE
+            </div>
+        </div>
+
+        <div class="row repertoireRow">
+            <div class="form-group col-md-6 col-md-offset-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="repertoire_data" data_musician_id = "{{ musician.id }}" placeholder="예) F. Poulenc - Sonata for violin and piano, FP 12 (1918)">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="repertoire_create" type="button">&#43;</button>
+                    </span>
+                </div>
+                {% if repertoire_data %}
+                {% for repertoire in repertoire_data %}
+                <div id="repertoire_{{repertoire.id}}">
+                    {{ repertoire.repertoire_data }}
+                    <button id="repertoire_delete" type="button" data_repertoire_id="{{ repertoire.id }}">삭제</button>
+                    <button id="repertoire_update" type="button" data_repertoire_id="{{ repertoire.id }}">수정</button>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row videoRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-video-camera fa-3"></i>
+                VIDEO CLIPS
+            </div>
+        </div>
+
+        <div class="row videoRow">
+            <div class="form-group col-md-6 col-md-offset-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="repertoire_data" data_musician_id = "{{ musician.id }}" placeholder="예) YouTube, Vimeo 동영상 URL">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" id="repertoire_create" type="button">&#43;</button>
+                    </span>
+                </div>
+                {% if video_data %}
+                {% for video in video_data %}
+                <div id="video_{{video.id}}">
+                    {{ video.video_data }}
+                    <button id="video_delete" type="button" data_video_id="{{ video.id }}">삭제</button>
+                    <button id="video_update" type="button" data_video_id="{{ video.id }}">수정</button>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row submitBtnRow">
+            <div class="form-group">
+                {% if g.userdata.is_musician == 0 %}
+                <button type="submit" id="submit" class="col-md-6 col-md-offset-3 btn btn-primary btn-lg">프로필 등록</button>
+                {% else %}
+                <button type="submit" id="submit" class="col-md-6 col-md-offset-3 btn btn-primary btn-lg">프로필 수정</button>
+                {% endif %}
+            </div>
+        </div>
+
     </form>
+</div>
         <!-- <h3 id="essential_fields"><i class="fa fa-star"></i> 필수 입력사항</h3>
         <hr>
 

@@ -8,6 +8,10 @@
 
 = = = = = = = = = = = */
 
+.innerbox{
+    background: rgba(255, 255, 255, 0.8);
+}
+
 .box .usernameRow div{
     margin-bottom: 20px;
     padding: 10px 0px 10px 0px;
@@ -16,16 +20,16 @@
     font-size: 2em;
     color: #fff;
 
-    border-top-left-radius: 25px;
-    border-bottom-right-radius: 25px;
+    /*border-top-left-radius: 25px;*/
+    /*border-bottom-right-radius: 25px;*/
 }
 
 .categoryRowTitle div{
-    border-top-right-radius: 25px;
+    /*border-top-right-radius: 25px;*/
 }
 
 .phraseRow div{
-    border-bottom-left-radius: 25px;
+    /*border-bottom-left-radius: 25px;*/
 }
 
 .categoryRowTitle div, .locationRowTitle div, .phraseRowTitle div{
@@ -35,25 +39,55 @@
     color: #fff;
 }
 
-.categoryRow .form-group, .locationRow .form-group, .phraseRow .form-group, .educationRow .form-group{
+.categoryRow .form-group, .locationRow .form-group,
+.phraseRow .form-group, .educationRow .form-group,
+.repertoireRow .form-group, .videoRow .form-group{
     margin-bottom: 0px; /* make a group with this margin property */
     padding-top: 15px; padding-bottom: 15px;
     background: rgba(255, 255, 255, 0.7);
 }
 
+.educationRowTitle{
+    margin-top: 20px; /* seperate educationRowTitle from upper elements */
+}
 
 .educationRowTitle div{
-    margin-top: 20px; /* seperate educationRowTitle from upper elements */
     padding-top: 20px;
     background-color: #5bc0de;
     font-size: 2em;
     color: #fff;
 
-    border-top-left-radius: 25px;
+    /*border-top-left-radius: 25px;*/
 }
 
-.educationRowTitle div button .btn-default{
+.repertoireRowTitle div{
+    padding-top: 20px;
+    background-color: #5bc0de;
+    font-size: 2em;
+    color: #fff;
+}
 
+.videoRowTitle{
+    margin-top: 20px; /* seperate educationRowTitle from upper elements */
+}
+
+.videoRowTitle div{
+    padding-top: 20px;
+    background-color: #f0ad4e;
+    font-size: 2em;
+    color: #fff;
+
+    /*border-top-left-radius: 25px;*/
+}
+
+.submitBtnRow{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.submitBtnRow .btn{
+    font-size: 2em;
+    border-radius: 0px;
 }
 
 /*.container .box label{
