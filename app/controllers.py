@@ -208,22 +208,22 @@ def musician_new():
         return str(edu_data)
 
 
-@app.route("/musician/musician_location/", methods=["GET","POST"])
-def musician_location():
-    if request.method == "POST":
-        location_upper_id = request.form.get("location_upper_id")
-        sublocation_list = Location.query.filter(Location.upper_id==location_upper_id).all()
-        sublocations = {"sublocations":[(x.id, x.name) for x in sublocation_list]}
-        return jsonify(sublocations)
-
-
 @app.route("/musician/musician_category/", methods=["GET","POST"])
 def musician_category():
     if request.method == "POST":
-        categoryid = request.form.get("category")
+        category_upper_id = request.form.get("uppercategory")
         category_list = Category.query.filter(Category.upper_id==categoryid).all()
-        major = {"categories":[(x.id, x.name) for x in category_list]}
-        return jsonify(major)
+        subcategories = {"subcategories":[(x.id, x.name) for x in category_list]}
+        return jsonify(subcategories)
+
+
+@app.route("/musician/musician_location/", methods=["GET","POST"])
+def musician_location():
+    if request.method == "POST":
+        locationsidoid = request.form.get("location")
+        locations = Location.query.filter(Location.upper_id==locationsidoid).all()
+        sigungu = {"locations":[(x.id, x.name) for x in locations]}
+        return jsonify(sigungu)
 
 
 @app.route("/musician/classical_musicians/", methods=["GET"])

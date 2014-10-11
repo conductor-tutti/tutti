@@ -2,36 +2,36 @@
 $(document).ready(function(){
     console.log("Hi!");
 
-    $('#category').change(function() {
-        console.log("I'm changed!");
+    $('#upperCategory').change(function() {
+        console.log("You gave me upperCategory data.");
 
         $.ajax({
             url:'/musician/musician_category/',
             type: 'POST',
             dataType: 'JSON',
             data:{
-                category:$('#category').val()
+                uppercategory: $('#upperCategory').val()
             },
             success: function(data) {
 
-                major = "<option value='none'>선택하세요</option>";
+                subcategory_option = "<option value='none'>선택하세요</option>";
 
                 console.log("success!");
                 for (var i = 0; i < data.categories.length; i++) {
-                    major += '<option class="major" value=' + data.categories[i][0] + '>' + data.categories[i][1] + '</option>';
+                    subcategory_option += '<option class="subcategory" value=' + data.subcategories[i][0] + '>' + data.subcategories[i][1] + '</option>';
                 }
-                console.log($('.major'))
+                console.log($('.subcategory'))
                 
-                $("#major").html(major);
+                $("#subCategory").html(major);
                 
             },
             error: function(e) {
-                console.log('Server error!!');
+                console.log('Something is wrong :(');
             }
         });
     });
-
-    $('#upperLocation').change(function() {
+    
+    $('#location').change(function() {
         console.log("I'm changed!");
 
         $.ajax({
@@ -39,20 +39,21 @@ $(document).ready(function(){
             type: 'POST',
             dataType: 'JSON',
             data:{
-                location_upper_id :$('#upperLocation').val()
+                location:$('#location').val()
             },
             success: function(data) {
-                console.log("succeeded!")
 
-                sublocation_option = "<option value='none'>선택하세요</option>";
-                for (var i = 0; i < data.sublocations.length; i++) {
-                    sublocation_option += '<option class="sublocation" value=' + data.sublocations[i][0] + '>' + data.sublocations[i][1] + '</option>';
+                sigungu = "<option value='none'>선택하세요</option>";
+
+                console.log("success!");
+                for (var i = 0; i < data.locations.length; i++) {
+                    sigungu += '<option class="sublocation" value=' + data.locations[i][0] + '>' + data.locations[i][1] + '</option>';
                 }
                 console.log($('.sublocation'))                
-                $("#subLocation").html(sublocation_option);
+                $("#location_detail").html(sigungu);
             },
             error: function(e) {
-                console.log('something was wrong :(');
+                console.log('Server error!!');
             }
         });
     });
