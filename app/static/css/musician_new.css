@@ -1,10 +1,8 @@
-#profile-box{
-    background: rgba(255, 255, 255, 0.8);
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-}
 
-#essential_fields{
+
+
+
+/*#essential_fields{
     margin-top: 30px;
 }
 
@@ -39,7 +37,7 @@
 .lobster{
     font-family: 'Lobster', cursive;
 }
-
+*/
 /* Whipping File Inputs Into Shape
 http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
 

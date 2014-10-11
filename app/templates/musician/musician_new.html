@@ -5,17 +5,15 @@
 
 {% block contents %}
 
-<div id="profile-box" class="col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3">
-
-    {% if g.userdata.is_musician == 0 %}
-    <h2 id="username"><strong>{{ g.userdata.username }}</strong>님의 프로필</h2>
-    {% else %}
-    <h2 id="username"><strong>{{ g.userdata.username }}</strong>님의 프로필 수정</h2>
-    {% endif %}
+<div class="box">
+    
+    <div class="col-md-8 col-md-offset-2 username">
+        <h2>{{ g.userdata.username }}님의 프로필</h2>
+    </div>
     
     <form id="profile_form" role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
-
-        <h3 id="essential_fields"><i class="fa fa-star"></i> 필수 입력사항</h3>
+    </form>
+        <!-- <h3 id="essential_fields"><i class="fa fa-star"></i> 필수 입력사항</h3>
         <hr>
 
         <div class="row">
@@ -44,7 +42,7 @@
         <div class="row">
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
                 <label for="inputUppercategory">전공분야</label>
-                <select class="form-control input-sm" name="uppercategory" id="upperCategory">
+                <select class="form-control" name="uppercategory" id="upperCategory">
                     <option value="none">선택하세요</option>
                     {% for c in categories %}
                     {% if c.upper_id == 0 %}                    
@@ -57,7 +55,7 @@
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
                 <label for="inputSubcategory">세부전공</label>
-                <select class="form-control input-sm" name="subcategory" id="subCategory">
+                <select class="form-control" name="subcategory" id="subCategory">
                     {% if musician.category_id %}
                     {% for c in categories %}
                     {% if c.upper_id == musician.category_upper_id %}                    
@@ -74,7 +72,7 @@
         <div class="row">
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
                 <label for="inputUpperlocation">거주지역</label>
-                <select class="form-control input-sm" name="upperlocation" id="upperLocation">
+                <select class="form-control" name="upperlocation" id="upperLocation">
                     <option value="none">선택하세요</option>
                     {% for l in locations %}
                     {% if l.upper_id == 0 %}
@@ -86,7 +84,7 @@
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
                 <label for="inputSublocation">시, 군, 구</label>
-                <select class="form-control input-sm" name="sublocation" id="subLocation">
+                <select class="form-control" name="sublocation" id="subLocation">
                     {% if musician.location_id %}
                     {% for l in locations %}
                     {% if l.upper_id == musician.location_upper_id %}                    
@@ -104,9 +102,9 @@
             <div class="form-group col-xs-12 col-sm-12 col-md-12">
                 <label for="inputPhrase">50자 메시지</label>
                 {% if g.userdata.is_musician == 0 %}
-                <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" placeholder="나를 표현하는 인상적인 50자 메시지">
+                <input type="text" name="phrase" id="inputPhrase" class="form-control" maxlength="50" placeholder="나를 표현하는 인상적인 50자 메시지">
                 {% else %}
-                <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" value="{{ musician.phrase }}">
+                <input type="text" name="phrase" id="inputPhrase" class="form-control" maxlength="50" value="{{ musician.phrase }}">
                 {% endif %}
             </div>
         </div>
@@ -124,7 +122,7 @@
                         <span class="input-group-btn">
                             <button id="edu_delete" type="button" class="btn btn-danger btn-sm" data_education_id="{{ education.id }}">삭제</button>
                         </span>
-                        <input id="edu_{{education.id}}" class="form-control input-sm" placeholder="{{ education.education_data }}" disabled="disabled">
+                        <input id="edu_{{education.id}}" class="form-control" placeholder="{{ education.education_data }}" disabled="disabled">
                     </div>
                 </div>
                 {% endfor %}
@@ -190,9 +188,7 @@
         <button type="submit" id="submit" class="btn btn-default pull-right">프로필 등록</button>
         {% else %}
         <button type="submit" id="submit" class="btn btn-default pull-right">프로필 수정</button>
-        {% endif %}
-
-    </form>
+        {% endif %} -->
 
 </div>
 
