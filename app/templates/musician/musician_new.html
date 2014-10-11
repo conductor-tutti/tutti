@@ -73,20 +73,20 @@
         
         <div class="row">
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputLocation">거주지역</label>
-                <select class="form-control input-sm" name="location" id="sido">
+                <label for="inputUpperlocation">거주지역</label>
+                <select class="form-control input-sm" name="upperlocation" id="upperLocation">
                     <option value="none">선택하세요</option>
                     {% for l in locations %}
                     {% if l.upper_id == 0 %}
-                    <option class="state" value="{{ l.id }}" {% if l.id == musician.location_upper_id %} selected="selected" {% endif %}>{{ l.name }}</option>
+                    <option class="upperlocation" value="{{ l.id }}" {% if l.id == musician.location_upper_id %} selected="selected" {% endif %}>{{ l.name }}</option>
                     {% endif %}
                     {% endfor %}
                 </select>
             </div>
 
             <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputLocation">시, 군, 구</label>
-                <select class="form-control input-sm" name="location_detail" id="location_detail">
+                <label for="inputSublocation">시, 군, 구</label>
+                <select class="form-control input-sm" name="sublocation" id="subLocation">
                     {% if musician.location_id %}
                     {% for l in locations %}
                     {% if l.upper_id == musician.location_upper_id %}                    

@@ -211,8 +211,8 @@ def musician_new():
 @app.route("/musician/musician_category/", methods=["GET","POST"])
 def musician_category():
     if request.method == "POST":
-        category_upper_id = request.form.get("uppercategory")
-        category_list = Category.query.filter(Category.upper_id==categoryid).all()
+        category_upper_id = request.form.get("uppercategory_data")
+        category_list = Category.query.filter(Category.upper_id==category_upper_id).all()
         subcategories = {"subcategories":[(x.id, x.name) for x in category_list]}
         return jsonify(subcategories)
 
@@ -220,9 +220,9 @@ def musician_category():
 @app.route("/musician/musician_location/", methods=["GET","POST"])
 def musician_location():
     if request.method == "POST":
-        locationsidoid = request.form.get("location")
-        locations = Location.query.filter(Location.upper_id==locationsidoid).all()
-        sigungu = {"locations":[(x.id, x.name) for x in locations]}
+        location_upper_id = request.form.get("upperlocation_data")
+        sublocation_list = Location.query.filter(Location.upper_id==location_upper_id).all()
+        sublocations = {"sublocations":[(x.id, x.name) for x in sublocation_list]}
         return jsonify(sigungu)
 
 
