@@ -223,7 +223,7 @@ def musician_location():
         location_upper_id = request.form.get("upperlocation_data")
         sublocation_list = Location.query.filter(Location.upper_id==location_upper_id).all()
         sublocations = {"sublocations":[(x.id, x.name) for x in sublocation_list]}
-        return jsonify(sigungu)
+        return jsonify(sublocations)
 
 
 @app.route("/musician/classical_musicians/", methods=["GET"])

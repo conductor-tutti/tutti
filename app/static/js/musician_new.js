@@ -17,12 +17,12 @@ $(document).ready(function(){
                 subcategory_option = "<option value='none'>선택하세요</option>";
 
                 console.log("success!");
-                for (var i = 0; i < data.categories.length; i++) {
+                for (var i = 0; i < data.subcategories.length; i++) {
                     subcategory_option += '<option class="subcategory" value=' + data.subcategories[i][0] + '>' + data.subcategories[i][1] + '</option>';
                 }
                 console.log($('.subcategory'))
                 
-                $("#subCategory").html(major);
+                $("#subCategory").html(subcategory_option);
                 
             },
             error: function(e) {
@@ -46,7 +46,7 @@ $(document).ready(function(){
                 sublocation_option = "<option value='none'>선택하세요</option>";
 
                 console.log("success!");
-                for (var i = 0; i < data.locations.length; i++) {
+                for (var i = 0; i < data.sublocations.length; i++) {
                     sublocation_option += '<option class="sublocation" value=' + data.sublocations[i][0] + '>' + data.sublocations[i][1] + '</option>';
                 }
                 console.log($('.sublocation'))                
