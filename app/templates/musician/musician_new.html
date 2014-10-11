@@ -6,12 +6,128 @@
 {% block contents %}
 
 <div class="box">
-    
-    <div class="col-md-8 col-md-offset-2 username">
-        <h2>{{ g.userdata.username }}님의 프로필</h2>
+
+    <div class="row usernameRow">
+        <div class="col-md-6 col-md-offset-3">
+            {{ g.userdata.username }}님의 프로필
+        </div>
     </div>
     
     <form id="profile_form" role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
+
+        <div class="row categoryRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                MAJOR
+            </div>
+        </div>
+
+        <div class="row categoryRow">
+            <div class="form-group col-md-3 col-md-offset-3">
+                <label for="inputUppercategory">전공분야</label>
+                <select class="form-control" name="uppercategory" id="upperCategory">
+                    <option value="none">선택하세요</option>
+                    {% for c in categories %}
+                    {% if c.upper_id == 0 %}                    
+                    <option class="uppercategory" value="{{ c.id }}" {% if c.id == musician.category_upper_id %} selected="selected" {% endif %}>{{ c.name }}</option>                        
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+
+            <div class="form-group col-md-3">
+                <label for="inputSubcategory">세부전공</label>
+                <select class="form-control" name="subcategory" id="subCategory">
+                    {% if musician.category_id %}
+                    {% for c in categories %}
+                    {% if c.upper_id == musician.category_upper_id %}                    
+                    <option class="subcategory" value="{{ c.id }}" {% if c.id == musician.category_id %} selected="selected" {% endif %}>{{ c.name }}</option>                        
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <option class="subcategory" value="none">선택하세요</option>
+                    {% endif %}
+                </select>
+            </div>
+        </div> <!-- categoryRow ends -->
+
+        <div class="row locationRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                LOCATION
+            </div>
+        </div>
+
+        <div class="row locationRow">
+            <div class="form-group col-md-3 col-md-offset-3">
+                <label for="inputUpperlocation">거주지역</label>
+                <select class="form-control" name="upperlocation" id="upperLocation">
+                    <option value="none">선택하세요</option>
+                    {% for l in locations %}
+                    {% if l.upper_id == 0 %}
+                    <option class="upperlocation" value="{{ l.id }}" {% if l.id == musician.location_upper_id %} selected="selected" {% endif %}>{{ l.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputSublocation">시, 군, 구</label>
+                <select class="form-control" name="sublocation" id="subLocation">
+                    {% if musician.location_id %}
+                    {% for l in locations %}
+                    {% if l.upper_id == musician.location_upper_id %}                    
+                    <option class="sublocation" value="{{ l.id }}" {% if l.id == musician.location_id %} selected="selected" {% endif %}>{{ l.name }}</option>                        
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <option class="sublocation" value="none">선택하세요</option>
+                    {% endif %}     
+                </select>
+            </div>
+        </div> <!-- locationRow ends -->
+
+        <div class="row phraseRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-bullhorn fa-3"></i>
+                CATCHPHRASE
+            </div>
+        </div>
+
+        <div class="row phraseRow">
+            <div class="form-group col-md-6 col-md-offset-3">
+                <label for="inputPhrase">50자 메시지</label>
+                {% if g.userdata.is_musician == 0 %}
+                <input type="text" name="phrase" id="inputPhrase" class="form-control" maxlength="50" placeholder="나를 표현하는 인상적인 50자 메시지">
+                {% else %}
+                <input type="text" name="phrase" id="inputPhrase" class="form-control" maxlength="50" value="{{ musician.phrase }}">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="row educationRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-graduation-cap fa-3"></i>
+                ACADEMIC HISTORY
+                <button class="btn btn-default btn-sm pull-right" id="edu_create" type="button">추가</button>
+            </div>
+        </div>
+        
+        <div class="row educationRow">
+            <div class="form-group col-md-6 col-md-offset-3">
+                <div class="old_education"></div>
+                {% if education_data %}
+                {% for education in education_data %}
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button id="edu_delete" type="button" class="btn btn-danger btn-sm" data_education_id="{{ education.id }}">삭제</button>
+                    </span>
+                    <input id="edu_{{education.id}}" class="form-control" placeholder="{{ education.education_data }}" disabled="disabled">
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
     </form>
         <!-- <h3 id="essential_fields"><i class="fa fa-star"></i> 필수 입력사항</h3>
         <hr>
@@ -190,24 +306,24 @@
         <button type="submit" id="submit" class="btn btn-default pull-right">프로필 수정</button>
         {% endif %} -->
 
-</div>
+    </div>
 
-<script>
-$("#profile_form").submit(function() {
-    if ($('#profile_image').val()) { 
-        console.log('file exists');    
-    } else {
-        console.log('no file');
-        console.log($(this));
-        $(this).attr('action', '{{ target_url }}');               
-    }
-    return true;
-});
-</script>
+    <script>
+    $("#profile_form").submit(function() {
+        if ($('#profile_image').val()) { 
+            console.log('file exists');    
+        } else {
+            console.log('no file');
+            console.log($(this));
+            $(this).attr('action', '{{ target_url }}');               
+        }
+        return true;
+    });
+    </script>
 
-{% endblock %}
-{% block scripts %}
+    {% endblock %}
+    {% block scripts %}
 
-{{ super() }}
-<script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
-{% endblock %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
+    {% endblock %}

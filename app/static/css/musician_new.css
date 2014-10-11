@@ -1,6 +1,64 @@
+/* = = = = = = = = = = =
+
+@brand-primary: #428bca;
+@brand-success: #5cb85c;
+@brand-info:    #5bc0de;
+@brand-warning: #f0ad4e;
+@brand-danger:  #d9534f;
+
+= = = = = = = = = = = */
+
+.box .usernameRow div{
+    margin-bottom: 20px;
+    padding: 10px 0px 10px 0px;
+    background-color: #428bca;
+    text-align: center;
+    font-size: 2em;
+    color: #fff;
+
+    border-top-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+
+.categoryRowTitle div{
+    border-top-right-radius: 25px;
+}
+
+.phraseRow div{
+    border-bottom-left-radius: 25px;
+}
+
+.categoryRowTitle div, .locationRowTitle div, .phraseRowTitle div{
+    padding-top: 20px;
+    background-color: #5cb85c;
+    font-size: 2em;
+    color: #fff;
+}
+
+.categoryRow .form-group, .locationRow .form-group, .phraseRow .form-group, .educationRow .form-group{
+    margin-bottom: 0px; /* make a group with this margin property */
+    padding-top: 15px; padding-bottom: 15px;
+    background: rgba(255, 255, 255, 0.7);
+}
 
 
+.educationRowTitle div{
+    margin-top: 20px; /* seperate educationRowTitle from upper elements */
+    padding-top: 20px;
+    background-color: #5bc0de;
+    font-size: 2em;
+    color: #fff;
 
+    border-top-left-radius: 25px;
+}
+
+.educationRowTitle div button .btn-default{
+
+}
+
+/*.container .box label{
+    margin: 0px 0px 5px 0px;
+    }*/
 
 /*#essential_fields{
     margin-top: 30px;
