@@ -113,26 +113,29 @@
             </div>
         </div>
         
-        <div class="row educationRow">
-            <div class="form-group col-md-6 col-md-offset-3">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="예) 한양대학교 음악대학 피아노과 학사(2003년)">
-                    <span class="input-group-btn">
-                        <button class="btn btn-default" id="edu_create" type="button">&#43;</button>
-                    </span>
+        <div class="educationGroup">
+            <div class="row educationRow">
+                <div class="form-group col-md-6 col-md-offset-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="예) 한양대학교 음악대학 피아노과 학사(2003년)">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="addEducationInput" type="button">&#43;</button>
+                        </span>
+                    </div>
                 </div>
-                <div class="old_education"></div>
-                {% if education_data %}
-                {% for education in education_data %}
-                <div class="input-group">
-                    <span class="input-group-btn">
-                        <button id="edu_delete" type="button" class="btn btn-danger btn-sm" data_education_id="{{ education.id }}">삭제</button>
-                    </span>
-                    <input id="edu_{{education.id}}" class="form-control" placeholder="{{ education.education_data }}" disabled="disabled">
-                </div>
-                {% endfor %}
-                {% endif %}
             </div>
+            <!-- additional fields will be appended here -->
+            <div class="education_history"></div>
+            {% if education_data %}
+            {% for education in education_data %}
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button id="edu_delete" type="button" class="btn btn-danger btn-sm" data_education_id="{{ education.id }}">삭제</button>
+                </span>
+                <input id="edu_{{education.id}}" class="form-control" placeholder="{{ education.education_data }}" disabled="disabled">
+            </div>
+            {% endfor %}
+            {% endif %}
         </div>
 
         <div class="row repertoireRowTitle">

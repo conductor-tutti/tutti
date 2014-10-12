@@ -58,17 +58,20 @@ $(document).ready(function(){
     });
 
 
-    $("#edu_create").click(function(){
+    $("#addEducationInput").click(function(){
         // adding input fields dynamically
-        $('.old_education').append(
-            "<div class='form-group'>"+
-            "<div class='input-group'>"+
-            "<span class='input-group-addon'>"+"+"+"</span>"+
-            "<input type='text' class='form-control input-sm' name='education_data' placeholder='추가 학력사항'>"+
-            "</div>"+"</div>"
-            );
-        
+        $('.educationGroup').append("<div class='row educationRow'>\
+            <div class='form-group col-md-6 col-md-offset-3'>\
+            <div class='input-group'>\
+            <input class='form-control' placeholder='추가 학력사항'>\
+            <span class='input-group-btn'>\
+            <button id='delEducationInput' type='button' class='btn btn-default'>삭제</button>\
+            </span>\
+            </div>\
+            </div>\
+            </div>");        
     });
+
     $("#edu_delete").click(function(){
         $.ajax({
             url:'/education_delete',
