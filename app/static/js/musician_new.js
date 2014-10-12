@@ -60,43 +60,27 @@ $(document).ready(function(){
 
     $("#addEducationInput").click(function(){
         // adding input fields dynamically
-        $('.educationGroup').append("<div class='row newEducationRow'>\
-            <div class='form-group col-md-6 col-md-offset-3'>\
-            <div class='input-group'>\
-            <input class='form-control' placeholder='추가 학력사항'>\
-            <span class='input-group-btn'>\
-            <button id='delEducationInput' type='button' class='btn btn-default'>삭제</button>\
-            </span>\
-            </div>\
-            </div>\
-            </div>");        
+        $('.educationGroup').append("\
+            <div class='row newEducationRow'>\
+                <div class='form-group col-md-6 col-md-offset-3'>\
+                    <div class='input-group'>\
+                        <input class='form-control' placeholder='추가 학력사항'>\
+                        <span class='input-group-btn'>\
+                            <button id='delEducationInput' type='button' class='btn btn-default'><i class='fa fa-minus'></i></button>\
+                        </span>\
+                    </div>\
+                </div>\
+            </div>");
     });
 
-    $("#edu_delete").click(function(){
-        $.ajax({
-            url:'/education_delete',
-            type: 'POST',
-            datatype: "JSON",
-            data:{
-                data_education_id: $('#edu_delete').attr("data_education_id") 
-            },
-            success: function(data){
-                if (data.success){
-                    $("#edu_"+data.edu_id+"").remove()
-                    console.log('send msg success!');
-                }
-                else{
-                    console.log('send msg fail!');
-                }
-            },
-            error: function(data){
-                console.log("Server error!");
-            }
-        });
+    $("#delEducationInput").click(function(){
+        $(".newEducationRow").remove();
     });
+
     $("#repertoire_create").click(function(){
         $('.repertoire').append("<div><input type='text' name='repertoire_data'></div>")
     });
+    
     $("#repertoire_delete").click(function(){
         $.ajax({
             url:'/repertoire_delete',
