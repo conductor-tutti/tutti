@@ -40,10 +40,24 @@
 }
 
 .categoryRow .form-group, .locationRow .form-group,
-.phraseRow .form-group, .educationRow .form-group,
-.repertoireRow .form-group, .videoRow .form-group{
+.phraseRow .form-group, .repertoireRow .form-group, .videoRow .form-group{
     margin-bottom: 0px; /* make a group with this margin property */
     padding-top: 15px; padding-bottom: 15px;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.educationGroup .educationRow .form-group{
+    margin-bottom: 0px;
+    padding-top: 15px; padding-bottom: 15px;
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.educationGroup .newEducationRow .form-group{
+    /* seperated newEducationRow from educationRow to avoid
+    having to much space between added input fields
+    which occurs when their padding properties are inherited from educationRow. */
+    margin-bottom: 0px;
+    padding-bottom: 15px;
     background: rgba(255, 255, 255, 0.7);
 }
 

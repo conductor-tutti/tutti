@@ -60,7 +60,7 @@ $(document).ready(function(){
 
     $("#addEducationInput").click(function(){
         // adding input fields dynamically
-        $('.educationGroup').append("<div class='row educationRow'>\
+        $('.educationGroup').append("<div class='row newEducationRow'>\
             <div class='form-group col-md-6 col-md-offset-3'>\
             <div class='input-group'>\
             <input class='form-control' placeholder='추가 학력사항'>\
