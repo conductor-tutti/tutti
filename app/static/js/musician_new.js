@@ -1,19 +1,8 @@
 function addInputField(event) {
-    var identifier = event.data.identifier;
-    var wrapper = event.data.wrapper;
-
-    $(wrapper).append("\
-        <div class='row addedRow'>\
-        <div class='form-group col-md-6 col-md-offset-3'>\
-        <div class='input-group'>\
-        <input class='form-control'>\
-        <span class='input-group-btn'>\
-        <button type='button' class='delInput btn btn-default'><i class='fa fa-minus'></i></button>\
-        </span>\
-        </div>\
-        </div>\
-        </div>");
-
+    var wrapperClass = $(this).attr("data-target"); // wrapper
+    var inputName = $(this).attr("data-name");
+    var templateRow = $("#dynamicInputRow").html();
+    $(wrapperClass).append(templateRow.replace("^*^inputName^*^", inputName));
     $(".delInput").click(delInputField);
 }
 
@@ -82,8 +71,7 @@ $(document).ready(function(){
         });
     });
 
-$("#addEducationInput").click({identifier:'Education', wrapper:$(".educationGroup")}, addInputField);
-$("#addRepertoireInput").click({identifier: 'Repertoire', wrapper:$(".repertoireGroup")}, addInputField);
-$("#addVideoInput").click({identifier: 'Video', wrapper:$(".videoGroup")}, addInputField);
+$("#addEducationInput, #addRepertoireInput, #addVideoInput").click(addInputField);
+
 });
 

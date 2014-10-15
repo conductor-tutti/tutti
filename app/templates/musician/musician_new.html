@@ -117,9 +117,9 @@
             <div class="row educationRow">
                 <div class="form-group col-md-6 col-md-offset-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="원하는 만큼 추가해서 입력할 수 있습니다.">
+                        <input type="text" name="educationInput" class="form-control" placeholder="원하는 만큼 추가해서 입력할 수 있습니다.">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" id="addEducationInput" type="button"><i class="fa fa-plus"></i></button>
+                            <button class="btn btn-default" id="addEducationInput" type="button" data-target=".educationGroup" data-name="educationInput"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
                 </div>
@@ -149,7 +149,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="repertoire_data" placeholder="예) F. Poulenc - Sonata for violin and piano, FP 12 (1918)">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" id="addRepertoireInput" type="button"><i class="fa fa-plus"></i></button>
+                            <button class="btn btn-default" id="addRepertoireInput" type="button" data-target=".repertoireGroup" data-name="addedRepertoire"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
                     {% if repertoire_data %}
@@ -176,7 +176,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" id="repertoire_data" data_musician_id = "{{ musician.id }}" placeholder="예) YouTube, Vimeo 동영상 URL">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" id="addVideoInput" type="button"><i class="fa fa-plus"></i></button>
+                            <button class="btn btn-default" id="addVideoInput" type="button" data-target=".videoGroup"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
                     {% if video_data %}
@@ -216,6 +216,19 @@ $("#profile_form").submit(function() {
     }
     return true;
 });
+</script>
+
+<script id="dynamicInputRow" type="text/template">
+<div class='row addedRow'>
+<div class='form-group col-md-6 col-md-offset-3'>
+<div class='input-group'>
+<input class='form-control' name="^*^inputName^*^">
+<span class='input-group-btn'>
+<button type='button' class='delInput btn btn-default'><i class='fa fa-minus'></i></button>
+</span>
+</div>
+</div>
+</div>
 </script>
 
 {% endblock %}
