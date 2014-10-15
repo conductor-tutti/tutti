@@ -13,6 +13,7 @@ function addInputField(event) {
         </div>\
         </div>\
         </div>");
+
     $(".delInput").click(delInputField);
 }
 
@@ -81,29 +82,8 @@ $(document).ready(function(){
         });
     });
 
-    // var max_fields = 50;
-    // var wrapper = $(".educationGroup");
-    // var add_button = $("#addEducationInput");
-    // var x = 1;
-    // $(add_button).click(function(e){
-    //     e.preventDefault();
-    //     if(x < max_fields){
-    //         x++;
-    //         console.log(x)
-    //         $(wrapper).append("\
-    //             <div class='row newEducationRow'>\
-    //             <div class='form-group col-md-6 col-md-offset-3'>\
-    //             <div class='input-group'>\
-    //             <input class='form-control' placeholder='추가 학력사항'>\
-    //             <span class='input-group-btn'>\
-    //             <button id='delEducationInput' type='button' class='btn btn-default'><i class='fa fa-minus'></i></button>\
-    //             </span>\
-    //             </div>\
-    //             </div>\
-    //             </div>");
-    //     }
-    // });
 $("#addEducationInput").click({identifier:'Education', wrapper:$(".educationGroup")}, addInputField);
-
+$("#addRepertoireInput").click({identifier: 'Repertoire', wrapper:$(".repertoireGroup")}, addInputField);
+$("#addVideoInput").click({identifier: 'Video', wrapper:$(".videoGroup")}, addInputField);
 });
 
