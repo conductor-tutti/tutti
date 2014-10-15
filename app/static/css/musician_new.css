@@ -52,7 +52,7 @@
     background: rgba(255, 255, 255, 0.7);
 }
 
-.educationGroup .newEducationRow .form-group{
+.addedRow .form-group{
     /* seperated newEducationRow from educationRow to avoid
     having to much space between added input fields
     which occurs when their padding properties are inherited from educationRow. */
