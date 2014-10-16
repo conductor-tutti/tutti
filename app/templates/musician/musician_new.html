@@ -13,7 +13,22 @@
         </div>
     </div>
     
-    <form id="profile_form" role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
+    <form id="profile_form" name="profileForm" role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
+        
+        <div class="row pictureRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-photo fa-3"></i>
+                PROFILE PICTURE
+            </div>
+        </div>
+        
+        <div class="row pictureRow">
+            <div class="form-group col-md-6 col-md-offset-3">
+                <label for="inputPicture">프로필 대표사진</label>
+                <input type="file" name="profilepicture" id="inputPicture">
+                <p class="help-block">가로, 세로 200px 사이즈 사진이 가장 예쁘게 보여요.</p>
+            </div>
+        </div>
 
         <div class="row categoryRowTitle">
             <div class="col-md-6 col-md-offset-3">
@@ -147,9 +162,9 @@
             <div class="row repertoireRow">
                 <div class="form-group col-md-6 col-md-offset-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="repertoire_data" placeholder="예) F. Poulenc - Sonata for violin and piano, FP 12 (1918)">
+                        <input type="text" name="repertoireInput" class="form-control" id="repertoire_data" placeholder="예) F. Poulenc - Sonata for violin and piano, FP 12 (1918)">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" id="addRepertoireInput" type="button" data-target=".repertoireGroup" data-name="addedRepertoire"><i class="fa fa-plus"></i></button>
+                            <button class="btn btn-default" id="addRepertoireInput" type="button" data-target=".repertoireGroup" data-name="repertoireInput"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
                     {% if repertoire_data %}
@@ -174,9 +189,9 @@
             <div class="row videoRow">
                 <div class="form-group col-md-6 col-md-offset-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="repertoire_data" data_musician_id = "{{ musician.id }}" placeholder="예) YouTube, Vimeo 동영상 URL">
+                        <input type="text" name="videoInput" class="form-control" id="repertoire_data" data_musician_id = "{{ musician.id }}" placeholder="예) YouTube, Vimeo 동영상 URL">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" id="addVideoInput" type="button" data-target=".videoGroup"><i class="fa fa-plus"></i></button>
+                            <button class="btn btn-default" id="addVideoInput" type="button" data-target=".videoGroup" data-name="videoInput"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
                     {% if video_data %}
@@ -200,7 +215,6 @@
                 {% endif %}
             </div>
         </div>
-
     </form>
 </div>
 

@@ -12,6 +12,35 @@ function delInputField(event){
     console.log(this);
 }
 
+function formValidate(event){
+    if(document.profileForm.uppercategory.value == "none"){
+        alert("전공분야를 선택해주세요.");
+        document.profileForm.uppercategory.focus();
+        return false;
+    }
+    if(document.profileForm.subcategory.value == "none"){
+        alert("세부전공을 선택해주세요.");
+        document.profileForm.subcategory.focus();
+        return false;
+    }
+    if(document.profileForm.upperlocation.value == "none"){
+        alert("거주지역을 선택해주세요.");
+        document.profileForm.upperlocation.focus();
+        return false;
+    }
+    if(document.profileForm.sublocation.value == "none"){
+        alert("세부지역을 선택해주세요.");
+        document.profileForm.sublocation.focus();
+        return false;
+    }
+    if (document.profileForm.phrase.value == ""){
+        alert("50자 메시지는 필수에요!");
+        document.profileForm.phrase.focus();
+        return false;
+    }
+    return(true);
+}
+
 $(document).ready(function(){
     console.log("Hi! I'm musician_new.js");
 
@@ -72,6 +101,6 @@ $(document).ready(function(){
     });
 
 $("#addEducationInput, #addRepertoireInput, #addVideoInput").click(addInputField);
-
+$("#submit").click(formValidate);
 });
 
