@@ -23,33 +23,33 @@
 }
 
 .eachNewbieInfoRow .col-md-1, .col-md-2, .col-md-5{
-    background: rgba(0, 0, 0, 0.7);
-    height: 30px;
-    color: white;
+    /*background-color: #5cb85c;*/
+    background: rgba(255, 255, 255, 0.7);
+    height: 40px;
+    /*color: white;*/
+    color: #428bca;
 }
 
 .eachNewbieInfoRow .col-md-1{
     text-align: center;
+    padding: 5px 0px 5px 0px;
     font-size: 1.5em;
+    font-weight: bold;
 }
 
 .eachNewbieInfoRow .col-md-2{
     text-align: center;
-    padding: 5px 0px 5px 0px;
+    padding: 10px 0px 10px 0px;
 }
 
 .eachNewbieInfoRow .col-md-5{
-    text-align: left;
-    padding: 5px 0px 5px 0px;
+    text-align: center;
+    padding: 10px 0px 10px 0px;
+    /*background-color: #69C069;*/
 }
 
 .eachNewbieInfoRow a{
     text-decoration: none;
-    color: white;
-}
-
-.eachNewbieInfoRow a:hover, a:focus{
-    color: white;
 }
 
 /*
