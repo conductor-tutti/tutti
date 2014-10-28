@@ -1,8 +1,25 @@
-.navbar-default{
-    margin-bottom: 0px;
+.newbieRowTitle div{
+    padding-top: 20px;
+    background-color: #428bca;
+    font-size: 2em;
+    color: #fff;
 }
 
-.row{
+.newbieRowTitle div .titleDescription{
+    font-size: 0.5em;
+}
+
+.eachNewbiePicRow .col-md-8{
+    padding: 0;
+}
+
+.eachNewbiePicRow div{
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.eachNewbiePicRow div img{
+    width: 100%;
+    height: 200px;
 }
 
 .wide{
@@ -20,8 +37,6 @@
 .catchphrase{
     padding-top: 90px;
     text-align: center;
-    font-family: "Lobster", cursive;
-    font-size: 4em;
     color: white;
     text-shadow: black 0px 0px 5px;
 }

@@ -14,7 +14,7 @@
     </div>
     
     <form id="profile_form" name="profileForm" role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
-        
+
         <div class="row pictureRowTitle">
             <div class="col-md-6 col-md-offset-3">
                 <i class="fa fa-photo fa-3"></i>
@@ -41,10 +41,10 @@
             <div class="form-group col-md-3 col-md-offset-3">
                 <label for="inputUppercategory">전공분야</label>
                 <select class="form-control" name="uppercategory" id="upperCategory">
-                    <option value="none">선택하세요</option>
+                    <option id="upperCategoryOption" value="none">선택하세요</option>
                     {% for c in categories %}
                     {% if c.upper_id == 0 %}                    
-                    <option class="uppercategory" value="{{ c.id }}" {% if c.id == musician.category_upper_id %} selected="selected" {% endif %}>{{ c.name }}</option>                        
+                    <option id="upperCategoryOption" class="uppercategory" value="{{ c.id }}" {% if c.id == musician.category_upper_id %} selected="selected" {% endif %}>{{ c.name }}</option>                        
                     {% endif %}
                     {% endfor %}
                 </select>
@@ -139,16 +139,22 @@
                     </div>
                 </div>
             </div>
-            
-            <!-- additional fields will be appended below -->
-            
-            {% if education_data %}
-            {% for education in education_data %}
-            <div class="education_{{ education.id }}">
-                {{ education }}
+            <div class="row oldEducationRow">
+                <div class="col-md-6 col-md-offset-3 oldList">
+                    <ul class="list-group">
+                        <!-- Get existing education_data -->
+                        {% if education_data %}
+                        {% for education in education_data %}
+                        <li class="list-group-item education_{{ education.id }}">
+                            {{ education.education_data }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <div class="nothingMessage">아직 학력사항이 비어있군요!</div>
+                    {% endif %}
+                </div>
             </div>
-            {% endfor %}
-            {% endif %}
         </div>
 
         <div class="row repertoireRowTitle">
@@ -167,12 +173,21 @@
                             <button class="btn btn-default" id="addRepertoireInput" type="button" data-target=".repertoireGroup" data-name="repertoireInput"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
-                    {% if repertoire_data %}
-                    {% for repertoire in repertoire_data %}
-                    <div id="repertoire_{{ repertoire.id }}">
-                        {{ repertoire.repertoire_data }}
-                    </div>
-                    {% endfor %}
+                </div>
+            </div>
+            <div class="row oldRepertoireRow">
+                <div class="col-md-6 col-md-offset-3 oldList">
+                    <ul class="list-group">
+                        <!-- Get existing repertoire_data -->
+                        {% if repertoire_data %}
+                        {% for repertoire in repertoire_data %}
+                        <li class="list-group-item repertoire_{{ repertoire.id }}">
+                            {{ repertoire.repertoire_data }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <div class="nothingMessage">아직 레퍼토리 정보가 없군요!</div>
                     {% endif %}
                 </div>
             </div>
@@ -194,12 +209,20 @@
                             <button class="btn btn-default" id="addVideoInput" type="button" data-target=".videoGroup" data-name="videoInput"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
-                    {% if video_data %}
-                    {% for video in video_data %}
-                    <div id="video_{{ video.id }}">
-                        {{ video.video_data }}
-                    </div>
-                    {% endfor %}
+                </div>
+            </div>
+            <div class="row oldVideoRow">
+                <div class="col-md-6 col-md-offset-3 oldList">
+                    <ul class="list-group">
+                        {% if video_data %}
+                        {% for video in video_data %}
+                        <li class="list-group-item" id="video_{{ video.id }}">
+                            {{ video.video_data }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <div class="nothingMessage">아직 등록된 동영상이 없군요!</div>
                     {% endif %}
                 </div>
             </div>
@@ -220,16 +243,16 @@
 
 
 <script>
-$("#profile_form").submit(function() {
-    if ($('#profile_image').val()) { 
-        console.log('file exists');    
-    } else {
-        console.log('no file');
-        console.log($(this));
-        $(this).attr('action', '{{ target_url }}');               
-    }
-    return true;
-});
+// $("#profile_form").submit(function() {
+//     if ($('#inputPicture').val()) { 
+//         console.log('file exists');    
+//     } else {
+//         console.log('no file');
+//         console.log($(this));
+//         $(this).attr('action', '{{ target_url }}');               
+//     }
+//     return true;
+// }); 
 </script>
 
 <script id="dynamicInputRow" type="text/template">
