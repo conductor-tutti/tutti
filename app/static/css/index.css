@@ -22,6 +22,37 @@
     height: 200px;
 }
 
+.eachNewbieInfoRow .col-md-1, .col-md-2, .col-md-5{
+    background: rgba(0, 0, 0, 0.7);
+    height: 30px;
+    color: white;
+}
+
+.eachNewbieInfoRow .col-md-1{
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.eachNewbieInfoRow .col-md-2{
+    text-align: center;
+    padding: 5px 0px 5px 0px;
+}
+
+.eachNewbieInfoRow .col-md-5{
+    text-align: left;
+    padding: 5px 0px 5px 0px;
+}
+
+.eachNewbieInfoRow a{
+    text-decoration: none;
+    color: white;
+}
+
+.eachNewbieInfoRow a:hover, a:focus{
+    color: white;
+}
+
+/*
 .wide{
     width:100%;
     height:350px;
@@ -125,7 +156,4 @@ hr{
 .view_profile{
     color: black;
 }
-
-a:hover, a:focus{
-    color: #E76454;
-}
+*/

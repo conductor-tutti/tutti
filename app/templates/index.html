@@ -24,29 +24,17 @@
 <div class="row eachNewbiePicRow">
     <div class="col-md-8 col-md-offset-2">
         <img src="{{ musician.photo_url }}">
-        <!-- <div class="newbieInfo">
-            <a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="viewProfile">
-                {{ musician.user.username }}</a>
-            <span class="newbieCategory">
-                {{ musician.category.name }} | {% for category in category_list %}
-                {% if musician.category_upper_id == category.id %}
-                {{ category.name }}
-                {% endif %}
-                {% endfor %}
-            </span>
-            <div class="newbiePhrase">"{{ musician.phrase }}"</div>
-        </div> -->
     </div>
 </div>
 <div class="row eachNewbieInfoRow">
     <div class="col-md-1 col-md-offset-2">
-        {{ musician.user.username }}
+        <a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="viewProfile">{{ musician.user.username }}</a>
     </div>
     <div class="col-md-2">
         {{ musician.category.name }}, {% for category in category_list %} {% if musician.category_upper_id == category.id %} {{ category. name }} {% endif %} {% endfor %}
     </div>
     <div class="col-md-5">
-        {{ musician.phrase }}
+        {{ musician.phrase|truncate(40, True) }}
     </div>
 </div>
 {% endfor %}
