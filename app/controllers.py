@@ -85,6 +85,7 @@ def sign_up_success(id):
     user = User.query.get(id)
     return render_template('user/sign_up_success.html', user=user)
 
+
 @app.route("/sign_in", methods=["GET", "POST"])
 def sign_in():
     if request.method == "GET":
@@ -115,7 +116,7 @@ def musician_new():
     categories = Category.query.all()
     locations = Location.query.all()
     
-    if session:
+    if session: # if logged in
         user_id = session['user_id']
         target_url = "/musician/musician_new/"
         if request.method == "GET":
@@ -126,86 +127,96 @@ def musician_new():
             video_data = {}
             if g.userdata.is_musician == 1:
                 musician = Musician.query.filter(Musician.user_id == user_id).first()
-                # Get photo url
+                # Get photo URL
                 if musician.photo:
-                    musician.photo_url = images.get_serving_url(musician.photo) 
+                    musician.photo_url = images.get_serving_url(musician.photo)
+                # Get additional information
                 education_data = musician.educations.order_by(asc(Education.created_on)).all()
                 repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
                 video_data = musician.videos.order_by(asc(Video.created_on)).all()
-            return render_template("/musician/musician_new.html", target_url=target_url, musician=musician, upload_uri=upload_uri, categories=categories, locations=locations, education_data=education_data, repertoire_data =repertoire_data, video_data=video_data, active_tab="musician_new")
+            return render_template("/musician/musician_new.html",
+                target_url=target_url, musician=musician, upload_uri=upload_uri,
+                categories=categories, locations=locations,
+                education_data=education_data, repertoire_data =repertoire_data, video_data=video_data,
+                active_tab="musician_new")
+       
         elif request.method == "POST":
-            
-            if g.userdata.is_musician == 0:
-
-                musician = Musician(
-                        user_id = user_id
-                        )
-                g.userdata.is_musician = 1
-                db.session.add(musician)
-                db.session.commit()
-            else:
-                musician = Musician.query.filter(Musician.user_id == user_id).first()
-
-            if request.form.get("education_data"):
-                edu_data = request.form.getlist("education_data")
-                for data in edu_data:
-                    flash(u"education!!!!!!!!", "success")
-                    education = Education(
-                        education_data=data,
-                        musician=musician
-                        )
-                    db.session.add(education)
-
-            if request.form.get("repertoire_data"):
-                rep_data = request.form.getlist("repertoire_data")
-                for data in rep_data:
-                    repertoire = Repertoire(
-                        repertoire_data=data,
-                        musician=musician
-                        )
-                    db.session.add(repertoire)
-            
-            if request.form.get("video_data"):
-                video_data = request.form.getlist("video_data")
-                for data in video_data:
-                    video = Video(
-                        video_data=data,
-                        musician=musician
-                        )
-                    db.session.add(video)
-
-            photo = request.files["profile_image"]
-            header = photo.headers["Content-Type"]
-
+            photo = request.files["profilepicture"]
+            header = photo.headers["Content-Type"] # headers: the incoming request headers as a dictionary like object
             parsed_header = parse_options_header(header)
 
             blob_key = None
             if(parsed_header[1].has_key("blob-key")):
                 blob_key = parsed_header[1]["blob-key"]
 
-            category_id = request.form.get("major")
-            if category_id != 'none':
-                musician.category_id = category_id 
-            musician.phrase = request.form.get("phrase")
-            location_id = request.form.get("location")
-            if location_id != 'none':
-                musician.location_id = request.form.get("sigungu")
+            if g.userdata.is_musician == 0:
+                # Transform a user into a musician!
+                g.userdata.is_musician = 1
+                musician = Musician(
+                    user_id = user_id,
+                    category_upper_id = request.form.get("uppercategory"),
+                    category_id = request.form.get("subcategory"),
+                    location_upper_id = request.form.get("upperlocation"),
+                    location_id = request.form.get("sublocation"),
+                    phrase = request.form.get("phrase"),
+                    photo = blob_key
+                    )
+                db.session.add(musician)
+                db.session.commit()
 
-            if blob_key != None:
-                old_blob_key = musician.photo
-                musician.photo = blob_key
-                if old_blob_key != None:
-                    blobstore.delete(old_blob_key)
+            else:
+                musician_query = Musician.query.filter(Musician.user_id == user_id)
+                musician = musician_query.first()
+                if blob_key != None:
+                    old_blob_key = musician.photo
+                    musician.photo = blob_key
+                    if old_blob_key != None:
+                        blobstore.delete(old_blob_key)
 
-         
-            flash(u"프로필이 잘 변경되었어요!", "success")
-            db.session.commit()
-            return redirect(url_for("index"))
+                # If additional information exist, get them
+                if request.form.get("educationInput"):
+                    education_data = request.form.getlist("educationInput")
+                    for data in education_data:
+                        education = Education(
+                            education_data=data,
+                            musician=musician
+                            )
+                        db.session.add(education)
+
+                if request.form.get("repertoireInput"):
+                    repertoire_data = request.form.getlist("repertoireInput")
+                    for data in repertoire_data:
+                        repertoire = Repertoire(
+                            repertoire_data=data,
+                            musician=musician
+                            )
+                        db.session.add(repertoire)
+                
+                if request.form.get("video_data"):
+                    video_data = request.form.getlist("videoInput")
+                    for data in video_data:
+                        video = Video(
+                            video_data=data,
+                            musician=musician
+                            )
+                        db.session.add(video)
+                        
+                flash(u"프로필 변경 완료!", "success")
+                db.session.commit()
+                return redirect(url_for("index"))
+
+            # category_id = request.form.get("major")
+            # if category_id != 'none':
+            #     musician.category_id = category_id 
+            # musician.phrase = request.form.get("phrase")
+            # location_id = request.form.get("location")
+            # if location_id != 'none':
+            #     musician.location_id = request.form.get("sigungu")
             
-    else:
-        flash(u"로그인 후 이용해 주세요~", "danger")
-        # return redirect(url_for('index'))
-        return str(edu_data)
+    else: # if not a user
+        flash(u"로그인 후 이용이 가능합니다.", "danger")
+        return redirect(url_for('sign_in'))
+        
 
 
 @app.route("/musician/musician_category/", methods=["GET","POST"])
@@ -447,7 +458,7 @@ def my_friends():
     for row in request_friends:
         user = User.query.get(row.user_id)
         index['request_friends'].append(user)
-    return render_template("my_friends.html", index=index, active_tab="friend")
+    return render_template("my_friends.html", index=index, active_tab="my_friends")
 
 
 @app.route('/accept_friend_request/<int:user_id>', methods = ['GET', 'POST'])
