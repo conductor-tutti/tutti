@@ -1,3 +1,39 @@
+.linesRow div{
+    text-align: center;
+}
+
+.lines{
+    display: inline-block;
+    font-size: 2.5em;
+    color: white;
+}
+
+.linesRow .lineOne{
+    margin-bottom: 10px;
+    background-color: #5cb85c;
+}
+
+.linesRow .lineTwo{
+    margin-bottom: 25px;
+    background-color: #5cb85c;
+}
+
+/*.topRow .lines{
+    display: inline-block;
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    background-color: green;
+}*/
+
+/*.topRow div .lineOne{
+    background-color: #5cb85c;
+}
+
+.topRow div .lineTwo{
+    background-color: #5cb85c;
+}*/
+
 .newbieRowTitle div{
     padding-top: 20px;
     background-color: #428bca;
