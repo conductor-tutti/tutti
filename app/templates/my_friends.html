@@ -1,6 +1,6 @@
 {% extends "layout.html" %}
 {% block customhead %}
-<link rel="text/stylesheet" type="text/css" href="{{ url_for('static', filename='css/my_friends.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/my_friends.css') }}">
 {% endblock %}
 {% block contents %}
 
@@ -23,28 +23,20 @@
         </div>
         {% endfor %}
         {% else %}
-        친구 요청을 받은 적이 없네요!
+        <div class="nobody">친구 요청을 받은 적이 없네요!</div>
         {% endif %}
     </div>
 </div>
 
-
-<!-- <div class="row friendsRow">
-    <div class="col-md-4 requestReceived">
-        {% if index.request_friends %}
-        {% for user in index.request_friends %}
-        <div class="who">
-            <div class="name">{{ user.username }}</div>
-            <form role="form" method="post">
-                <a href="{{ url_for("accept_friend_request", user_id=user.id) }}" class="btn btn btn-default">친구수락</a>
-            </form>
-        </div>
-        {% endfor %}
-        {% else %}
-        친구 요청을 받은 적이 없네요!
-        {% endif %}
+<div class="row requestSentRowTitle">
+    <div class="col-md-6 col-md-offset-3">
+        <i class="fa fa-chevron-up fa-3"></i>
+        REQUEST SENT
     </div>
-    <div class="col-md-4">
+</div>
+
+<div class="row requestSentRow">
+    <div class="col-md-6 col-md-offset-3">
         {% if index.friends_request %}
         {% for user in index.friends_request %}
         <div class="who">
@@ -52,22 +44,30 @@
         </div>
         {% endfor %}
         {% else %}
-        친구 요청을 보낸 적이 없어요!
+        <div class="nobody">친구 요청을 보낸 적이 없어요!</div>
         {% endif %}
     </div>
-    <div class="col-md-4">
-        <h3 class="fredoka">Friends</h3>
-        <hr>
+</div>
+
+<div class="row friendsRowTitle">
+    <div class="col-md-6 col-md-offset-3">
+        <i class="fa fa-users fa-3"></i>
+        MY FRIENDS
+    </div>
+</div>
+
+<div class="row friendsRow">
+    <div class="col-md-6 col-md-offset-3">
         {% if index.friends %}
         {% for user in index.friends %}
-        <div class="col-xs-12 col-sm-6 col-md-3 newest_musicians">
-            <div class="newbie_box">
-                <div class="newbie_name">{{ user.username }}</div>
-            </div>
+        <div class="who">
+            <div class="name">{{ user.username }}</div>
         </div>
         {% endfor %}
         {% else %}
-        아직 친구가 없습니다.
+        <div class="nobody">아직 친구가 한 명도 없네요.</div>
         {% endif %}
     </div>
-    {% endblock %} -->
+</div>
+
+{% endblock %}
