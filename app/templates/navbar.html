@@ -67,7 +67,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-lg"></i>  {{ g.userdata.username }}<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/user_profile">내 계정</a></li>
+                            <li><a href="{{ url_for('user_profile')}}">내 계정</a></li>
                             <li class="divider"></li>
                             <li><a href="{{ url_for('logout')}}">로그아웃</a></li>
                         </ul>
