@@ -5,52 +5,41 @@
 
 {% block contents %}
 
-<div id="profile-box" class="col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3">
-<<<<<<< HEAD
-    <h1 class="lobster sorry">STILL WORKING FOR<br>BETTER SERVICE!</h1>
-    <h2 class="lobster">ACCOUNT</h2>
-    {% if g.userdata != None %}
-    {% if g.userdata.password %}
-    <img src="{{ url_for('static', filename='images/profile_default.jpg')}}" class="img-thumbnail">
-=======
-    {% if g.userdata != None %}
-    {% if g.userdata.password %}
-    <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}">
->>>>>>> 92ce70e5e79fea3f98b7edf78a5d2db9e8e5013a
-    {% else%}
-    <img src="{{ g.userdata.photo }}">
-    {% endif %}
-    <div class="row">
-<<<<<<< HEAD
-        <h3 class="lobster">NAME</h3>
-        {{ g.userdata.username }}
+<div class="box">
+    <div class="row titleRow">
+        <div class="col-md-6 col-md-offset-3">
+            {{ g.userdata.username }}님의 계정 정보
+        </div>
     </div>
-    <div class="row">
-        <h3 class="lobster">E-MAIL</h3>
-=======
-        <span>이름 : </span>
-        {{ g.userdata.username }}
+
+    <div class="row statusRowTitle">
+        <div class="col-md-6 col-md-offset-3">
+            <i class="fa fa-user fa-3"></i> USER TYPE
+        </div>
     </div>
-    <div class="row">
-        <span>이메일 : </span>
->>>>>>> 92ce70e5e79fea3f98b7edf78a5d2db9e8e5013a
-        {{ g.userdata.email}}
-    </div>    
-    {% endif %}
+
+    <div class="row statusRow">
+        <div class="col-md-6 col-md-offset-3">
+            {% if g.userdata.is_musician == 0 %}
+            일반유저
+            {% else %}
+            뮤지션
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row emailRowTitle">
+        <div class="col-md-6 col-md-offset-3">
+            <i class="fa fa-envelope-o fa-3"></i> EMAIL ADDRESS
+        </div>
+    </div>
+    <div class="row emailRow">
+        <div class="col-md-6 col-md-offset-3">
+            {{ g.userdata.email }}
+        </div>
+    </div>
 </div>
 
-<<<<<<< HEAD
 {% endblock %}
 {% block scripts %}
-
-{{ super() }}
-<script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
 {% endblock %}
-=======
-    {% endblock %}
-    {% block scripts %}
-
-    {{ super() }}
-    <script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
-    {% endblock %}
->>>>>>> 92ce70e5e79fea3f98b7edf78a5d2db9e8e5013a
