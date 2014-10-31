@@ -3,11 +3,9 @@ function addInputField(event) {
     var inputName = $(this).attr("data-name");
     var templateRow = $("#dynamicInputRow").html();
     $(wrapperClass).append(templateRow.replace("^*^inputName^*^", inputName));
-    $(".delInput").click(delInputField);
 }
 
 function delInputField(event){
-    alert("clicked!")
     $(this).parents(".row").remove();
     console.log(this);
 }
@@ -102,5 +100,6 @@ $(document).ready(function(){
 
 $("#addEducationInput, #addRepertoireInput, #addVideoInput").click(addInputField);
 $("#submit").click(formValidate);
+$(".delInput").click(delInputField);
 });
 

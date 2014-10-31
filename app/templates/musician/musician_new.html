@@ -204,29 +204,31 @@
             <div class="row videoRow">
                 <div class="form-group col-md-6 col-md-offset-3">
                     <div class="input-group">
-                        <input type="text" name="videoInput" class="form-control" id="repertoire_data" data_musician_id = "{{ musician.id }}" placeholder="예) YouTube, Vimeo 동영상 URL">
+                        <input type="text" name="videoInput" class="form-control" id="videoInput" data_musician_id = "{{ musician.id }}" placeholder="예) YouTube, Vimeo 동영상 URL">
                         <span class="input-group-btn">
                             <button class="btn btn-default" id="addVideoInput" type="button" data-target=".videoGroup" data-name="videoInput"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="row oldVideoRow">
-                <div class="col-md-6 col-md-offset-3 oldList">
-                    <ul class="list-group">
-                        {% if video_data %}
-                        {% for video in video_data %}
-                        <li class="list-group-item" id="video_{{ video.id }}">
-                            {{ video.video_data }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                    <div class="nothingMessage">아직 등록된 동영상이 없군요!</div>
-                    {% endif %}
+        </div>
+
+        {% if video_data %}
+        {% for video in video_data %}
+        <div class="row oldVideoRow">
+            <div class="form-group col-md-6 col-md-offset-3">
+                <div class="input-group">
+                    <input type="text" name="videoInput" class="form-control" id="videoInput" data_musician_id="{{ musician.id }}" value="{{ video.video_data }}">
+                    <span class='input-group-btn'>
+                        <button type='button' class='delInput btn btn-default'><i class='fa fa-minus'></i></button>
+                    </span>
                 </div>
             </div>
         </div>
+        {% endfor %}
+        {% else %}
+        <div class="nothingMessage">아직 등록된 동영상이 없군요!</div>
+        {% endif %}
 
         <div class="row submitBtnRow">
             <!-- this summit button has div-like look -->
@@ -243,16 +245,16 @@
 
 
 <script>
-// $("#profile_form").submit(function() {
-//     if ($('#inputPicture').val()) { 
-//         console.log('file exists');    
-//     } else {
-//         console.log('no file');
-//         console.log($(this));
-//         $(this).attr('action', '{{ target_url }}');               
-//     }
-//     return true;
-// }); 
+$("#profile_form").submit(function() {
+    if ($('#inputPicture').val()) { 
+        console.log('file exists');    
+    } else {
+        console.log('no file');
+        console.log($(this));
+        $(this).attr('action', '{{ target_url }}');               
+    }
+    return true;
+});
 </script>
 
 <script id="dynamicInputRow" type="text/template">
