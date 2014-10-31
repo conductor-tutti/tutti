@@ -192,19 +192,30 @@ def musician_new():
                             )
                         db.session.add(repertoire)
                 
-                if request.form.get("video_data"):
-                    video_data = request.form.getlist("videoInput")
-                    for data in video_data:
-                        video = Video(
-                            video_data=data,
-                            musician=musician
-                            )
-                        db.session.add(video)
+                if request.form.get("videoInput"):
+                    new_video_data = request.form.getlist("videoInput")
+                    db.session.delete(musician.videos)
+                    # old_video_query = Video.query.filter(Video.musician_id == musician.id)
+                    # old_videos = old_video_query.all()
+                    # for video in old_videos:
+                    #     logging.info(video)
+                    #     db.session.delete(video)
+
+                    if new_video_data:
+                        for data in new_video_data:
+                            video = Video(
+                                video_data=data,
+                                musician=musician
+                                )
+                            logging.info("added new video")
+                            db.session.add(video)
                         
                 flash(u"프로필 변경 완료!", "success")
                 db.session.commit()
-                return redirect(url_for("index"))
+                return redirect(url_for("musician_new"))
 
+            flash(u"뮤지션이 된걸 환영햇!", "success")
+            return redirect(url_for("musician_new"))
             # category_id = request.form.get("major")
             # if category_id != 'none':
             #     musician.category_id = category_id 
