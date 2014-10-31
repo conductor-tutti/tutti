@@ -24,23 +24,15 @@
     /*border-bottom-right-radius: 25px;*/
 }
 
-.categoryRowTitle div{
-    /*border-top-right-radius: 25px;*/
-}
-
-.phraseRow div{
-    /*border-bottom-left-radius: 25px;*/
-}
-
-.categoryRowTitle div, .locationRowTitle div, .phraseRowTitle div{
+.pictureRowTitle div, .categoryRowTitle div, .locationRowTitle div, .phraseRowTitle div{
     padding-top: 20px;
     background-color: #5cb85c;
     font-size: 2em;
     color: #fff;
 }
 
-.categoryRow .form-group, .locationRow .form-group,
-.phraseRow .form-group, .repertoireRow .form-group, .videoRow .form-group{
+.pictureRow .form-group, .categoryRow .form-group, .locationRow .form-group,
+.phraseRow .form-group, .repertoireRow .form-group, .videoRow .form-group, .oldVideoRow .form-group{
     margin-bottom: 0px; /* make a group with this margin property */
     padding-top: 15px; padding-bottom: 15px;
     background: rgba(255, 255, 255, 0.7);
@@ -92,6 +84,25 @@
     color: #fff;
 
     /*border-top-left-radius: 25px;*/
+}
+
+.oldVideoRow .oldList .list-group .deleteOldRecord{
+
+}
+
+/*.oldEducationRow div, .oldRepertoireRow div, .oldVideoRow div{
+    background: rgba(255, 255, 255, 0.7);
+}
+*/
+
+.oldList{
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.nothingMessage{
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
 }
 
 .submitBtnRow{
