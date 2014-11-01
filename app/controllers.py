@@ -194,12 +194,10 @@ def musician_new():
                 
                 if request.form.get("videoInput"):
                     new_video_data = request.form.getlist("videoInput")
-                    db.session.delete(musician.videos)
-                    # old_video_query = Video.query.filter(Video.musician_id == musician.id)
-                    # old_videos = old_video_query.all()
-                    # for video in old_videos:
-                    #     logging.info(video)
-                    #     db.session.delete(video)
+                    old_video_data = musician.videos.order_by(asc(Video.created_on)).all()
+                    logging.info(old_video_data)
+                    for video in old_video_data:
+                        db.session.delete(video)
 
                     if new_video_data:
                         for data in new_video_data:
@@ -209,7 +207,7 @@ def musician_new():
                                 )
                             logging.info("added new video")
                             db.session.add(video)
-                        
+                    
                 flash(u"프로필 변경 완료!", "success")
                 db.session.commit()
                 return redirect(url_for("musician_new"))
