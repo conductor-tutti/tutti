@@ -3,6 +3,7 @@ function addInputField(event) {
     var inputName = $(this).attr("data-name");
     var templateRow = $("#dynamicInputRow").html();
     $(wrapperClass).append(templateRow.replace("^*^inputName^*^", inputName));
+    $(".delInput").click(delInputField);
 }
 
 function delInputField(event){
@@ -34,6 +35,13 @@ function formValidate(event){
     if (document.profileForm.phrase.value == ""){
         alert("50자 메시지는 필수에요!");
         document.profileForm.phrase.focus();
+        return false;
+    }
+
+    // validating videoInput part is weird!
+    if (document.profileForm.videoInput.value == ""){
+        alert("비디오 URL을 입력하세요. 혹은 필요없는 입력란을 지워주세요.")
+        document.profileForm.videoInput.focus();
         return false;
     }
     return(true);
@@ -99,7 +107,7 @@ $(document).ready(function(){
     });
 
 $("#addEducationInput, #addRepertoireInput, #addVideoInput").click(addInputField);
-$("#submit").click(formValidate);
 $(".delInput").click(delInputField);
+$("#submit").click(formValidate);
 });
 
