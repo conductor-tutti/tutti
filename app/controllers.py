@@ -207,6 +207,12 @@ def musician_new():
                                 )
                             logging.info("added new video")
                             db.session.add(video)
+
+                else:
+                    old_video_data = musician.videos.order_by(asc(Video.created_on)).all()
+                    logging.info(old_video_data)
+                    for video in old_video_data:
+                        db.session.delete(video)
                     
                 flash(u"프로필 변경 완료!", "success")
                 db.session.commit()

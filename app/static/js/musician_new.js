@@ -39,11 +39,16 @@ function formValidate(event){
     }
 
     // validating videoInput part is weird!
-    if (document.profileForm.videoInput.value == ""){
-        alert("비디오 URL을 입력하세요. 혹은 필요없는 입력란을 지워주세요.")
-        document.profileForm.videoInput.focus();
-        return false;
+
+    for (i = 0; i < document.profileForm.videoInput.length; i++) { 
+        if (document.profileForm.videoInput[i].value == ""){
+            console.log(document.profileForm.videoInput[i].value)
+            alert("비디오 URL을 입력하세요. 혹은 필요없는 입력란을 지워주세요.")
+            document.profileForm.videoInput[i].focus();
+            return false;
+        }
     }
+    alert("서밋으로 가버렷!")
     return(true);
 }
 
