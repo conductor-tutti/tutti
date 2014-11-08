@@ -57,7 +57,7 @@
                     {% if musician.category_id %}
                     {% for c in categories %}
                     {% if c.upper_id == musician.category_upper_id %}                    
-                    <option class="subcategory" value="{{ c.id }}" {% if c.id == musician.category_id %} selected="selected" {% endif %}>{{ c.name }}</option>                        
+                    <option class="subcategory" value="{{ c.id }}" {% if c.id == musician.category_id %} selected="selected" {% endif %}>{{ c.name }}</option>
                     {% endif %}
                     {% endfor %}
                     {% else %}
@@ -93,7 +93,7 @@
                     {% if musician.location_id %}
                     {% for l in locations %}
                     {% if l.upper_id == musician.location_upper_id %}                    
-                    <option class="sublocation" value="{{ l.id }}" {% if l.id == musician.location_id %} selected="selected" {% endif %}>{{ l.name }}</option>                        
+                    <option class="sublocation" value="{{ l.id }}" {% if l.id == musician.location_id %} selected="selected" {% endif %}>{{ l.name }}</option>
                     {% endif %}
                     {% endfor %}
                     {% else %}
@@ -155,6 +155,16 @@
                     {% endif %}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="edu_data" data_musician_id="{{ musician.id }}">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="edu_create"type="button">등록</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row repertoireRowTitle">
@@ -191,12 +201,32 @@
                     {% endif %}
                 </div>
             </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="repertoire_data" data_musician_id="{{ musician.id }}">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="repertoire_create"type="button">등록</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row videoRowTitle">
             <div class="col-md-6 col-md-offset-3">
                 <i class="fa fa-video-camera fa-3"></i>
                 VIDEO CLIPS
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="video_data" data_musician_id="{{ musician.id }}">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="video_create"type="button">등록</button>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -253,7 +283,7 @@ $("#profile_form").submit(function() {
     } else {
         console.log('no file');
         console.log($(this));
-        $(this).attr('action', '{{ target_url }}');               
+        $(this).attr('action', '{{ target_url }}');
     }
     return true;
 });

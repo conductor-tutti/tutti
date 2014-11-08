@@ -520,36 +520,3 @@ def comment_create():
         db.session.commit()
         data={"comment_data":request.form.get("comment_data"),"author_name":g.userdata.username,"success" : True}
         return jsonify(data)
-
-
-@app.route("/education_delete", methods=["GET", "POST"])
-def education_delete():
-    if request.method == "POST":
-        edu_id = request.form.get("data_education_id")
-        education = Education.query.get(edu_id)
-        db.session.delete(education)
-        db.session.commit()
-        data={"success" : True, "edu_id":edu_id}
-        return jsonify(data)
-
-
-@app.route("/repertoire_delete", methods=["GET", "POST"])
-def repertoire_delete():
-    if request.method == "POST":
-        repertoire_id = request.form.get("data_repertoire_id")
-        repertoire = Repertoire.query.get(repertoire_id)
-        db.session.delete(repertoire)
-        db.session.commit()
-        data={"success" : True, "repertoire_id":repertoire_id}
-        return jsonify(data)        
-
-
-@app.route("/video_delete", methods=["GET", "POST"])
-def video_delete():
-    if request.method == "POST":
-        video_id = request.form.get("data_video_id")
-        video = Video.query.get(video_id)
-        db.session.delete(video)
-        db.session.commit()
-        data={"success" : True, "video_id":video_id}
-        return jsonify(data)

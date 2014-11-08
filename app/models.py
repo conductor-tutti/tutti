@@ -36,12 +36,6 @@ class Musician(db.Model):
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
-    
-class Category(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(40))
-    upper_id = db.Column(db.Integer)
-
 
 class Education(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -71,6 +65,12 @@ class Video(db.Model):
     video_data = db.Column(db.String(255))
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(40))
+    upper_id = db.Column(db.Integer)
 
 
 class UserRelationship(db.Model):
