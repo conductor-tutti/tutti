@@ -10,11 +10,73 @@
 {% endblock %}
 {% block contents %}
 
-<div class="box">
-    <!-- Facebook share button (the data to share should be placed in meta tag starting with og) -->
-    <div class="fb-share-button" data-href="{{ url_for('musician_profile', musician_id=musician.id, _external=True)}}"></div>
+<div class="row nameRowTitle">
+    <div class="col-md-8 col-md-offset-2">
+        <i class="fa fa-music fa-3"></i>
+        {{ username }}
+        <span class="categoryInfo">
+            {% for category in category_list %}
+            {% if category.id == musician.category_upper_id %}
+            {{ category.name }}
+            {% endif %}
+            {% endfor %}
+            | 
+            {% for category in category_list %}
+            {% if category.id == musician.category_id %}
+            {{ category.name }}
+            {% endif %}
+            {% endfor %}
+            전공
+        </span>
+    </div>
+</div>
 
-    <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 image_box">
+<div class="row pictureRow">
+    <div class="col-md-8 col-md-offset-2" style="background-image:url({{ musician.photo_url }});">
+    </div>
+</div>
+
+<div class="row phraseRow">
+    <div class="col-md-8 col-md-offset-2">
+        " {{ musician.phrase }} "
+    </div>
+</div>
+
+
+<!-- <div class="box">
+    Facebook share button (the data to share should be placed in meta tag starting with og)
+
+    <div class="fb-share-button" data-href="{{ url_for('musician_profile', musician_id=musician.id, _external=True)}}"></div>
+    
+    <div class="row defaultInfoRow">
+        <div class="col-md-2 col-md-offset-3 username">
+            {{ username }}
+        </div>
+        <div class="col-md-2 upperCategory">
+            {% for category in category_list %}
+            {% if category.id == musician.category_upper_id %}
+            {{ category.name }}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="col-md-2 category">
+            {% for category in category_list %}
+            {% if category.id == musician.category_id %}
+            {{ category.name }}
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row picRow">
+    <div class="col-md-6 col-md-offset-3">
+        <img src="{{ musician.photo_url }}" class="picElement">
+    </div>
+    </div>
+</div> -->
+{% endblock %}
+
+
+<!--     <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 image_box">
         <img src="{{ musician.photo_url }}" class="profile_image">
     </div>
 
@@ -71,7 +133,6 @@
                 <strong>
                     <i class="author_name">{{ comment.author_name}}</i>
                 </strong>
-                <!-- <span class="created_on">{{ comment.created_on }}</span> -->
                 <br>
                 {{ comment.content }}
             </div>
@@ -89,6 +150,4 @@
                 </span>
             </div>
         </div>
-    </div>
-</div>
-{% endblock %}
+    </div> -->

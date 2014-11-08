@@ -46,7 +46,7 @@
 
 .addedRow .form-group{
     /* seperated newEducationRow from educationRow to avoid
-    having to much space between added input fields
+    having too much space between added input fields
     which occurs when their padding properties are inherited from educationRow. */
     margin-bottom: 0px;
     padding-bottom: 15px;

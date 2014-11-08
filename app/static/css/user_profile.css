@@ -1,15 +1,21 @@
-#profile-box{
+.box .titleRow div{
+    margin-bottom: 20px;
+    padding: 10px 0px 10px 0px;
+    background-color: #428bca;
     text-align: center;
-}
-.sorry{
-    background-color: rgb(188, 146, 127);
-    padding: 10px;
-    color: white;
-    text-shadow: 1px 1px 0px #4C4C4C;
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    font-size: 2em;
+    color: #fff;
 }
 
-.lobster{
-    font-family: 'Lobster', cursive;
+.box .statusRowTitle div, .box .emailRowTitle div{
+    padding-top: 20px;
+    background-color: #5bc0de;
+    font-size: 2em;
+    color: #fff;
+}
+
+.box .statusRow div, .box .emailRow div{
+    margin-bottom: 0px; /* make a group with this margin property */
+    padding-top: 15px; padding-bottom: 15px;
+    background: rgba(255, 255, 255, 0.7);
 }

@@ -33,8 +33,7 @@
 {% if index.musician_list %}
 {% for musician in index.musician_list %}
 <div class="row eachNewbiePicRow">
-    <div class="col-md-8 col-md-offset-2">
-        <img src="{{ musician.photo_url }}">
+    <div class="col-md-8 col-md-offset-2" style="background-image:url('{{ musician.photo_url }}')">
     </div>
 </div>
 <div class="row eachNewbieInfoRow">
