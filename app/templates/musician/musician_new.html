@@ -132,39 +132,32 @@
             <div class="row educationRow">
                 <div class="form-group col-md-6 col-md-offset-3">
                     <div class="input-group">
-                        <input type="text" name="educationInput" class="form-control" placeholder="원하는 만큼 추가해서 입력할 수 있습니다.">
+                        <input type="text" name="educationInput" class="form-control" placeholder="예) 뚜띠대학교 음악대학 피아노과 학사(2011년)" value="예) 뚜띠대학교 음악대학 피아노과 학사(2011년)" disabled="True">
                         <span class="input-group-btn">
                             <button class="btn btn-default" id="addEducationInput" type="button" data-target=".educationGroup" data-name="educationInput"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="row oldEducationRow">
-                <div class="col-md-6 col-md-offset-3 oldList">
-                    <ul class="list-group">
-                        <!-- Get existing education_data -->
-                        {% if education_data %}
-                        {% for education in education_data %}
-                        <li class="list-group-item education_{{ education.id }}">
-                            {{ education.education_data }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                    <div class="nothingMessage">아직 학력사항이 비어있군요!</div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
+        </div>
+
+        <div class="addedEducationGroup">
+            {% if education_data %}
+            {% for education in education_data %}
+            <div class="row addedRow">
+                <div class="form-group col-md-6 col-md-offset-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="edu_data" data_musician_id="{{ musician.id }}">
+                        <input type="text" name="educationInput" class="form-control" id="educationInput" data_musician_id="{{ musician.id }}" value="{{ education.education_data }}">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" id="edu_create"type="button">등록</button>
+                            <button type="button" class="delInput btn btn-default"><i class="fa fa-minus"></i></button>
                         </span>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+            {% else %}
+            <div class="nothingMessage">등록된 학력사항이 없네요!</div>
+            {% endif %}
         </div>
 
         <div class="row repertoireRowTitle">
@@ -178,55 +171,38 @@
             <div class="row repertoireRow">
                 <div class="form-group col-md-6 col-md-offset-3">
                     <div class="input-group">
-                        <input type="text" name="repertoireInput" class="form-control" id="repertoire_data" placeholder="예) F. Poulenc - Sonata for violin and piano, FP 12 (1918)">
+                        <input type="text" name="repertoireInput" class="form-control" id="repertoire_data" placeholder="예) F. Poulenc - Sonata for violin and piano, FP 12 (1918)" value="예) F. Poulenc - Sonata for violin and piano, FP 12 (1918)" disabled="True">
                         <span class="input-group-btn">
                             <button class="btn btn-default" id="addRepertoireInput" type="button" data-target=".repertoireGroup" data-name="repertoireInput"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
                 </div>
             </div>
-            <div class="row oldRepertoireRow">
-                <div class="col-md-6 col-md-offset-3 oldList">
-                    <ul class="list-group">
-                        <!-- Get existing repertoire_data -->
-                        {% if repertoire_data %}
-                        {% for repertoire in repertoire_data %}
-                        <li class="list-group-item repertoire_{{ repertoire.id }}">
-                            {{ repertoire.repertoire_data }}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                    {% else %}
-                    <div class="nothingMessage">아직 레퍼토리 정보가 없군요!</div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
+        </div>
+
+        <div class="addedRepertoireGroup">
+            {% if repertoire_data %}
+            {% for repertoire in repertoire_data %}
+            <div class="row addedRow">
+                <div class="form-group col-md-6 col-md-offset-3">
                     <div class="input-group">
-                        <input type="text" class="form-control" id="repertoire_data" data_musician_id="{{ musician.id }}">
+                        <input type="text" name="repertoireInput" class="form-control" id="repertoireInput" data_musician_id="{{ musician.id }}" value="{{ repertoire.repertoire_data }}">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" id="repertoire_create"type="button">등록</button>
+                            <button type="button" class="delInput btn btn-default"><i class="fa fa-minus"></i></button>
                         </span>
                     </div>
                 </div>
             </div>
+            {% endfor %}
+            {% else %}
+            <div class="nothingMessage">등록된 레퍼토리 정보가 없네요!</div>
+            {% endif %}
         </div>
 
         <div class="row videoRowTitle">
             <div class="col-md-6 col-md-offset-3">
                 <i class="fa fa-video-camera fa-3"></i>
                 VIDEO CLIPS
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <input type="text" class="form-control" id="video_data" data_musician_id="{{ musician.id }}">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" id="video_create"type="button">등록</button>
-                        </span>
-                    </div>
-                </div>
             </div>
         </div>
 

@@ -173,24 +173,38 @@ def musician_new():
                     if old_blob_key != None:
                         blobstore.delete(old_blob_key)
 
-                # If additional information exist, get them
+                # If additional information exist, delete old one and get new data
                 if request.form.get("educationInput"):
-                    education_data = request.form.getlist("educationInput")
-                    for data in education_data:
-                        education = Education(
-                            education_data=data,
-                            musician=musician
-                            )
-                        db.session.add(education)
+                    new_education_data = request.form.getlist("educationInput")
+                    old_education_data = musician.educations.order_by(asc(Education.created_on)).all()
+                    logging.info(old_education_data)
+                    for education in old_education_data:
+                        db.session.delete(education)
+
+                    if new_education_data:
+                        for education in new_education_data:
+                            education = Education(
+                                education_data=education,
+                                musician=musician
+                                )
+                            logging.info("added new education")
+                            db.session.add(education)
 
                 if request.form.get("repertoireInput"):
-                    repertoire_data = request.form.getlist("repertoireInput")
-                    for data in repertoire_data:
-                        repertoire = Repertoire(
-                            repertoire_data=data,
-                            musician=musician
-                            )
-                        db.session.add(repertoire)
+                    new_repertoire_data = request.form.getlist("repertoireInput")
+                    old_repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
+                    logging.info(old_repertoire_data)
+                    for repertoire in old_repertoire_data:
+                        db.session.delete(repertoire)
+
+                    if new_repertoire_data:
+                        for repertoire in new_repertoire_data:
+                            repertoire = Repertoire(
+                                repertoire_data=repertoire,
+                                musician=musician
+                                )
+                            logging.info("added new repertoire")
+                            db.session.add(repertoire)
                 
                 if request.form.get("videoInput"):
                     new_video_data = request.form.getlist("videoInput")
@@ -200,17 +214,22 @@ def musician_new():
                         db.session.delete(video)
 
                     if new_video_data:
-                        for data in new_video_data:
+                        for video in new_video_data:
                             video = Video(
-                                video_data=data,
+                                video_data=video,
                                 musician=musician
                                 )
                             logging.info("added new video")
                             db.session.add(video)
 
                 else:
+                    old_education_data = musician.educations.order_by(asc(Education.created_on)).all()
+                    for education in old_education_data:
+                        db.session.delete(education)
+                    old_repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
+                    for repertoire in old_repertoire_data:
+                        db.session.delete(repertoire)
                     old_video_data = musician.videos.order_by(asc(Video.created_on)).all()
-                    logging.info(old_video_data)
                     for video in old_video_data:
                         db.session.delete(video)
                     
