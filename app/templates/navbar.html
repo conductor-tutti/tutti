@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand nav-title" href="{{ url_for("index") }}">tutti</a>
+            <a class="navbar-brand nav-title" href="{{ url_for('index') }}">tutti</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -18,14 +18,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">뮤지션 모아보기<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li class="dropdown-header">카테고리별 뮤지션</li>
-                        <li><a href="{{ url_for('classic_musician') }}">클래식</a></li>
-
-                        <li><a href="{{ url_for('kukak_musician') }}">국악</a></li>
-
-                        
+                        <li><a href="{{ url_for('classical_musicians') }}">클래식</a></li>
+                        <li><a href="#">국악</a></li>
                         <li class="divider"></li>
                         <li class="dropdown-header">이하 공사중!</li>
-
                         <li><a href="#">재즈</a></li>
                         <li><a href="#">실용음악</a></li>
                         <li><a href="#">자유포럼</a></li>
@@ -71,24 +67,21 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog fa-lg"></i>  {{ g.userdata.username }}<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="/user_profile">내 계정</a></li>
+                            <li><a href="{{ url_for('user_profile')}}">내 계정</a></li>
                             <li class="divider"></li>
                             <li><a href="{{ url_for('logout')}}">로그아웃</a></li>
                         </ul>
                     </li>
                 </ul>
+                {% endif %}
 
                 <ul class="nav navbar-nav navbar-right nav-menu">
-                    {% endif %}
-
-
                     <form class="navbar-form navbar-right" role="search" method="POST" action="{{url_for('search_name')}}">
-
                         <div class="form-group">
-                            <input type="text" class="form-control input-sm" name="search-name" placeholder="뮤지션 검색">
+                            <input type="text" class="form-control" name="search-name" placeholder="뮤지션 검색">
                         </div>
-                        <div class="btn-group btn-group-sm">
-                            <button type="submit" class="btn btn-default">찾기</button>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">찾기</button>
                         </div>
                     </form>
                 </ul>
@@ -99,75 +92,66 @@
 
 <style type="text/css">
 
-.navbar .nav > li > a {
-    color:  #ffffff;
-}
-
-.navbar-default {
-    background-color: #3F3F3F;
-    border-color: #3F3F3F;
-    /*box-shadow: 0px 1px 25px rgb(81, 81, 81);*/
-}
-
-.navbar-default .navbar-toggle .icon-bar {
-    background-color: white;
-}
-
-.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{
-    background-color: #D95D5F;
-}
-
-.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-    color: #FEF3D7;
-    background-color: transparent;
-}
-
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-    color: white;
-    background-color: #4E4E4E;
-}
-
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: #FEF3D7;
-    background-color: transparent;
+.navbar-default{
+    background-color: #428bca;
+    border-color: #428bca;
 }
 
 .navbar-default .navbar-brand {
     width: 120px;
     text-align: center;
-    font-family: "Lobster", cursive;
     font-size: 2.5em;
+    font-family: "Lobster", cursive;
     letter-spacing: 4px;
     color: white;
 }
 
-.navbar-fixed-bottom{
-    height: 80px;
-}
-
-.navbar-default .navbar-text{
-    font-size: ;
-    color: white;
-}
-
-.nav-menu{
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus{
+    background-color: #387db8;
     color: white;
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus{
+   background-color: #387db8;
+   color: white;   
+}
+
+.navbar-nav > li > .dropdown-menu{
+    background-color: #387db8;
+}
+
+.dropdown-header{
+    font-weight: bold;
     color: white;
-    background-color: #4E4E4E;
+}
+
+.dropdown-menu > li > a{
+    color: white;
+}
+
+.dropdown-menu .divider{
+    background-color: #4E8DC3;
 }
 
 
-#dropdownMusician{
-    background-color: #3F3F3F;
-    border-color: #3F3F3F;
+.navbar-default .navbar-brand:hover{
+    color: #f7f7f7;
 }
 
-#profile_pic{
-    width: 30px;
-    height: 30px;
+.navbar-default .navbar-nav >li > a{
+    color: white;
 }
+
+.navbar-default .navbar-nav >li > a:hover{
+    color: #f7f7f7;
+}
+
+.navbar-form .btn-group .btn-primary{
+    color: #428bca;
+    background-color: white;
+    border-color: white;
+}
+
+
 </style>
 </nav>

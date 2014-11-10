@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko-kr">
+<html>
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>tutti</title>
@@ -11,17 +12,11 @@
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap-social.css') }}">
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
-
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='font-awesome-4.1.0/css/font-awesome.min.css') }}">
     
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 
     <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
-
-    <!-- <link href='http://fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'> -->
 
     <link href='http://fonts.googleapis.com/css?family=Lobster' rel='stylesheet' type='text/css'>
 
@@ -29,6 +24,7 @@
 
     {% block customhead %}{% endblock %}
 </head>
+
 <body>
     {% block layout %}{% endblock %}
 
@@ -38,4 +34,24 @@
     <script src="{{ url_for('static', filename='js/base.js') }}"></script>
     {% endblock %}
 </body>
+
+<!-- Facebook SDK for Javascript (https://developers.facebook.com/docs/javascript/quickstart/v2.1) -->
+<script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '944323692250762',
+        xfbml      : true,
+        version    : 'v2.1'
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+</script>
+
 </html>

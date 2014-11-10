@@ -16,32 +16,62 @@ class User(db.Model):
     # just forget deleting accounts until 'real' launching
     ## is_out = db.Column(db.Integer, default=0)    
 
+
 class Musician(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"))
     user = db.relationship("User",
         backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
-    category_id = db.Column(db.Integer, db.ForeignKey("category.id"))
-    category = db.relationship("Category", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
-
-    major_id = db.Column(db.Integer)
     
+    category_upper_id = db.Column(db.Integer, db.ForeignKey("category.id")) # big class level 
+    category_id = db.Column(db.Integer, db.ForeignKey("category.id")) # smaller class level
+    category = db.relationship("Category", foreign_keys=[category_id], backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
+    
+    location_upper_id = db.Column(db.Integer, db.ForeignKey("location.id"))
     location_id = db.Column(db.Integer, db.ForeignKey("location.id"))
-    location = db.relationship("Location", backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
-
+    location = db.relationship("Location", foreign_keys=[location_id], backref=db.backref("musician", cascade="all, delete-orphan", lazy="dynamic"))
+    
     phrase = db.Column(db.String(255))
-    education = db.Column(db.String(255))
-    repertoire = db.Column(db.String(255))
     photo = db.Column(db.String(255)) # blob key lives in here
-
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
 
-    
-class Category(db.Model):
+
+class Education(db.Model):
     id = db.Column(db.Integer, primary_key = True)
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    musician = db.relationship("Musician",
+        backref=db.backref("educations", cascade="all, delete-orphan", lazy="dynamic"))
+    education_data = db.Column(db.String(255))
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+
+class Repertoire(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    musician = db.relationship("Musician",
+        backref=db.backref("repertoires", cascade="all, delete-orphan", lazy="dynamic"))
+    repertoire_data = db.Column(db.String(255))
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+
+class Video(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    musician_id = db.Column(db.Integer, db.ForeignKey("musician.id"))
+    musician = db.relationship("Musician",
+        backref=db.backref("videos", cascade="all, delete-orphan", lazy="dynamic"))
+    video_data = db.Column(db.String(255))
+    created_on = db.Column(db.DateTime, default=db.func.now())
+    updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
+
+
+class Category(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
     upper_id = db.Column(db.Integer)
+
 
 class UserRelationship(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,9 +85,10 @@ class UserRelationship(db.Model):
 
 
 class Location(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
+    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
     upper_id = db.Column(db.Integer)
+
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -71,4 +102,3 @@ class Comment(db.Model):
         backref=db.backref("comments", cascade="all, delete-orphan", lazy="dynamic"))
     created_on = db.Column(db.DateTime, default=db.func.now())
     updated_on = db.Column(db.DateTime, default=db.func.now(), onupdate=db.func.now())
-

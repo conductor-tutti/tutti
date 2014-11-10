@@ -1,10 +1,95 @@
-.navbar-default{
-    margin-bottom: 0px;
+.linesRow div{
+    text-align: center;
 }
 
-.row{
+.lines{
+    display: inline-block;
+    font-size: 2.5em;
+    color: white;
 }
 
+.linesRow .lineOne{
+    margin-bottom: 10px;
+    background-color: #5cb85c;
+}
+
+.linesRow .lineTwo{
+    margin-bottom: 25px;
+    background-color: #5cb85c;
+}
+
+/*.topRow .lines{
+    display: inline-block;
+    text-align: center;
+    font-size: 2em;
+    color: white;
+    background-color: green;
+}*/
+
+/*.topRow div .lineOne{
+    background-color: #5cb85c;
+}
+
+.topRow div .lineTwo{
+    background-color: #5cb85c;
+}*/
+
+.newbieRowTitle div{
+    padding-top: 20px;
+    background-color: #428bca;
+    font-size: 2em;
+    color: #fff;
+}
+
+.newbieRowTitle div .titleDescription{
+    font-size: 0.5em;
+}
+
+.eachNewbiePicRow .col-md-8{
+    padding: 0;
+    height: 250px;
+}
+
+.eachNewbiePicRow div{
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.eachNewbiePicRow div img{
+    width: 100%;
+    height: 200px;
+}
+
+.eachNewbieInfoRow .col-md-1, .col-md-2, .col-md-5{
+    /*background-color: #5cb85c;*/
+    background: rgba(255, 255, 255, 0.7);
+    height: 40px;
+    /*color: white;*/
+    color: #428bca;
+}
+
+.eachNewbieInfoRow .col-md-1{
+    text-align: center;
+    padding: 5px 0px 5px 0px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.eachNewbieInfoRow .col-md-2{
+    text-align: center;
+    padding: 10px 0px 10px 0px;
+}
+
+.eachNewbieInfoRow .col-md-5{
+    text-align: center;
+    padding: 10px 0px 10px 0px;
+    /*background-color: #69C069;*/
+}
+
+.eachNewbieInfoRow a{
+    text-decoration: none;
+}
+
+/*
 .wide{
     width:100%;
     height:350px;
@@ -20,8 +105,6 @@
 .catchphrase{
     padding-top: 90px;
     text-align: center;
-    font-family: "Lobster", cursive;
-    font-size: 4em;
     color: white;
     text-shadow: black 0px 0px 5px;
 }
@@ -61,24 +144,18 @@ hr{
     text-align: center;
 }
 
-.thumbnail{
-    background: rgba(255, 255, 255, 0);
-    border: none;
+
+.thumbnail > img{
+    border: 1px solid #CACACA;
 }
 
 .thumbnail .caption{
     max-height: 120px;
     padding: 15px;
     background-color: white;
-    border-top-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    margin-top: -15px;
-    box-shadow: 3px 3px 0px #CCCCCC;
 }
 
-#profile_image{
-    width: 100%;
-    height: 200px;
+#profile_picture{
 }
 
 .newbie_name{
@@ -116,7 +193,4 @@ hr{
 .view_profile{
     color: black;
 }
-
-a:hover, a:focus{
-    color: #E76454;
-}
+*/

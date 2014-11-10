@@ -1,0 +1,32 @@
+.requestReceivedRowTitle div{
+    padding-top: 20px;
+    background-color: #CA3D65;
+    font-size: 2em;
+    color: #fff;
+}
+
+.requestSentRowTitle div{
+    padding-top: 20px;
+    background-color: #D7406B;
+    font-size: 2em;
+    color: #fff;
+}
+
+.friendsRowTitle div{
+    padding-top: 20px;
+    background-color: #8A2945;
+    font-size: 2em;
+    color: #fff;   
+}
+
+.requestReceivedRow div, .requestSentRow div, .friendsRow div{
+    margin-bottom: 0px; /* make a group with this margin property */
+    padding-top: 15px; padding-bottom: 15px;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.nobody{
+    text-align: center;
+    font-style: italic;
+    font-weight: bold;
+}

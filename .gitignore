@@ -5,6 +5,7 @@ migrations/
 
 app/settings.py
 app/__init__.py
+app/static/images(ignore)/
 .playground
 app.yaml
 appengine_config.py
@@ -12,7 +13,6 @@ deploy.py
 LICENSE
 main.py
 manager.py
-README.md
 requirements.txt
 *.pyc
 *.db

@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block customhead %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/classical_musicians.css') }}">
+{% endblock %}
+{% block outer %}
+<div class="wide">
+	<div class="col-sm-4 col-md-4 col-sm-offset-4 col-md-offset-4">
+		<div class="img-title">CLASSICAL MUSICIANS</div>
+	</div>
+	<p class="img-subtitle"><!-- something good here --></p>
+	<div class="col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
+		<div class="tag_list">
+			<!-- fetching category name which have upper_id = 1 -->
+			{% for category in category_list %}
+			{% if category.upper_id == 1 %}
+			<div class="tag">{{ category.name }}</div>
+			{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block contents %}
+{% if contents.musician_list %}
+<div class="row musician_list">
+	{% for musician in contents.musician_list %}
+	<div class="col-sm-4 col-md-2">
+		<img src="{{ musician.photo_url }}" class="profile_picture img-thumbnail">
+		<div class="musician_name">
+			<a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile">{{ musician.user.username }}</a>
+		</div>
+	</div>
+	<div class="col-sm-8 col-md-4 profile_detail">
+		<div class="musician_category">{{ musician.category.name }}</div>
+		<div class="musician_education">{{ musician.education }}</div>
+		<div class="musician_phrase">" {{ musician.phrase }} "</div>
+		<div>
+			<a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile pull-right">프로필 보기</a>
+		</div>
+	</div>
+	{% endfor %}
+</div>
+{% endif %}
+
+
+</div>
+
+{% endblock %}
+

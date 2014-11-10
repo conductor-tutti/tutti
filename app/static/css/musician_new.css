@@ -1,64 +1,122 @@
-#profile-box{
-    background-color: white;
-    border-top-right-radius: 20px;
-    border-bottom-left-radius: 20px;
+/* = = = = = = = = = = =
+
+@brand-primary: #428bca;
+@brand-success: #5cb85c;
+@brand-info:    #5bc0de;
+@brand-warning: #f0ad4e;
+@brand-danger:  #d9534f;
+
+= = = = = = = = = = = */
+
+.innerbox{
+    background: rgba(255, 255, 255, 0.8);
 }
 
-#essential_fields{
-    margin-top: 30px;
-}
-
-.fileinput {
+.box .usernameRow div{
     margin-bottom: 20px;
-    display: block;
+    padding: 10px 0px 10px 0px;
+    background-color: #428bca;
     text-align: center;
+    font-size: 2em;
+    color: #fff;
+
+    /*border-top-left-radius: 25px;*/
+    /*border-bottom-right-radius: 25px;*/
 }
 
-.fileinput .thumbnail{
-    width: 200px;
-    height: 200px;
+.pictureRowTitle div, .categoryRowTitle div, .locationRowTitle div, .phraseRowTitle div{
+    padding-top: 20px;
+    background-color: #5cb85c;
+    font-size: 2em;
+    color: #fff;
 }
 
-#thumbnail-help{
-    display: block;
-    margin-top: 80px;
-    font-size: 0.9em;
+.pictureRow .form-group, .categoryRow .form-group, .locationRow .form-group,
+.phraseRow .form-group, .repertoireRow .form-group, .videoRow .form-group{
+    margin-bottom: 0px; /* make a group with this margin property */
+    padding-top: 15px; padding-bottom: 15px;
+    background: rgba(255, 255, 255, 0.7);
 }
 
-.help-message{
-    margin-bottom: 5px;
-    font-size: 0.9em;
-    color: gray;
+.educationGroup .educationRow .form-group{
+    margin-bottom: 0px;
+    padding-top: 15px; padding-bottom: 15px;
+    background: rgba(255, 255, 255, 0.7);
 }
 
-#submit{
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-/* Whipping File Inputs Into Shape
-http://www.abeautifulsite.net/whipping-file-inputs-into-shape-with-bootstrap-3/
-
-.btn-file {
-    position: relative;
-    overflow: hidden;
-}
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
+.addedRow .form-group{
+    /* seperated newEducationRow from educationRow to avoid
+    having too much space between added input fields
+    which occurs when their padding properties are inherited from educationRow. */
+    margin-bottom: 0px;
+    padding-bottom: 15px;
+    background: rgba(255, 255, 255, 0.7);
 }
 
+.educationRowTitle{
+    margin-top: 20px; /* seperate educationRowTitle from upper elements */
+}
+
+.educationRowTitle div{
+    padding-top: 20px;
+    background-color: #5bc0de;
+    font-size: 2em;
+    color: #fff;
+
+    /*border-top-left-radius: 25px;*/
+}
+
+.repertoireRowTitle div{
+    padding-top: 20px;
+    background-color: #5bc0de;
+    font-size: 2em;
+    color: #fff;
+}
+
+.videoRowTitle{
+    margin-top: 20px; /* seperate educationRowTitle from upper elements */
+}
+
+.videoRowTitle div{
+    padding-top: 20px;
+    background-color: #f0ad4e;
+    font-size: 2em;
+    color: #fff;
+
+    /*border-top-left-radius: 25px;*/
+}
+
+.oldVideoRow .oldList .list-group .deleteOldRecord{
+
+}
+
+/*.oldEducationRow div, .oldRepertoireRow div, .oldVideoRow div{
+    background: rgba(255, 255, 255, 0.7);
+}
 */
+
+.oldList{
+    background: rgba(255, 255, 255, 0.7);
+}
+
+.nothingMessage{
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.submitBtnRow{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.submitBtnRow .btn{
+    font-size: 2em;
+    border-radius: 0px;
+    border: none;
+}
+
 
 #additional_fields{
     margin-top: 30px;

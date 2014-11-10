@@ -1,0 +1,21 @@
+.box .titleRow div{
+    margin-bottom: 20px;
+    padding: 10px 0px 10px 0px;
+    background-color: #428bca;
+    text-align: center;
+    font-size: 2em;
+    color: #fff;
+}
+
+.box .statusRowTitle div, .box .emailRowTitle div{
+    padding-top: 20px;
+    background-color: #5bc0de;
+    font-size: 2em;
+    color: #fff;
+}
+
+.box .statusRow div, .box .emailRow div{
+    margin-bottom: 0px; /* make a group with this margin property */
+    padding-top: 15px; padding-bottom: 15px;
+    background: rgba(255, 255, 255, 0.7);
+}

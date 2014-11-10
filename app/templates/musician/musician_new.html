@@ -5,156 +5,277 @@
 
 {% block contents %}
 
-<div id="profile-box" class="col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3">
+<div class="box">
 
-    {% if g.userdata.is_musician == 0 %}
-    <h2 id="username"><strong>{{ g.userdata.username }}</strong>님의 프로필</h2>
-    {% else %}
-    <h2 id="username"><strong>{{ g.userdata.username }}</strong>님의 프로필 수정</h2>
-    {% endif %}
-    
-    <form id="profile_form"  role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
-
-        <h3 id="essential_fields"><i class="fa fa-star"></i> 필수 입력사항</h3>
-        <hr>
-
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-4 col-md-6 col-sm-offset-4 col-md-offset-3 fileinput fileinput-new" data-provides="fileinput">
-                <label for="inputImage">프로필 사진</label>
-                <div id="inputImage" class="fileinput-new thumbnail">                    
-                    {% if musician.photo %}
-                        <img src="{{ musician.photo_url}}" class="thumbnail">
-                    {% else %}
-                        <span id="thumbnail-help">200 x 200 (px)</span>
-                    {% endif %}
-                </div>
-
-                <div class="fileinput-preview fileinput-exists thumbnail"></div>                  
-
-                <div>
-                    <span class="btn btn-default btn-file">
-                        <span class="fileinput-new">Select image</span>
-                        <span class="fileinput-exists">Change</span>
-                        <input type="file" name="profile_image" id="profile_image">
-                    </span>
-                    <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-                </div>
-            </div>
+    <div class="row usernameRow">
+        <div class="col-md-6 col-md-offset-3">
+            {{ g.userdata.username }}님의 프로필
         </div>
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputCategory">전공분야</label>
-                <select class="form-control input-sm" name="category" id="category">
-                    <option value="none">선택하세요</option>
-                    {% for c in categories %}
-                    {% if c.upper_id == 0 %}
-                    <option class="category" value="{{ c.id }}">{{ c.name }}</option> <!-- selected -->
-                    {% endif %}
-                    {% endfor %}
-                </select>
-            </div>
+    </div>
+    
+    <form id="profile_form" name="profileForm" role="form" action="{{ upload_uri }}" enctype="multipart/form-data" method="POST">
 
-            <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputMajor">세부전공</label>
-                <select class="form-control input-sm" name="major" id="major">
-                    <option value="none">선택하세요</option>
-                </select>
+        <div class="row pictureRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-photo fa-3"></i>
+                PROFILE PICTURE
             </div>
         </div>
         
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputLocation">거주지역</label>
-                <select class="form-control input-sm" name="location" id="sido">
-                    <option value="none">선택하세요</option>
-                    {% for l in locations %}
-                    {% if l.upper_id == 0 %}
-                    <option class="state" value="{{ l.id }}">{{ l.name }}</option>
+        <div class="row pictureRow">
+            <div class="form-group col-md-6 col-md-offset-3">
+                <label for="inputPicture">프로필 대표사진</label>
+                <input type="file" name="profilepicture" id="inputPicture">
+                <p class="help-block">가로, 세로 200px 사이즈 사진이 가장 예쁘게 보여요.</p>
+            </div>
+        </div>
+
+        <div class="row categoryRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-pencil fa-3"></i>
+                MAJOR
+            </div>
+        </div>
+
+        <div class="row categoryRow">
+            <div class="form-group col-md-3 col-md-offset-3">
+                <label for="inputUppercategory">전공분야</label>
+                <select class="form-control" name="uppercategory" id="upperCategory">
+                    <option id="upperCategoryOption" value="none">선택하세요</option>
+                    {% for c in categories %}
+                    {% if c.upper_id == 0 %}                    
+                    <option id="upperCategoryOption" class="uppercategory" value="{{ c.id }}" {% if c.id == musician.category_upper_id %} selected="selected" {% endif %}>{{ c.name }}</option>                        
                     {% endif %}
                     {% endfor %}
                 </select>
             </div>
 
-            <div class="form-group col-xs-12 col-sm-6 col-md-6">
-                <label for="inputLocation">시, 군, 구</label>
-                <select class="form-control input-sm" name="sigungu" id="sigungu">
-                    <option value="none">선택하세요</option>      
+
+            <div class="form-group col-md-3">
+                <label for="inputSubcategory">세부전공</label>
+                <select class="form-control" name="subcategory" id="subCategory">
+                    {% if musician.category_id %}
+                    {% for c in categories %}
+                    {% if c.upper_id == musician.category_upper_id %}                    
+                    <option class="subcategory" value="{{ c.id }}" {% if c.id == musician.category_id %} selected="selected" {% endif %}>{{ c.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <option class="subcategory" value="none">선택하세요</option>
+                    {% endif %}
                 </select>
             </div>
+        </div> <!-- categoryRow ends -->
+
+        <div class="row locationRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-map-marker fa-3"></i>
+                LOCATION
+            </div>
         </div>
 
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12">
+        <div class="row locationRow">
+            <div class="form-group col-md-3 col-md-offset-3">
+                <label for="inputUpperlocation">거주지역</label>
+                <select class="form-control" name="upperlocation" id="upperLocation">
+                    <option value="none">선택하세요</option>
+                    {% for l in locations %}
+                    {% if l.upper_id == 0 %}
+                    <option class="upperlocation" value="{{ l.id }}" {% if l.id == musician.location_upper_id %} selected="selected" {% endif %}>{{ l.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group col-md-3">
+                <label for="inputSublocation">시, 군, 구</label>
+                <select class="form-control" name="sublocation" id="subLocation">
+                    {% if musician.location_id %}
+                    {% for l in locations %}
+                    {% if l.upper_id == musician.location_upper_id %}                    
+                    <option class="sublocation" value="{{ l.id }}" {% if l.id == musician.location_id %} selected="selected" {% endif %}>{{ l.name }}</option>
+                    {% endif %}
+                    {% endfor %}
+                    {% else %}
+                    <option class="sublocation" value="none">선택하세요</option>
+                    {% endif %}     
+                </select>
+            </div>
+        </div> <!-- locationRow ends -->
+
+        <div class="row phraseRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-bullhorn fa-3"></i>
+                CATCHPHRASE
+            </div>
+        </div>
+
+        <div class="row phraseRow">
+            <div class="form-group col-md-6 col-md-offset-3">
                 <label for="inputPhrase">50자 메시지</label>
                 {% if g.userdata.is_musician == 0 %}
-                <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" placeholder="나를 표현하는 인상적인 50자 메시지">
+                <input type="text" name="phrase" id="inputPhrase" class="form-control" maxlength="50" placeholder="나를 표현하는 인상적인 50자 메시지">
                 {% else %}
-                <input type="text" name="phrase" id="inputPhrase" class="form-control input-sm" maxlength="50" value="{{ musician.phrase }}">
+                <input type="text" name="phrase" id="inputPhrase" class="form-control" maxlength="50" value="{{ musician.phrase }}">
                 {% endif %}
             </div>
         </div>
 
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12">
-                <label for="inputEducation">학력</label>
+        <div class="row educationRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-graduation-cap fa-3"></i>
+                ACADEMIC HISTORY
+            </div>
+        </div>
+        
+        <div class="educationGroup">
+            <div class="row educationRow">
+                <div class="form-group col-md-6 col-md-offset-3">
+                    <div class="input-group">
+                        <input type="text" name="educationInput" class="form-control" placeholder="예) 뚜띠대학교 음악대학 피아노과 학사(2011년)" value="예) 뚜띠대학교 음악대학 피아노과 학사(2011년)" disabled="True">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="addEducationInput" type="button" data-target=".educationGroup" data-name="educationInput"><i class="fa fa-plus"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="addedEducationGroup">
+            {% if education_data %}
+            {% for education in education_data %}
+            <div class="row addedRow">
+                <div class="form-group col-md-6 col-md-offset-3">
+                    <div class="input-group">
+                        <input type="text" name="educationInput" class="form-control" id="educationInput" data_musician_id="{{ musician.id }}" value="{{ education.education_data }}">
+                        <span class="input-group-btn">
+                            <button type="button" class="delInput btn btn-default"><i class="fa fa-minus"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="nothingMessage">등록된 학력사항이 없네요!</div>
+            {% endif %}
+        </div>
+
+        <div class="row repertoireRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-book fa-3"></i>
+                REPERTOIRE
+            </div>
+        </div>
+
+        <div class="repertoireGroup">
+            <div class="row repertoireRow">
+                <div class="form-group col-md-6 col-md-offset-3">
+                    <div class="input-group">
+                        <input type="text" name="repertoireInput" class="form-control" id="repertoire_data" placeholder="예) F. Poulenc - Sonata for violin and piano, FP 12 (1918)" value="예) F. Poulenc - Sonata for violin and piano, FP 12 (1918)" disabled="True">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="addRepertoireInput" type="button" data-target=".repertoireGroup" data-name="repertoireInput"><i class="fa fa-plus"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="addedRepertoireGroup">
+            {% if repertoire_data %}
+            {% for repertoire in repertoire_data %}
+            <div class="row addedRow">
+                <div class="form-group col-md-6 col-md-offset-3">
+                    <div class="input-group">
+                        <input type="text" name="repertoireInput" class="form-control" id="repertoireInput" data_musician_id="{{ musician.id }}" value="{{ repertoire.repertoire_data }}">
+                        <span class="input-group-btn">
+                            <button type="button" class="delInput btn btn-default"><i class="fa fa-minus"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="nothingMessage">등록된 레퍼토리 정보가 없네요!</div>
+            {% endif %}
+        </div>
+
+        <div class="row videoRowTitle">
+            <div class="col-md-6 col-md-offset-3">
+                <i class="fa fa-video-camera fa-3"></i>
+                VIDEO CLIPS
+            </div>
+        </div>
+
+        <div class="videoGroup">
+            <div class="row videoRow">
+                <div class="form-group col-md-6 col-md-offset-3">
+                    <div class="input-group">
+                        <input type="text" name="videoInput" class="form-control" id="videoInput" data_musician_id = "{{ musician.id }}" placeholder="예) YouTube, Vimeo 동영상 URL" value="예) YouTube, Vimeo 동영상 URL" disabled="True">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" id="addVideoInput" type="button" data-target=".videoGroup" data-name="videoInput"><i class="fa fa-plus"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="addedVideoGroup">
+            {% if video_data %}
+            {% for video in video_data %}
+            <div class="row addedRow">
+                <div class="form-group col-md-6 col-md-offset-3">
+                    <div class="input-group">
+                        <input type="text" name="videoInput" class="form-control" id="videoInput" data_musician_id="{{ musician.id }}" value="{{ video.video_data }}">
+                        <span class='input-group-btn'>
+                            <button type='button' class='delInput btn btn-default'><i class='fa fa-minus'></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="nothingMessage">아직 등록된 동영상이 없군요!</div>
+            {% endif %}
+        </div>
+
+        <div class="row submitBtnRow">
+            <!-- this summit button has div-like look -->
+            <div class="form-group">
                 {% if g.userdata.is_musician == 0 %}
-                <input type="text" name="education" id="inputEducation" class="form-control input-sm" placeholder="ex) 한양대학교">
+                <button type="submit" id="submit" class="col-md-6 col-md-offset-3 btn btn-primary btn-lg">프로필 등록</button>
                 {% else %}
-                <input type="text" name="education" id="inputEducation" class="form-control input-sm" value="{{ musician.education }}">
+                <button type="submit" id="submit" class="col-md-6 col-md-offset-3 btn btn-primary btn-lg">프로필 수정</button>
                 {% endif %}
             </div>
         </div>
-
-        <h3 id="additional_fields"><i class="fa fa-star-o"></i> 추가 입력사항</h3>
-        <hr>
-
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12">
-                <label for="inputRepertoire">레퍼토리</label>
-                {% if g.userdata.is_musician == 0 %}
-                <div class="help-message">지금까지 연주해온 곡들을 자유롭게 추가할 수 있습니다.</div>
-                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" placeholder="ex) F.Chopin - Nocturne No.2 Op.9">
-                {% else %}
-                <input type="text" name="repertoire" id="inputRepertoire" class="form-control input-sm" value="{{ musician.repertoire }}">
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="form-group col-xs-12 col-sm-12 col-md-12">
-                <label for="inputRepertoire">연주 영상</label>
-                {% if g.userdata.is_musician == 0 %}
-                <div class="help-message">멋진 연주 동영상이 있나요? 동영상의 주소를 추가해 보세요.</div>
-                <input type="text" name="#" id="inputVideo" class="form-control input-sm" placeholder="ex) YouTube 주소, Vimeo 주소 등">
-                {% else %}
-                <input type="text" name="#" id="inputVideo" class="form-control input-sm" value="#">
-                {% endif %}
-            </div>
-        </div>
-
-
-        {% if g.userdata.is_musician == 0 %}
-        <button type="submit" id="submit" class="btn btn-default pull-right">프로필 등록</button>
-        {% else %}
-        <button type="submit" id="submit" class="btn btn-default pull-right">프로필 수정</button>
-        {% endif %}
-
     </form>
-
 </div>
+
 
 <script>
 $("#profile_form").submit(function() {
-    if ($('#profile_image').val()) { 
+    if ($('#inputPicture').val()) { 
         console.log('file exists');    
     } else {
         console.log('no file');
         console.log($(this));
-        $(this).attr('action', '{{ target_url }}');               
-       
+        $(this).attr('action', '{{ target_url }}');
     }
-     return true;
+    return true;
 });
+</script>
+
+<script id="dynamicInputRow" type="text/template">
+<div class='row addedRow'>
+<div class='form-group col-md-6 col-md-offset-3'>
+<div class='input-group'>
+<input class='form-control' name="^*^inputName^*^">
+<span class='input-group-btn'>
+<button type='button' class='delInput btn btn-default'><i class='fa fa-minus'></i></button>
+</span>
+</div>
+</div>
+</div>
 </script>
 
 {% endblock %}

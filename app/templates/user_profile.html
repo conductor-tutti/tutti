@@ -5,27 +5,39 @@
 
 {% block contents %}
 
-<div id="profile-box" class="col-xs-12 col-sm-10 col-md-6 col-sm-offset-1 col-md-offset-3">
-    {% if g.userdata != None %}
-    {% if g.userdata.password %}
-    <img src="{{ url_for('get_resized_photo', blob_key=musician.photo) }}">
-    {% else%}
-    <img src="{{ g.userdata.photo }}">
-    {% endif %}
-    <div class="row">
-        <span>이름 : </span>
-        {{ g.userdata.username }}
+<div class="box">
+    <div class="row titleRow">
+        <div class="col-md-6 col-md-offset-3">
+            {{ g.userdata.username }}님의 계정 정보
+        </div>
     </div>
-    <div class="row">
-        <span>이메일 : </span>
-        {{ g.userdata.email}}
-    </div>    
-    {% endif %}
+
+    <div class="row statusRowTitle">
+        <div class="col-md-6 col-md-offset-3">
+            <i class="fa fa-user fa-3"></i> USER TYPE
+        </div>
+    </div>
+
+    <div class="row statusRow">
+        <div class="col-md-6 col-md-offset-3">
+            {% if g.userdata.is_musician == 0 %}
+            일반유저
+            {% else %}
+            뮤지션
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row emailRowTitle">
+        <div class="col-md-6 col-md-offset-3">
+            <i class="fa fa-envelope-o fa-3"></i> EMAIL ADDRESS
+        </div>
+    </div>
+    <div class="row emailRow">
+        <div class="col-md-6 col-md-offset-3">
+            {{ g.userdata.email }}
+        </div>
+    </div>
 </div>
 
-    {% endblock %}
-    {% block scripts %}
-
-    {{ super() }}
-    <script src="{{ url_for('static', filename='js/musician_new.js') }}"></script>
-    {% endblock %}
+{% endblock %}
