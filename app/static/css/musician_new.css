@@ -111,6 +111,10 @@
     margin-bottom: 20px;
 }
 
+.submitBtnRow .form-group{
+    padding: 0px;
+}
+
 .submitBtnRow .btn{
     font-size: 2em;
     border-radius: 0px;
@@ -121,6 +125,7 @@
 #additional_fields{
     margin-top: 30px;
 }
+
 
 hr{
     margin-top: 0px;

@@ -240,11 +240,11 @@
 
         <div class="row submitBtnRow">
             <!-- this summit button has div-like look -->
-            <div class="form-group">
+            <div class="form-group col-md-6 col-md-offset-3">
                 {% if g.userdata.is_musician == 0 %}
-                <button type="submit" id="submit" class="col-md-6 col-md-offset-3 btn btn-primary btn-lg">프로필 등록</button>
+                <button type="submit" id="submit" class="btn btn-primary btn-lg col-xs-12">프로필 등록</button>
                 {% else %}
-                <button type="submit" id="submit" class="col-md-6 col-md-offset-3 btn btn-primary btn-lg">프로필 수정</button>
+                <button type="submit" id="submit" class="btn btn-primary btn-lg col-xs-12 ">프로필 수정</button>
                 {% endif %}
             </div>
         </div>
