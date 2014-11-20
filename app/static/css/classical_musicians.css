@@ -22,6 +22,45 @@
     border: 1px solid #f3f3f3;
 }
 
-.musicianRow div{
-    background: rgba(255, 255, 255, 0.8);
+.musicianRow{
+    margin-bottom: 1px;
+}
+
+.musicianRow .musicianBg{
+    padding: 0px;
+}
+
+.musicianRow .musicianInfo{
+    margin-top: 250px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.musicianRow .musicianInfo a{
+    color: #ffffff;
+}
+
+.musicianRow .musicianInfo a:hover{
+    color: #ffffff;
+}
+
+.musicianRow .musicianInfo .musicianName{
+    display: inline-block;
+    margin: 0px 10px 0px 10px;
+    color: white;
+}
+
+.musicianRow .musicianInfo .musicianCategory{
+    display: inline-block;
+    color: white;
+}
+
+.musicianRow .musicianInfo .musicianPhrase{
+    margin: 0px 10px 0px 10px;
+    color: white;
+    font-size: 1.2em;
+}
+
+.musicianRow .musicianName{
+    font-size: 2em;
 }

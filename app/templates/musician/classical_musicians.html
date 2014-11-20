@@ -22,14 +22,12 @@
 {% if contents.musician_list %}
 {% for musician in contents.musician_list %}
 <div class="row musicianRow">
-	<div class="col-md-6 col-md-offset-3"> <!-- profile picture fits into parent's size -->
-		<img src="{{ musician.photo_url }}" class="profile_picture img-thumbnail">
-		<a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile">{{ musician.user.username }}</a>
-		<div class="musician_category">{{ musician.category.name }}</div>
-		<div class="musician_education">{{ musician.education }}</div>
-		<div class="musician_phrase">" {{ musician.phrase }} "</div>
-		<div>
-			<a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="view_profile pull-right">프로필 보기</a>
+	<div class="col-md-6 col-md-offset-3 musicianBg" style="background-image:url('{{ musician.photo_url }}');">
+		<!-- <img src="{{ musician.photo_url }}" class="musicianPic img-thumbnail"> -->
+		<div class="musicianInfo">
+				<a href="{{ url_for('musician_profile', musician_id=musician.id)}}" class="musicianName">{{ musician.user.username }}</a>
+			<div class="musicianCategory">{{ musician.category.name }}</div>
+			<div class="musicianPhrase">" {{ musician.phrase }} "</div>
 		</div>
 	</div>
 </div>
