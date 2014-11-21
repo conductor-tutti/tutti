@@ -291,6 +291,9 @@ def kukak_musician():
     index["musician_list"] = Musician.query.order_by(desc(Musician.created_on)).filter(Musician.category_id == 2).limit(4)
     return render_template("musician/kukak_musician.html", index=index, category_list=category_list, active_tab="index")
 
+@app.route("/sorry.html", methods=["GET"])
+def sorry():
+    return render_template("sorry.html")
 
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):

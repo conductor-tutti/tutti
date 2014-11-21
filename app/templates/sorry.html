@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block customhead %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/classical_musicians.css') }}">
+<style>
+
+.row{
+    text-align: center;
+}
+
+.fa-meh-o{
+    display: block;
+    font-size: 20em;
+    color: #428bca;
+}
+
+.row .col-md-6 div{
+    display: inline-block;
+    background-color: #428bca;
+    font-size: 2em;
+    color: white;
+}
+
+</style>
+{% endblock %}
+{% block contents %}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <i class="fa fa-meh-o fa-5x"></i>
+        <div>죄송합니다. 공사중이에요!</div>
+    </div>
+</div>
+{% endblock %}
