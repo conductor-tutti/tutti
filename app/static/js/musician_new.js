@@ -48,7 +48,6 @@ function formValidate(event){
             return false;
         }
     }
-    alert("서밋으로 가버렷!")
     return(true);
 }
 
