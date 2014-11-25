@@ -4,6 +4,28 @@ body{
     font-family: "Nanum Gothic", sans-serif;
 }
 
+.messages{
+    margin: -20px 0px 0px 0px;
+    padding: 0px;
+    text-align: center; 
+}
+
+.messages .alert{
+    border: none;
+    border-radius: 0px;
+}
+
+.messages .alert-success{
+    background-color: #3379b6;
+    color: white;
+}
+
+.messages .alert .close{
+    color: white;
+    text-shadow: none;
+    opacity: 100;
+}
+
 .no-list {
     padding: 10px;
     text-align: center;
