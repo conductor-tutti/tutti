@@ -4,34 +4,11 @@ body{
     font-family: "Nanum Gothic", sans-serif;
 }
 
-
-/* tuttiblack: #3F3F3F */
-
-/*.nav-container{
-    background-color: #3F3F3F;
-}*/
-
 .no-list {
     padding: 10px;
     text-align: center;
 }
 
-/* login.html */
-
 .login_submit{
     float: right;
 }
-
-/* buttons */
-
-/*.btn-default {
-    color: white;
-    background-color: #AE846C;
-    border-color: #A77F68;
-}
-
-.btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open > .dropdown-toggle.btn-default {
-    color: #FFFFFF;
-    background-color: #BB8F76;
-    border-color: #AF866F;
-}*/
