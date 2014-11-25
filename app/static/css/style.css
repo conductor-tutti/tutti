@@ -4,6 +4,10 @@ body{
     font-family: "Nanum Gothic", sans-serif;
 }
 
+#contentBox{
+    margin-top: 20px;
+}
+
 .messages{
     margin: -20px 0px 0px 0px;
     padding: 0px;
