@@ -7,10 +7,12 @@
     {% endblock %}
     {% block outer %}
     {% endblock %}
+
+    {% block messages %}
+        {% include "messages.html" %}
+    {% endblock %}
+
     <div class="container">
-        {% block messages %}
-            {% include "messages.html" %}
-        {% endblock %}
         {% block contents %}{% endblock %}
     </div>
 {% endblock %}

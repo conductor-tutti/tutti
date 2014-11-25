@@ -1,6 +1,6 @@
 {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-        <div id="messages" class="row messages">
+        <div id="messages" class="container-fluid messages">
             {% for category, message in messages %}
                 <div class="alert alert-{{ category }} fade in">
                     <a class="close" data-dismiss="alert" href="#">&times;</a>
