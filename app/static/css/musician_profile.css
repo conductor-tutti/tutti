@@ -1,8 +1,8 @@
 .nameRowTitle div{
     padding-top: 20px;
-    background-color: white;
+    background-color: #62C562;
     font-size: 2em;
-    color: #242424;
+    color: white;
 }
 
 .nameRowTitle div .categoryInfo{
@@ -21,6 +21,6 @@
     text-align: center;
     font-size: 1.3em;
     font-weight: bold;
-    background-color: white;
-    color: #242424;
+    background-color: #5CB85C;
+    color: white;
 }
