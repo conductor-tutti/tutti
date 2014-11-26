@@ -3,7 +3,7 @@ from app import app, db, facebook, google
 from sqlalchemy import desc, asc
 from app.models import User, Musician, Category, Location, UserRelationship, Comment, Education, Repertoire, Video
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g, Flask
+from flask import jsonify, make_response, render_template, session, request, redirect, url_for, flash, g
 from google.appengine.api import images
 from google.appengine.ext import blobstore
 from werkzeug.http import parse_options_header
@@ -173,65 +173,58 @@ def musician_new():
                     if old_blob_key != None:
                         blobstore.delete(old_blob_key)
 
-                # If additional information exist, delete old one and get new data
-                if request.form.get("educationInput"):
-                    new_education_data = request.form.getlist("educationInput")
-                    old_education_data = musician.educations.order_by(asc(Education.created_on)).all()
-                    logging.info(old_education_data)
-                    for education in old_education_data:
-                        db.session.delete(education)
+                new_education_data = request.form.getlist("educationInput")
+                if new_education_data == None:
+                    new_education_data = []
 
-                    if new_education_data:
-                        for education in new_education_data:
-                            education = Education(
-                                education_data=education,
-                                musician=musician
-                                )
-                            logging.info("added new education")
-                            db.session.add(education)
+                old_education_data = musician.educations.order_by(asc(Education.created_on)).all()
+                logging.info(old_education_data)
+                logging.info(new_education_data)
+                for education in old_education_data:
+                    db.session.delete(education)
+                for education in new_education_data:
+                    education = Education(
+                        education_data=education,
+                        musician=musician
+                        )
+                    logging.info("added new education")
+                    db.session.add(education)
 
-                if request.form.get("repertoireInput"):
-                    new_repertoire_data = request.form.getlist("repertoireInput")
-                    old_repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
-                    logging.info(old_repertoire_data)
-                    for repertoire in old_repertoire_data:
-                        db.session.delete(repertoire)
-
-                    if new_repertoire_data:
-                        for repertoire in new_repertoire_data:
-                            repertoire = Repertoire(
-                                repertoire_data=repertoire,
-                                musician=musician
-                                )
-                            logging.info("added new repertoire")
-                            db.session.add(repertoire)
                 
-                if request.form.get("videoInput"):
-                    new_video_data = request.form.getlist("videoInput")
-                    old_video_data = musician.videos.order_by(asc(Video.created_on)).all()
-                    logging.info(old_video_data)
-                    for video in old_video_data:
-                        db.session.delete(video)
+                new_repertoire_data = request.form.getlist("repertoireInput")
+                if new_repertoire_data == None:
+                    new_repertoire_data = []
 
-                    if new_video_data:
-                        for video in new_video_data:
-                            video = Video(
-                                video_data=video,
-                                musician=musician
-                                )
-                            logging.info("added new video")
-                            db.session.add(video)
+                old_repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
+                logging.info(old_repertoire_data)
+                logging.info(new_repertoire_data)
+                for repertoire in old_repertoire_data:
+                    db.session.delete(repertoire)
+                for repertoire in new_repertoire_data:
+                    repertoire = Repertoire(
+                        repertoire_data=repertoire,
+                        musician=musician
+                        )
+                    logging.info("added new repertoire")
+                    db.session.add(repertoire)
+                
+                new_video_data = request.form.getlist("videoInput")
+                if new_video_data == None:
+                    new_video_data = []
 
-                else:
-                    old_education_data = musician.educations.order_by(asc(Education.created_on)).all()
-                    for education in old_education_data:
-                        db.session.delete(education)
-                    old_repertoire_data = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
-                    for repertoire in old_repertoire_data:
-                        db.session.delete(repertoire)
-                    old_video_data = musician.videos.order_by(asc(Video.created_on)).all()
-                    for video in old_video_data:
-                        db.session.delete(video)
+                old_video_data = musician.videos.order_by(asc(Video.created_on)).all()
+                logging.info(old_video_data)
+                logging.info(new_video_data)
+                for video in old_video_data:
+                    db.session.delete(video)
+
+                for video in new_video_data:
+                    video = Video(
+                        video_data=video,
+                        musician=musician
+                        )
+                    logging.info("added new video")
+                    db.session.add(video)
                     
                 flash(u"프로필 변경 완료!", "success")
                 db.session.commit()
@@ -298,12 +291,17 @@ def sorry():
 @app.route("/musician/<int:musician_id>", methods=["GET", "POST"])
 def musician_profile(musician_id):
     musician = Musician.query.get(musician_id)
-    musician.photo_url = images.get_serving_url(musician.photo)
     user = User.query.get(musician.user_id)
-    category_list = Category.query.all()
-    comments = musician.comments.order_by(asc(Comment.created_on)).all()
     username = user.username
-    return render_template("musician/musician_profile.html", username=username, category_list=category_list, musician=musician, comments=comments)
+    musician.photo_url = images.get_serving_url(musician.photo)
+    category_list = Category.query.all()
+    education_data_list = musician.educations.order_by(asc(Education.created_on)).all()
+    repertoire_data_list = musician.repertoires.order_by(asc(Repertoire.created_on)).all()
+    video_data_list = musician.videos.order_by(asc(Video.created_on)).all()
+    comments = musician.comments.order_by(asc(Comment.created_on)).all()
+    return render_template("musician/musician_profile.html",
+        username=username, musician=musician, category_list=category_list, education_data_list=education_data_list,
+        repertoire_data_list=repertoire_data_list, video_data_list=video_data_list, comments=comments)
 
 
 @app.route("/photo/get/<path:blob_key>/", methods=["GET"])
