@@ -33,14 +33,18 @@
         <div class="row categoryRowTitle">
             <div class="col-md-6 col-md-offset-3">
                 <i class="fa fa-pencil fa-3"></i>
-                MAJOR
+                MAJOR <span class="help-message">한 번 양식을 제출하면 바꿀 수 없습니다. 주의하세요!</span>
             </div>
         </div>
 
         <div class="row categoryRow">
             <div class="form-group col-md-3 col-md-offset-3">
                 <label for="inputUppercategory">전공분야</label>
+                {% if musician.user.is_musician != 1 %}
                 <select class="form-control" name="uppercategory" id="upperCategory">
+                {% else %}
+                <select class="form-control" name="uppercategory" id="upperCategory" disabled="True">
+                {% endif %}
                     <option id="upperCategoryOption" value="none">선택하세요</option>
                     {% for c in categories %}
                     {% if c.upper_id == 0 %}                    
@@ -53,7 +57,11 @@
 
             <div class="form-group col-md-3">
                 <label for="inputSubcategory">세부전공</label>
+                {% if musician.user.is_musician != 1 %}
                 <select class="form-control" name="subcategory" id="subCategory">
+                {% else %}
+                <select class="form-control" name="subcategory" id="subCategory" disabled="True">
+                {% endif %}
                     {% if musician.category_id %}
                     {% for c in categories %}
                     {% if c.upper_id == musician.category_upper_id %}                    

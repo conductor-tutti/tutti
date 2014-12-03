@@ -131,3 +131,7 @@ hr{
     margin-top: 0px;
     border-top: 1px dashed #eeeeee;
 }
+
+.help-message{
+    font-size: 0.5em;
+}
