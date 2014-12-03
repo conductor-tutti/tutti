@@ -173,6 +173,9 @@ def musician_new():
                     if old_blob_key != None:
                         blobstore.delete(old_blob_key)
 
+                if request.form.get("phrase"):
+                    musician.phrase = request.form.get("phrase")
+
                 new_education_data = request.form.getlist("educationInput")
                 if new_education_data == None:
                     new_education_data = []
