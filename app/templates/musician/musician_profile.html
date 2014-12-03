@@ -96,24 +96,23 @@
     </div>
 </div>
 
-<div class="row videoRow">
-    <div class="col-md-6 col-md-offset-3">공사중입니다 :)</div>
-</div>
-<!-- {% if video_data_list %}
+{% if video_data_list %}
 {% for data in video_data_list %}
 <div class="row videoRow">
-    <div class="col-md-8 col-md-offset-2">
-        <embed width="420" height="315" src="{{ data.video_data }}">
+    <div class="col-md-6 col-md-offset-3">
+        {% autoescape false %}
+        {{ data.video_data }}
+        {% endautoescape %}
     </div>
 </div>
 {% endfor %}
 {% else %}
 <div class="row noDataRow">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
         연주 동영상 정보가 없습니다.
     </div>
 </div>
-{% endif %} -->
+{% endif %}
 
 
 <!-- <div class="box">
