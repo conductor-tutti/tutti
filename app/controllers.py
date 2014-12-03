@@ -173,6 +173,10 @@ def musician_new():
                     if old_blob_key != None:
                         blobstore.delete(old_blob_key)
 
+                if request.form.get("upperlocation"):
+                    musician.location_upper_id = request.form.get("upperlocation")
+                if request.form.get("sublocation"):
+                    musician.location_id = request.form.get("sublocation")
                 if request.form.get("phrase"):
                     musician.phrase = request.form.get("phrase")
 
