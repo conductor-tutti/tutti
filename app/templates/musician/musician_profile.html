@@ -11,7 +11,7 @@
 {% block contents %}
 
 <div class="row nameRowTitle">
-    <div class="col-md-7 col-md-offset-2">
+    <div class="col-md-5 col-md-offset-3">
         <i class="fa fa-music fa-3"></i>
         {{ username }}
         <span class="categoryInfo">
@@ -34,18 +34,18 @@
 </div>
 
 <div class="row pictureRow">
-    <div class="col-md-8 col-md-offset-2" style="background-image:url({{ musician.photo_url }});">
+    <div class="col-md-6 col-md-offset-3" style="background-image:url({{ musician.photo_url }});">
     </div>
 </div>
 
 <div class="row phraseRow">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
         " {{ musician.phrase }} "
     </div>
 </div>
 
 <div class="row educationRowTitle">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
         <i class="fa fa-graduation-cap fa-3"></i>
         학력사항
     </div>
@@ -54,21 +54,21 @@
 {% if education_data_list %}
 {% for data in education_data_list %}
 <div class="row educationRow">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
         {{ data.education_data }}
     </div>
 </div>
 {% endfor %}
 {% else %}
 <div class="row noDataRow">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
         학력사항이 없습니다.
     </div>
 </div>
 {% endif %}
 
 <div class="row repertoireRowTitle">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
         <i class="fa fa-book fa-3"></i>
         연주 레퍼토리
     </div>
@@ -77,27 +77,30 @@
 {% if repertoire_data_list %}
 {% for data in repertoire_data_list %}
 <div class="row repertoireRow">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
         {{ data.repertoire_data }}
     </div>
 </div>
 {% endfor %}
 {% else %}
 <div class="row noDataRow">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
         레퍼토리 정보가 없습니다.
     </div>
 </div>
 {% endif %}
 
 <div class="row videoRowTitle">
-    <div class="col-md-8 col-md-offset-2">
+    <div class="col-md-6 col-md-offset-3">
         <i class="fa fa-book fa-3"></i>
         연주 영상
     </div>
 </div>
 
-{% if video_data_list %}
+<div class="row videoRow">
+    <div class="col-md-6 col-md-offset-3">공사중입니다 :)</div>
+</div>
+<!-- {% if video_data_list %}
 {% for data in video_data_list %}
 <div class="row videoRow">
     <div class="col-md-8 col-md-offset-2">
@@ -111,7 +114,7 @@
         연주 동영상 정보가 없습니다.
     </div>
 </div>
-{% endif %}
+{% endif %} -->
 
 
 <!-- <div class="box">

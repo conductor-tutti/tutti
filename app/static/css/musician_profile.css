@@ -5,6 +5,11 @@
     color: white;
 }
 
+.nameRowTitle .fb-share-button{
+    padding-top: 15px;
+    padding-bottom: 5px;
+}
+
 .nameRowTitle div .categoryInfo{
     text-align: right;
     font-size: 0.5em;
