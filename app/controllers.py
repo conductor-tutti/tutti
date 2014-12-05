@@ -107,7 +107,7 @@ def sign_in():
 @app.route("/logout", methods=["GET"])
 def logout():
     session.clear()
-    flash(u"%s 님, 다음에 또 만나요!" % g.userdata.username)
+    flash(u"%s 님, 다음에 또 만나요!" % g.userdata.username, "success")
     return redirect(url_for("index"))
 
 
