@@ -86,8 +86,9 @@
     /*border-top-left-radius: 25px;*/
 }
 
-.oldVideoRow .oldList .list-group .deleteOldRecord{
-
+.videoGroup .videoRow .form-group p{
+    text-align: center;
+    line-height: 2;
 }
 
 /*.oldEducationRow div, .oldRepertoireRow div, .oldVideoRow div{
