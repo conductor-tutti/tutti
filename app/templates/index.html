@@ -13,7 +13,7 @@
             <h1>Are you a musician?</h1>
             <h2>Show your talents!</h2>
             <!-- <p class="jumbotron_message">뮤지션이라면, 숨겨왔던 당신을 드러내보아요!<br></p> -->
-            <p><a class="btn btn-primary" href="#" role="button">뮤지션으로 등록하기</a></p>
+            <p><a class="btn btn-primary" href="{{ url_for('musician_new') }}" role="button">뮤지션으로 등록하기</a></p>
         </div>
     </div>
 </div>
@@ -41,7 +41,7 @@
 {% if index.musician_list %}
 {% for musician in index.musician_list %}
 <div class="row eachNewbiePicRow">
-    <div class="col-md-8 col-md-offset-2" style="background-image:url('{{ musician.photo_url }}')">
+    <div class="col-md-8 col-md-offset-2" style="background-image:url('{{ musician.photo_url }}');background-size:cover;">
     </div>
 </div>
 <div class="row eachNewbieInfoRow">
