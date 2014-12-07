@@ -114,112 +114,39 @@
 </div>
 {% endif %}
 
-
-<!-- <div class="box">
-    Facebook share button (the data to share should be placed in meta tag starting with og)
-
-    <div class="fb-share-button" data-href="{{ url_for('musician_profile', musician_id=musician.id, _external=True)}}"></div>
-    
-    <div class="row defaultInfoRow">
-        <div class="col-md-2 col-md-offset-3 username">
-            {{ username }}
-        </div>
-        <div class="col-md-2 upperCategory">
-            {% for category in category_list %}
-            {% if category.id == musician.category_upper_id %}
-            {{ category.name }}
-            {% endif %}
-            {% endfor %}
-        </div>
-        <div class="col-md-2 category">
-            {% for category in category_list %}
-            {% if category.id == musician.category_id %}
-            {{ category.name }}
-            {% endif %}
-            {% endfor %}
-        </div>
-    </div>
-    <div class="row picRow">
+<div class="row commentRowTitle">
     <div class="col-md-6 col-md-offset-3">
-        <img src="{{ musician.photo_url }}" class="picElement">
+        <i class="fa fa-comment fa-3"></i>
+        메시지 남기기
     </div>
-    </div>
-</div> -->
-{% endblock %}
+</div>
 
-
-<!--     <div class="col-sm-6 col-md-4 col-sm-offset-3 col-md-offset-4 image_box">
-        <img src="{{ musician.photo_url }}" class="profile_image">
-    </div>
-
-    <div class="row">
-        <h3 class="col-sm-2 col-md-2 col-sm-offset-5 col-md-offset-5" id="username">{{ username }}</h3>
-
-    </div>
-
-    <div class="row">
-        <div class="col-sm-2 col-md-2 col-sm-offset-5 col-md-offset-5" id="category">
-            {% for category in category_list %}
-            {% if category.id == musician.category_id %}
-            <span class="category">{{ category.name }}</span>
-            {% endif %}
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="row">
-        <h4 class="col-sm-4 col-md-6 col-sm-offset-4 col-md-offset-3" id="phrase">"{{ musician.phrase }}"</h4>
-    </div>
-
-    <div class="row education">
-        <div class="col-sm-2 col-md-2 col-sm-offset-2 col-md-offset-2 graduation-cap">
-            <i class="fa fa-graduation-cap fa-4x"></i><br>
-        </div>
-        <div class="col-sm-6 col-md-6 education-list">
-            {{ musician.education }}
-        </div>
-    </div>
-
-    <div class="row repertoire">
-        <div class="col-sm-2 col-md-2 col-sm-offset-2 col-md-offset-2 graduation-cap">
-            <i class="fa fa-book fa-4x"></i><br>
-        </div>
-        <div class="col-sm-6 col-md-6 repertoire-list">
-            {{ musician.repertoire }}
-        </div>
-    </div>
-
-    <div class="row video_clips">
-        <div class="col-md-3 col-md-offset-3">
-            <iframe class="video" src="//www.youtube.com/embed/zPlLky_QXwE" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <div class="col-md-3">
-            <iframe class="video" src="//www.youtube.com/embed/zPlLky_QXwE" frameborder="0" allowfullscreen></iframe>
-    </div>
-
-    <div class="row">
-        <div id="comment_row" class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
-            {% if comments %}
-            {% for comment in comments %}
-            <div class="comment">
-                <strong>
-                    <i class="author_name">{{ comment.author_name}}</i>
-                </strong>
-                <br>
+<div class="row oldCommentRow">
+    <div id="comment_row" class="col-md-6 col-md-offset-3">
+        {% if comments %}
+        {% for comment in comments %}
+        <div class="comment_box">
+            <div class="comment_author">
+                {{ comment.author_name}}
+            </div>
+            <div class="comment_content">
                 {{ comment.content }}
             </div>
-            {% endfor %}
-            {% endif %}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<div class="row commentInputRow">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="input-group input-sm">
+            <input type="text" name="comment" id="comment" class="form-control" placeholder="메시지 남기기" data-musician-id="{{ musician.id }}">
+            <span class="input-group-btn">
+                <button class="btn btn-default" id="comment_create" type="button">메시지 남기기</button>
+            </span>
         </div>
     </div>
+</div>
 
-    <div class="row">
-        <div class="col-sm-8 col-md-8 col-sm-offset-2 col-md-offset-2">
-            <div class="input-group input-sm">
-                <input type="text" name="comment" id="comment" class="form-control" placeholder="메시지 남기기" data-musician-id="{{ musician.id }}">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" id="comment_create" type="button">메시지 남기기</button>
-                </span>
-            </div>
-        </div>
-    </div> -->
+{% endblock %}
