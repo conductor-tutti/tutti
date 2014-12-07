@@ -418,7 +418,7 @@ def google_login():
         session["user_email"] = userdata.email
         session["user_name"] = userdata.username
         session["user_id"] = userdata.id
-        flash(u"반갑습니다, %s 님!" % session["user_name"])
+        flash(u"반갑습니다, %s 님!" % session["user_name"], "success")
     else:
         user = User(
                 email = google_userinfo['email'],
