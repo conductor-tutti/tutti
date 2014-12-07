@@ -17,6 +17,8 @@ body{
 .messages .alert{
     border: none;
     border-radius: 0px;
+    background-color: #3379b6;
+    color: white;
 }
 
 .messages .alert-success{
