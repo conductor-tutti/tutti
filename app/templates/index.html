@@ -18,19 +18,6 @@
     </div>
 </div>
 
-<!-- 
-<div class="row linesRow">
-    <div class="col-md-4 col-md-offset-4">
-        <div class="lines lineOne">뮤지션이라면?</div>
-    </div>
-</div>
-<div class="row linesRow">
-    <div class="col-md-8 col-md-offset-2">
-        <div class="lines lineTwo">꽁꽁 숨겨놨던, 당신의 재능을 뽐내보아요!</div>
-    </div>
-</div>
--->
-
 <div class="row newbieRowTitle">
     <div class="col-md-8 col-md-offset-2">
         <i class="fa fa-star fa-3"></i>
@@ -41,8 +28,12 @@
 {% if index.musician_list %}
 {% for musician in index.musician_list %}
 <div class="row eachNewbiePicRow">
-    <div class="col-md-8 col-md-offset-2" style="background-image:url('{{ musician.photo_url }}');background-size:cover;">
-    </div>
+    <!-- <div class="col-md-8 col-md-offset-2" style="background-image:url('{{ musician.photo_url }}');background-size:cover;">
+    </div> -->
+    <a href="{{ url_for('musician_profile', musician_id=musician.id) }}">
+        <span class="col-md-8 col-md-offset-2" style="display:block; background-image:url('{{ musician.photo_url }}'); background-size:cover;">
+        </span>
+    </a>
 </div>
 <div class="row eachNewbieInfoRow">
     <div class="col-md-1 col-md-offset-2">
